@@ -11,12 +11,27 @@ def getSales(year, make, model):
     soup = BeautifulSoup(html_text, 'html.parser')
     table = soup.find_all('table')[1]
     tds = table.find_all('td')
+    counter = 0
+    td_counter = 0
     for td in tds:
-        print(td.text)
+
+        if td_counter >= 2:
+            # A year less is compared, assuming U.S. convention of having MY ahead by 1 year
+            if ((year - 1 == int(td.text.replace('.', '').strip()))):
+                print("found!")
+                print(td.text)
+                print(td.find_next('td').text.replace('.', ''))
+        
+
+        counter = counter + 1
+        td_counter = td_counter + 1
+        if counter == 2:
+            counter = 0
 
 
 
-getSales("2015", "toyota", "sequoia")
+
+getSales(2015, "toyota", "sequoia")
 print("done")
 
 """
