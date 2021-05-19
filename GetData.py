@@ -31,7 +31,7 @@ def getSales(year, make, model):
 
 
 
-getSales(2015, "toyota", "sequoia")
+getSales(2015, "hyundai", "veloster")
 print("done")
 
 """

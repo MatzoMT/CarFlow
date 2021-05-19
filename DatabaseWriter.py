@@ -71,7 +71,7 @@ def parseYears():
 
 
 
-parseYears()
+#parseYears()
 
 """
 mydb = mysql.connector.connect(
