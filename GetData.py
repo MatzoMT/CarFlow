@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 
 def getSales(year, make, model):
-    print("hallo, welt")
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
     print(link)
     html_text = requests.get(link).text
@@ -28,11 +27,25 @@ def getSales(year, make, model):
         if counter == 2:
             counter = 0
 
+# Prints all sales for each model year
+def getSalesAll(year, make, model):
+    link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
+    print(link)
+    html_text = requests.get(link).text
+    soup = BeautifulSoup(html_text, 'html.parser')
+    table = soup.find_all('table')[1]
+    tds = table.find_all('td')
+    counter = 0
+    td_counter = 0
+    for td in tds:
+        counter = counter + 1
+        td_counter = td_counter + 1
+        if td_counter >= 2:
+            if counter % 2 == 1:
+                print(td.find_next('td').text.replace('.', ''))
 
-
-
-getSales(2015, "hyundai", "veloster")
-print("done")
+#getSales(2015, "hyundai", "veloster")
+#print("done")
 
 """
     public static int printSales(String year, String make, String model) {
