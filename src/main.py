@@ -17,12 +17,24 @@ print("Example: 2015 hyundai sonata should print all sales")
 getSales(2015, 'hyundai', 'sonata')
 #getSalesAll(2015, 'hyundai', 'sonata')
 
+hydict = {}
+initializeCarDict('kia', 'cadenza', hydict)
+"""
+print('hydict: ')
+print(hydict)
+"""
 
+df = pd.DataFrame(data=hydict, index=[0])
+print(df)
+df.plot()
+
+"""
 xpoints = np.array([1, 8, 9, 10, 11])
 ypoints = np.array([3, 10, 11, 12, 13])
 
 plt.plot(xpoints, ypoints, 'o')
 plt.show()
+"""
 
 
 """

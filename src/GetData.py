@@ -47,6 +47,31 @@ def getSalesAll(year, make, model):
 #getSales(2015, "hyundai", "veloster")
 #print("done")
 
+# Prints all sales for each model year
+def initializeCarDict(make, model, dict):
+    link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
+    print(link)
+    html_text = requests.get(link).text
+    soup = BeautifulSoup(html_text, 'html.parser')
+    table = soup.find_all('table')[1]
+    tds = table.find_all('td')
+    counter = 0
+    td_counter = 0
+    #dict['brod'] = 5
+    for td in tds:
+        counter = counter + 1
+        # if statement reassigns year only if it is the first iteration
+        if td_counter % 2 == 1:
+            year = td.find_next('td').text.replace('.', '')
+            print(year)
+        td_counter = td_counter + 1
+        if td_counter >= 2:
+            if counter % 2 == 1:
+                sale = td.find_next('td').text.replace('.', '')
+                # Creates dictionary entry into dict param with year as the key and the model year's sales
+                dict[year] = sale
+                #print(td.find_next('td').text.replace('.', ''))
+
 """
     public static int printSales(String year, String make, String model) {
         int sales = 0;
