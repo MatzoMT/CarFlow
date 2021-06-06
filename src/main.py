@@ -10,15 +10,16 @@ import time
 import threading
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 print("Example: 2015 hyundai sonata should print all sales")
-getSalesAll(2015, 'hyundai', 'sonata')
+getSales(2015, 'hyundai', 'sonata')
+#getSalesAll(2015, 'hyundai', 'sonata')
 
 
-xpoints = np.array([1, 8])
-xpoints = np.array([4, 8])
-ypoints = np.array([3, 10])
+xpoints = np.array([1, 8, 9, 10, 11])
+ypoints = np.array([3, 10, 11, 12, 13])
 
 plt.plot(xpoints, ypoints, 'o')
 plt.show()
