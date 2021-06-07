@@ -69,7 +69,7 @@ def initializeCarDict(make, model, dict):
             if counter % 2 == 1:
                 sale = td.find_next('td').text.replace('.', '')
                 # Creates dictionary entry into dict param with year as the key and the model year's sales
-                dict[year] = sale
+                dict[int(year)] = int(sale)
                 #print(td.find_next('td').text.replace('.', ''))
 
 """
