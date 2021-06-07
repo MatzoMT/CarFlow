@@ -18,15 +18,15 @@ getSales(2015, 'hyundai', 'sonata')
 #getSalesAll(2015, 'hyundai', 'sonata')
 
 hydict = {}
-initializeCarDict('hyundai', 'sonata', hydict)
+initializeCarDict('toyota', 'camry', hydict)
 """
 print('hydict: ')
 print(hydict)
 """
 
-df = pd.DataFrame(list(hydict.items()), columns=['one', 'doe'])
+df = pd.DataFrame(list(hydict.items()), columns=['Model Year', 'Sales'])
 print(df)
-df.plot(kind='scatter',x='one',y='doe',color='red')
+df.plot(kind='scatter',x='Model Year',y='Sales',color='red')
 plt.show()
 
 """
