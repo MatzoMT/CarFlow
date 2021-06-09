@@ -15,11 +15,13 @@ import pandas as pd
 
 print("Example: 2015 hyundai sonata should print all sales")
 getSales(2015, 'hyundai', 'sonata')
-getAllComplaints('hyundai', 'sonata')
+
+complaintsdict = {}
+getAllComplaints('hyundai', 'sonata', complaintsdict)
 #getSalesAll(2015, 'hyundai', 'sonata')
 
 hydict = {}
-initializeSalesDict('toyota', 'highlander', hydict)
+initializeSalesDict('toyota', 'camry', hydict)
 """
 print('hydict: ')
 print(hydict)
@@ -27,7 +29,7 @@ print(hydict)
 
 df = pd.DataFrame(list(hydict.items()), columns=['Model Year', 'Sales'])
 print(df)
-df.plot(kind='scatter',x='Model Year',y='Sales',color='red')
+df.plot(x='Model Year',y='Sales',color='blue')
 plt.show()
 
 """
