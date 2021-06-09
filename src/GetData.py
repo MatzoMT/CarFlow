@@ -48,7 +48,7 @@ def getSalesAll(year, make, model):
 #print("done")
 
 # Prints all sales for each model year
-def initializeCarDict(make, model, dict):
+def initializeSalesDict(make, model, dict):
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
     print(link)
     html_text = requests.get(link).text

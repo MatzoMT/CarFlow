@@ -15,10 +15,11 @@ import pandas as pd
 
 print("Example: 2015 hyundai sonata should print all sales")
 getSales(2015, 'hyundai', 'sonata')
+getAllComplaints('hyundai', 'sonata')
 #getSalesAll(2015, 'hyundai', 'sonata')
 
 hydict = {}
-initializeCarDict('toyota', 'camry', hydict)
+initializeSalesDict('toyota', 'highlander', hydict)
 """
 print('hydict: ')
 print(hydict)

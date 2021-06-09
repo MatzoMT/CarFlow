@@ -65,7 +65,29 @@ def parseYears():
     print("Number of errors: " + str(error_count))
     print("Error models: " + error_string)
                 
+def getAllComplaints(make, model):
+    # Establishes connection with databae located on computer
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+    # cursor set to buffered so that all results are fetched
+    mycursor = mydb.cursor(buffered=True)
+    #value = [year["ModelYear"],make["Make"],model["Model"],str(model_site_json["Count"])]
+    mycursor.execute("select Make, Model, Complaints from car_project.car_information where Make='HYUNDAI' and MODEL='SONATA'")
+    query = "SELECT * FROM car_project.car_information WHERE Make='{}' AND Model='{}'".format(make.upper(),model.upper())
+    print(query)
+    mycursor.execute(query)
 
+    rows = mycursor.fetchall()
+    for row in rows:
+        for col in row:
+            print("%s," % col)
+        print("\n")
+
+    #mydb.commit()
             
 
 
