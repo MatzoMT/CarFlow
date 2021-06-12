@@ -76,16 +76,23 @@ def getAllComplaints(make, model, dict):
     # cursor set to buffered so that all results are fetched
     mycursor = mydb.cursor(buffered=True)
     #value = [year["ModelYear"],make["Make"],model["Model"],str(model_site_json["Count"])]
-    mycursor.execute("select Make, Model, Complaints from car_project.car_information where Make='HYUNDAI' and MODEL='SONATA'")
-    query = "SELECT Year, Complaints FROM car_project.car_information WHERE Make='{}' AND Model='{}'".format(make.upper(),model.upper())
+    #mycursor.execute("select Make, Model, Complaints from car_project.car_information where Make='HYUNDAI' and MODEL='SONATA'")
+    query = "SELECT Year, Complaints FROM car_project.car_information WHERE Make='{}' AND Model='{}' ORDER BY Year DESC".format(make.upper(),model.upper())
     print(query)
     mycursor.execute(query)
 
     rows = mycursor.fetchall()
     for row in rows:
+        counter = 0
+        year = 0
         for col in row:
-            print("%s," % col)
-        print("\n")
+            if counter == 0:
+                year = col
+                counter = counter + 1
+                continue
+            #print("cmd%s," % col)
+            dict[int(year)] = int(col)
+            counter = 0
 
     #mydb.commit()
             

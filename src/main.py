@@ -17,11 +17,12 @@ print("Example: 2015 hyundai sonata should print all sales")
 getSales(2015, 'hyundai', 'sonata')
 
 complaintsdict = {}
-getAllComplaints('hyundai', 'sonata', complaintsdict)
+getAllComplaints('hyundai', 'elantra', complaintsdict)
+print(complaintsdict)
 #getSalesAll(2015, 'hyundai', 'sonata')
 
 hydict = {}
-initializeSalesDict('toyota', 'camry', hydict)
+initializeSalesDict('toyota', 'rav4', hydict)
 """
 print('hydict: ')
 print(hydict)
@@ -29,7 +30,9 @@ print(hydict)
 
 df = pd.DataFrame(list(hydict.items()), columns=['Model Year', 'Sales'])
 print(df)
+df_complaints = pd.DataFrame(list(complaintsdict.items()), columns=['Model Year', 'Complaints'])
 df.plot(x='Model Year',y='Sales',color='blue')
+df_complaints.plot(x='Model Year',y='Complaints',color='red')
 plt.show()
 
 """
