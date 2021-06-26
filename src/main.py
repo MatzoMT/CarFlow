@@ -17,12 +17,12 @@ print("Example: 2015 hyundai sonata should print all sales")
 getSales(2015, 'hyundai', 'sonata')
 
 complaintsdict = {}
-getAllComplaints('hyundai', 'elantra', complaintsdict)
+getAllComplaints('cadillac', 'dts', complaintsdict)
 print(complaintsdict)
 #getSalesAll(2015, 'hyundai', 'sonata')
 
 hydict = {}
-initializeSalesDict('toyota', 'rav4', hydict)
+initializeSalesDict('cadillac', 'dts', hydict)
 """
 print('hydict: ')
 print(hydict)
