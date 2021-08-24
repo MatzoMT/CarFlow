@@ -1,5 +1,5 @@
-from DatabaseWriter import *
-from GetData import *
+from database_writer import *
+from get_data import *
 import json
 import requests
 import PIL
