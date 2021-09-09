@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+parseYears()
 
 print("Example: 2015 hyundai sonata should print all sales")
 getSales(2015, 'hyundai', 'sonata')
