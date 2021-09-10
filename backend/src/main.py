@@ -1,5 +1,5 @@
-from DatabaseWriter import *
-from GetData import *
+from database_writer import *
+from data_helper import *
 import json
 import requests
 import PIL
@@ -11,18 +11,23 @@ import threading
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from util import *
 
+#parse_years()
 
 print("Example: 2015 hyundai sonata should print all sales")
-getSales(2015, 'hyundai', 'sonata')
+dict = get_all_sales_json(2015, 'hyundai', 'sonata')
+print("printing json:")
+print_json(dict)
+print("END")
 
 complaintsdict = {}
-getAllComplaints('cadillac', 'dts', complaintsdict)
+get_all_complaints('cadillac', 'dts', complaintsdict)
 print(complaintsdict)
 #getSalesAll(2015, 'hyundai', 'sonata')
 
 hydict = {}
-initializeSalesDict('cadillac', 'dts', hydict)
+initialize_sales_dict('cadillac', 'dts', hydict)
 """
 print('hydict: ')
 print(hydict)
