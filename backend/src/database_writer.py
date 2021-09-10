@@ -95,7 +95,7 @@ def request_test():
                         print("ERROR")
                 #print(year["ModelYear"] + make["Make"])
 
-def parseYears():
+def parse_years():
     # Establishes connection with databae located on computer
     mydb = mysql.connector.connect(
         host="localhost",
@@ -197,7 +197,7 @@ def parseYears():
     print("Number of errors: " + str(error_count))
     print("Error models: " + error_string)
                 
-def getAllComplaints(make, model, dict):
+def get_all_complaints(make, model, dict):
     # Establishes connection with databae located on computer
     mydb = mysql.connector.connect(
         host="localhost",
