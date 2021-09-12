@@ -2,7 +2,7 @@ import mysql.connector
 import json
 import requests
 from bs4 import BeautifulSoup
-from src.util import *
+from util import *
 
 # GOAL: return the number of sales for the specified year, make, model
 # If not found, return -1 (sentinel)

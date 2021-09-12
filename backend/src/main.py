@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 from util import *
 
-#parse_years()
+parse_years()
 
 print("Example: 2015 hyundai sonata should print all sales")
 dict = get_all_sales_json(2015, 'hyundai', 'sonata')
@@ -32,28 +32,12 @@ initialize_sales_dict('cadillac', 'dts', hydict)
 print('hydict: ')
 print(hydict)
 """
-
+"""
 df = pd.DataFrame(list(hydict.items()), columns=['Model Year', 'Sales'])
 print(df)
 df_complaints = pd.DataFrame(list(complaintsdict.items()), columns=['Model Year', 'Complaints'])
 df.plot(x='Model Year',y='Sales',color='blue')
 df_complaints.plot(x='Model Year',y='Complaints',color='red')
 plt.show()
-
-"""
-xpoints = np.array([1, 8, 9, 10, 11])
-ypoints = np.array([3, 10, 11, 12, 13])
-
-plt.plot(xpoints, ypoints, 'o')
-plt.show()
 """
 
-
-"""
-# while loop to test getSales
-while True:
-    year = input("Year: ")
-    make = input("Make: ")
-    model = input("Model: ")
-    getSales(int(year), make, model)
-"""

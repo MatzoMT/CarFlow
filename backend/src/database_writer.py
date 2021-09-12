@@ -107,39 +107,73 @@ def parse_years():
     # Recognized as popular carmakers by autotrader.com
     car_makers = [
         "ACURA",
+        "ALFA ROMEO",
+        "AMC",
+        "ASTON MARTIN",
         "AUDI",
+        "BENTLEY",
         "BMW",
+        "BUGATTI",
         "BUICK",
         "CADILLAC",
         "CHEVROLET",
         "CHRYSLER",
+        "DAEWOO",
+        "DATSUN",
+        "DELOREAN",
         "DODGE",
+        "EAGLE",
         "FERRARI",
+        "FIAT",
+        "FISKER",
         "FORD",
+        "FREIGHTLINER",
         "GENESIS",
+        "GEO",
         "GMC",
         "HONDA",
         "HYUNDAI",
         "INFINITI",
+        "ISUZU",
         "JAGUAR",
         "JEEP",
+        "KARMA",
         "KIA",
+        "LAMBORGHINI",
         "LAND ROVER",
         "LEXUS",
         "LINCOLN",
+        "LOTUS",
+        "MASERATI",
+        "MAYBACH",
         "MAZDA",
+        "MCLAREN",
         "MERCEDES BENZ",
         "MERCEDES-BENZ",
+        "MERCURY",
         "MINI",
         "MITSUBISHI",
         "NISSAN",
+        "OLDSMOBILE",
+        "PLYMOUTH",
+        "POLESTAR",
+        "PONTIAC",
         "PORSCHE",
+        "ROLLS ROYCE",
+        "ROLLS-ROYCE",
         "RAM",
+        "SAAB",
+        "SATURN",
+        "SCION",
+        "SMART",
+        "SRT",
         "SUBARU",
+        "SUZUKI",
         "TESLA",
         "TOYOTA",
         "VOLKSWAGEN",
-        "VOLVO"
+        "VOLVO",
+        "YUGO"
     ]
     
     url = "https://webapi.nhtsa.gov/api/Recalls/vehicle?format=json"
@@ -186,12 +220,13 @@ def parse_years():
                         mycursor = mydb.cursor()
                         value = [year["ModelYear"],make["Make"],model["Model"],str(model_site_json["Count"])]
                         print(value)
-                        mycursor.execute('INSERT INTO car_information (Year, Make, Model, Complaints) VALUES (%s,%s,%s,%s)',value)
+                        #mycursor.execute('INSERT INTO car_information (Year, Make, Model, Complaints) VALUES (%s,%s,%s,%s)',value)
+                        mycursor.execute('INSERT INTO car_info (Year, Make, Model, Complaints) VALUES (%s,%s,%s,%s)',value)
                         mydb.commit()
-                    except:
+                    except Exception as e:
+                        print(e)
                         error_count = error_count + 1
                         error_string = error_string + " " + year["ModelYear"] + " " + make["Make"] + "\n"
-                        print("ERROR")
                 #print(year["ModelYear"] + make["Make"])
 
     print("Number of errors: " + str(error_count))
