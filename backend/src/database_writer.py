@@ -185,8 +185,16 @@ def write_sales_into_database():
                                 model_year = int(year) + 1
                                 print(str(model_year) + " " + car_maker + " " + model["Model"] + ": " + sale) 
                         #print(td.find_next('td').find_next('td'))
-                except:
-                    print("Error: ")
+                                mycursor = mydb.cursor()
+
+                                
+                                value = [str(model_year), car_maker.upper(),model["Model"].upper(), sale]
+                                print('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES ({},{},{},{})'.format(str(model_year), car_maker.upper(),model["Model"].upper(), sale))
+                                mycursor.execute('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES (%s,%s,%s,%s)',value)
+                                mydb.commit()
+                                
+                except Exception as e:
+                    print("Error: " + str(e))
 
         current_year = current_year - 1
 
