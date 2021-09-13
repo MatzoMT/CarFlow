@@ -13,6 +13,9 @@ import numpy as np
 import pandas as pd
 from util import *
 
+write_sales_into_database()
+exit()
+
 parse_years()
 
 print("Example: 2015 hyundai sonata should print all sales")
