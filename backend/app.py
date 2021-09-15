@@ -1,6 +1,7 @@
 #!flask/bin/python
 import requests
 from src.data_helper import get_all_sales_json, get_sales
+from src.database_writer import get_car_makers
 from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
@@ -32,7 +33,12 @@ def get_year_sales():
         "sales": sales_for_year
     })
 
-
+@app.route('/api/v1/car-makers', methods=['GET'])
+def get_makers():
+    makers = get_car_makers()
+    return jsonify({
+        "carMakes": makers
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

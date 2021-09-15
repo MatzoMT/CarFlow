@@ -202,7 +202,7 @@ def write_sales_into_database():
     return current_year
 
 def get_all_complaints(make, model, dict):
-    # Establishes connection with databae located on computer
+    # Establishes connection with database located on computer
     mydb = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -232,8 +232,8 @@ def get_all_complaints(make, model, dict):
 
     #mydb.commit()
 
-
-#parseYears()
+def get_car_makers():
+    return car_makers
 
 """
 mydb = mysql.connector.connect(

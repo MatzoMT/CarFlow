@@ -2,7 +2,9 @@ import mysql.connector
 import json
 import requests
 from bs4 import BeautifulSoup
-from util import *
+# Important! Use . before filenames in import
+from .util import *
+from .database_writer import *
 
 # GOAL: return the number of sales for the specified year, make, model
 # If not found, return -1 (sentinel)
@@ -104,6 +106,8 @@ def initialize_sales_dict(make, model, dict):
                 dict[int(year)] = int(sale)
                 #print(td.find_next('td').text.replace('.', ''))
     
+def get_makers(self):
+   return get_car_makers()
 
 """
     public static int printSales(String year, String make, String model) {
