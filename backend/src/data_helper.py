@@ -130,6 +130,26 @@ def get_all_years():
     print_json(year_array)
     return year_array
 
+def get_all_models(year, make):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+
+    mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year='"+str(year)+"'AND Make='"+make+"'")
+
+    models = mycursor.fetchall()
+    models_array = []
+
+    for model in models:
+        models_array.append(model[0])
+
+    print_json(models_array)
+    return models_array
 
 # pseudocode 
 """

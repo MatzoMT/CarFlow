@@ -23,7 +23,6 @@ function App() {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
     <YearDropdown />
     <MakesDropdown />
 

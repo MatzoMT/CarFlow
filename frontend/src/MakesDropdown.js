@@ -4,7 +4,7 @@ import Axios from 'axios';
 import './App.css';
 
 // Component for automakers dropdown
-function MakesDropdown() {
+function MakesDropdown(year) {
     const [makes, setMakes] = useState([]);
     const makesArray = [];
 
@@ -24,7 +24,7 @@ function MakesDropdown() {
 
     return (
         <div className="App">
-            <select name="makes" id="makes">
+            <select name="makes" id="makes" >
                 <option value="" disabled selected>Make</option>
 
                 {makes.map((maker, i) =>
