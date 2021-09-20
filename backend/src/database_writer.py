@@ -84,8 +84,6 @@ def parse_years():
         password="password",
         database="car_project"
     )
-
-
     
     url = "https://webapi.nhtsa.gov/api/Recalls/vehicle?format=json"
     source_code = requests.get(url)

@@ -6,6 +6,7 @@ import logo from './logo.svg';
 import Axios from 'axios';
 import './App.css';
 import MakesDropdown from './MakesDropdown.js';
+import YearDropdown from './YearDropdown.js';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <YearDropdown />
     <MakesDropdown />
 
   </React.StrictMode>,

@@ -4,15 +4,15 @@ import Axios from 'axios';
 import './App.css';
 
 // Component for automakers dropdown
-function MakesDropdown() {
-    const [makes, setMakes] = useState([]);
-    const makesArray = [];
+function YearDropdown() {
+    const [years, setYears] = useState([]);
+    const yearsArray = [];
 
     useEffect(() => {
         // Update the document title using the browser API
-        Axios.get("/api/v1/car-makers").then((response) => {
-            console.log(response.data.carMakes);
-            setMakes(response.data.carMakes);
+        Axios.get("/api/v1/years").then((response) => {
+            console.log(response.data.years);
+            setYears(response.data.years);
         });
         const numbers = [4, 9, 16, 25];
         const newArr = numbers.map(Math.sqrt)
@@ -25,10 +25,10 @@ function MakesDropdown() {
     return (
         <div className="App">
             <select name="makes" id="makes">
-                <option value="" disabled selected>Make</option>
+                <option value="" disabled selected>Year</option>
 
-                {makes.map((maker, i) =>
-                    <option value={"bananas"}>{makes[i]}</option>
+                {years.map((maker, i) =>
+                    <option value={"bananas"}>{years[i]}</option>
 
                 )}
             </select>
@@ -36,4 +36,4 @@ function MakesDropdown() {
     );
 }
 
-export default MakesDropdown;
+export default YearDropdown;

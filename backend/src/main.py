@@ -12,9 +12,33 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from util import *
+import sqlparse as sqlparse
 
-write_sales_into_database()
+
 exit()
+
+"""
+# Establishes connection with databae located on computer
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="password",
+    database="car_project"
+)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("SELECT * FROM car_project.car_info WHERE Year='2016' AND Make='Honda'")
+
+myresult = mycursor.fetchall()
+
+
+for x in myresult:
+  print(x)
+  blue = x[0]
+  print(blue)
+"""
+
 
 parse_years()
 

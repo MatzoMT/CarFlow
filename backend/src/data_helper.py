@@ -109,6 +109,46 @@ def initialize_sales_dict(make, model, dict):
 def get_makers(self):
    return get_car_makers()
 
+def get_all_years():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+
+    mycursor.execute("SELECT DISTINCT Year FROM car_project.car_info ORDER BY Year DESC")
+
+    years = mycursor.fetchall()
+    year_array = []
+
+    for year in years:
+        year_array.append(year[0])
+
+    print_json(year_array)
+    return year_array
+
+
+# pseudocode 
+"""
+def get_makes_for_year(year):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+
+    mycursor.execute("SELECT * FROM car_project.car_info WHERE Year='{}'".format(year))
+
+    myresult = mycursor.fetchall()
+
+"""
+
 """
     public static int printSales(String year, String make, String model) {
         int sales = 0;
