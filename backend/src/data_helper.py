@@ -130,6 +130,7 @@ def get_all_years():
     print_json(year_array)
     return year_array
 
+
 def get_all_models(year, make):
     mydb = mysql.connector.connect(
         host="localhost",

@@ -40,11 +40,10 @@ def get_makers():
         "carMakes": makers
     })
 
+
 @app.route('/api/v1/years', methods=['GET'])
 def get_years():
-    if not request.json or 'year' not in request.json or 'make' not in request.json:
-        print("ABORTING")
-        abort(400)
+
     data = request.get_json()
     years = get_all_years()
 

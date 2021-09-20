@@ -7,6 +7,7 @@ import Axios from 'axios';
 import './App.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
+import CarSearch from './CarSearch';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
 
 ReactDOM.render(
   <React.StrictMode>
+    <CarSearch />
     <YearDropdown />
     <MakesDropdown />
 
