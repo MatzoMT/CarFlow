@@ -161,25 +161,40 @@ def get_all_models(year, make):
 def get_complaints_type_json():
     #nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make={}&model={}&modelYear={}".format(year, make, model)
     # HARD CODE
-    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=acura&model=rdx&modelYear=2019"
+    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=toyota&model=rav4&modelYear=2019"
     categories_dict = {}
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
     # Converts JSON information into Python dictionary
     site_json = json.loads(plain_text)
     results = site_json["results"]
+    # BROKEN: EX: Electrical System
+    """
+    pseudo:
+    replace whitespace with hyphens
+    replace comma with space
+    parse each word, separated by space
+    remove hyphens before storing in dict
+    """
     for complaint in results:
-        if complaint["components"] in categories_dict:
-            categories_dict[complaint["components"]] += 1
-        else:
-            categories_dict[complaint["components"]] = 1
+        category = complaint["components"].replace(' ', '-').replace(',', ' ')
+        #category = complaint["components"].replace(',', ' ')
+
+        for formatted_category in category.split():
+            category_key = formatted_category.replace('-', ' ')
+            if category_key in categories_dict:
+                categories_dict[category_key] += 1
+            else:
+            
+                categories_dict[category_key] = 1               
 
     return_dict = {}
     iteration = 0
     sorted_keys = sorted(categories_dict, key=categories_dict.get, reverse=True)
     for key in sorted_keys:
-        return_dict[key] = categories_dict[key]
-        iteration = iteration + 1
+        if key != "UNKNOWN OR OTHER":
+            return_dict[key] = categories_dict[key]
+            iteration = iteration + 1
         if iteration == 3:
             break
     print(return_dict)
