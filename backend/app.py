@@ -70,6 +70,7 @@ def get_complaint_categories():
         print("ABORTING")
         abort(400)
     categories = get_complaints_type_json()
+    return categories
 
 
 if __name__ == '__main__':
