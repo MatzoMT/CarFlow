@@ -64,5 +64,13 @@ def get_models():
         "models": models
     })
 
+@app.route('/api/v1/complaint-categories', methods=['POST'])
+def get_complaint_categories():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("ABORTING")
+        abort(400)
+    categories = get_complaints_type_json()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

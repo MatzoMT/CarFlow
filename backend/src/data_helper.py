@@ -152,7 +152,39 @@ def get_all_models(year, make):
     print_json(models_array)
     return models_array
 
+# pseudocode
+# create a dict
+# parse through complaint categories, add new category if not existing
+# otherwise increment
+# return top three complaint types
+# if less than three complaint types present, return 2, 1, or 0 categories
+def get_complaints_type_json():
+    #nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make={}&model={}&modelYear={}".format(year, make, model)
+    # HARD CODE
+    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=acura&model=rdx&modelYear=2019"
+    categories_dict = {}
+    source_code = requests.get(nhtsa_link)
+    plain_text = source_code.text
+    # Converts JSON information into Python dictionary
+    site_json = json.loads(plain_text)
+    results = site_json["results"]
+    for complaint in results:
+        if complaint["components"] in categories_dict:
+            categories_dict[complaint["components"]] += 1
+        else:
+            categories_dict[complaint["components"]] = 1
 
+    return_dict = {}
+    iteration = 0
+    sorted_keys = sorted(categories_dict, key=categories_dict.get, reverse=True)
+    for key in sorted_keys:
+        return_dict[key] = categories_dict[key]
+        iteration = iteration + 1
+        if iteration == 3:
+            break
+    print(return_dict)
+
+    return "PLAEhOLDER"
 
 # pseudocode 
 """
