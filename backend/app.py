@@ -70,7 +70,9 @@ def get_complaint_categories():
         print("ABORTING")
         abort(400)
     categories = get_complaints_type_json()
-    return categories
+    return jsonify({
+        "categories": categories
+    })
 
 
 if __name__ == '__main__':

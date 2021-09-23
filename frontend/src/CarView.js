@@ -14,21 +14,30 @@ import './CircularProgressbar.css';
 // Component for automakers dropdown
 function CarView() {
     const [score, setScore] = useState(0);
+    const [categories, setCategories] = useState([]);
 
     const percentage = 66;
 
 
 
-    useEffect(() => {
 
-    }, []);
+    useEffect(() => {
+        Axios.post("/api/v1/complaint-categories", {"year": "2014", "make": "hyundai", "model": "elantra"}).then((response) => {
+            setCategories(Object.keys(response.data["categories"]));
+            console.log(categories);
+        });
+    },[]);
+
+
 
     return (
         <div>
             <h1>Hyvaa huomenta</h1>
-            <div style={{ width: 200, height: 200}}>
+            <div style={{ width: 200, height: 200 }}>
                 <CircularProgressbar value={percentage} text={`${percentage}`} />
             </div>
+            <h1>MOST COMMON COMPLAINTS</h1>
+            <h2>{categories}</h2>
         </div>
     );
 }
