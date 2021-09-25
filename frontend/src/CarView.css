@@ -1,4 +1,20 @@
-h1 {
+.header {
     text-align: center;
-    color: red;
+    font-size: 300%;
+}
+.smaller-header {
+    text-align: center;
+    margin-top: -1em;
+}
+#categories-div:not(.header), #categories-div:not(.smaller-header) {
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 5em;
+    
+}
+.nonbold {
+    font-weight: normal;
+}
+.category {
+    border-bottom: 0.1em solid rgb(177, 177, 177);
 }

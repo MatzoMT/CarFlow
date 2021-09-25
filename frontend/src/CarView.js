@@ -15,19 +15,23 @@ import './CircularProgressbar.css';
 function CarView() {
     const [score, setScore] = useState(0);
     const [categories, setCategories] = useState([]);
+    const [categoriesAmount, setCategoriesAmount] = useState([])
 
     const percentage = 66;
 
 
 
 
-    useEffect(() => {
-        Axios.post("/api/v1/complaint-categories", {"year": "2014", "make": "hyundai", "model": "elantra"}).then((response) => {
+
+
+    useEffect(async () => {
+        const result = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
             setCategories(Object.keys(response.data["categories"]));
+            setCategoriesAmount(Object.values(response.data["categories"]));
             console.log(categories);
         });
-    },[]);
 
+    }, []);
 
 
     return (
@@ -36,8 +40,17 @@ function CarView() {
             <div style={{ width: 200, height: 200 }}>
                 <CircularProgressbar value={percentage} text={`${percentage}`} />
             </div>
-            <h1>MOST COMMON COMPLAINTS</h1>
-            <h2>{categories}</h2>
+
+            <h1 class="header">Complaints</h1>
+            <h2 class="smaller-header">Reported by NHTSA</h2>
+            <div id="categories-div">
+                <h1>Most Common Complaint Types</h1>
+                <h2 class="nonbold category">{categories[0]}{categoriesAmount[0]}</h2>
+                <h2 class="nonbold category">{categories[1]}{categoriesAmount[1]}</h2>
+                <h2 class="nonbold category">{categories[2]}{categoriesAmount[2]}</h2>
+            </div>
+
+
         </div>
     );
 }
