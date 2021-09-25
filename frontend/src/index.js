@@ -5,8 +5,11 @@ import reportWebVitals from './reportWebVitals';
 import logo from './logo.svg';
 import Axios from 'axios';
 import './App.css';
+import './CarView.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
+import CarSearch from './CarSearch.js';
+import CarView from './CarView.js';
 
 function App() {
   return (
@@ -23,9 +26,8 @@ function App() {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    <YearDropdown />
-    <MakesDropdown />
+    <CarSearch />
+    <CarView />
 
   </React.StrictMode>,
   document.getElementById('root')

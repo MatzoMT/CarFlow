@@ -14,18 +14,15 @@ function YearDropdown() {
             console.log(response.data.years);
             setYears(response.data.years);
         });
-        const numbers = [4, 9, 16, 25];
-        const newArr = numbers.map(Math.sqrt)
+
 
     }, []);
-
-
 
 
     return (
         <div className="App">
             <select name="makes" id="makes">
-                <option value="" disabled selected>Year</option>
+                <option value="" selected>Year</option>
 
                 {years.map((maker, i) =>
                     <option value={"bananas"}>{years[i]}</option>

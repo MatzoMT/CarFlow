@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 # Important! Use . before filenames in import
 from .util import *
 from .database_writer import *
+import operator
 
 # GOAL: return the number of sales for the specified year, make, model
 # If not found, return -1 (sentinel)
@@ -130,6 +131,79 @@ def get_all_years():
     print_json(year_array)
     return year_array
 
+
+def get_all_models(year, make):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+
+    mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year='"+str(year)+"'AND Make='"+make+"'")
+
+    models = mycursor.fetchall()
+    models_array = []
+
+    for model in models:
+        models_array.append(model[0])
+
+    print_json(models_array)
+    return models_array
+
+# pseudocode
+# create a dict
+# parse through complaint categories, add new category if not existing
+# otherwise increment
+# return top three complaint types
+# if less than three complaint types present, return 2, 1, or 0 categories
+def get_complaints_type_json():
+    #nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make={}&model={}&modelYear={}".format(year, make, model)
+    # HARD CODE
+    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=ford&model=focus&modelYear=2017"
+    categories_dict = {}
+    source_code = requests.get(nhtsa_link)
+    plain_text = source_code.text
+    # Converts JSON information into Python dictionary
+    site_json = json.loads(plain_text)
+    results = site_json["results"]
+    # BROKEN: EX: Electrical System
+    """
+    pseudo:
+    replace whitespace with hyphens
+    replace comma with space
+    parse each word, separated by space
+    remove hyphens before storing in dict
+    """
+    for complaint in results:
+        category = complaint["components"].replace(' ', '-').replace(',', ' ')
+        #category = complaint["components"].replace(',', ' ')
+
+        for formatted_category in category.split():
+            category_key = formatted_category.replace('-', ' ')
+            if category_key == "UNKNOWN OR OTHER":
+                continue
+            if category_key in categories_dict:
+                categories_dict[category_key] += 1
+            else:
+            
+                categories_dict[category_key] = 1               
+
+    return_dict = {}
+    iteration = 0
+    sorted_keys = sorted(categories_dict, key=categories_dict.get, reverse=True)
+    for key in sorted_keys:
+
+        return_dict[key] = categories_dict[key]
+        iteration = iteration + 1
+        if iteration == 3:
+
+            break
+    sorted_return_dict = dict(sorted(return_dict.items(), key=operator.itemgetter(1),reverse=True))
+    print(sorted_return_dict)
+    return sorted_return_dict
 
 # pseudocode 
 """

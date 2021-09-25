@@ -40,14 +40,40 @@ def get_makers():
         "carMakes": makers
     })
 
+
 @app.route('/api/v1/years', methods=['GET'])
 def get_years():
 
+    data = request.get_json()
     years = get_all_years()
 
     return jsonify({
         "years": years
     })
+
+@app.route('/api/v1/models', methods=['POST'])
+def get_models():
+
+    if not request.json or 'year' not in request.json or 'make' not in request.json:
+        print("ABORTING")
+        abort(400)
+    data = request.get_json()
+    models = get_all_models(data['year'], data['make'])
+
+    return jsonify({
+        "models": models
+    })
+
+@app.route('/api/v1/complaint-categories', methods=['POST'])
+def get_complaint_categories():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("ABORTING")
+        abort(400)
+    categories = get_complaints_type_json()
+    return jsonify({
+        "categories": categories
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True)
