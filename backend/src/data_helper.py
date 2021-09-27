@@ -162,7 +162,7 @@ def get_all_models(year, make):
 def get_complaints_type_json():
     #nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make={}&model={}&modelYear={}".format(year, make, model)
     # HARD CODE
-    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=ford&model=focus&modelYear=2017"
+    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=hyundai&model=elantra&modelYear=2014"
     categories_dict = {}
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
