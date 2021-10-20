@@ -1,4 +1,3 @@
-import mysql.connector
 import json
 import requests
 from bs4 import BeautifulSoup
@@ -9,7 +8,8 @@ def parseYears():
         host="localhost",
         user="root",
         password="password",
-        database="car_project"
+        database="car_project",
+        auth_plugin='mysql_native_password'
     )
     
     url = "https://webapi.nhtsa.gov/api/Recalls/vehicle?format=json"
@@ -102,7 +102,7 @@ def getAllComplaints(make, model, dict):
 
 #parseYears()
 
-"""
+
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -119,4 +119,3 @@ mycursor.execute(sql, val)
 mydb.commit()
 
 print(mycursor.rowcount, "record inserted.")
-"""
