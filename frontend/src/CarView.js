@@ -19,6 +19,7 @@ import gas from './resources/gas.png';
 import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
+import highlander from './resources/highlander.jpg';
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -49,6 +50,7 @@ function CarView() {
     const [categories, setCategories] = useState([]);
     const [categoriesAmount, setCategoriesAmount] = useState([]);
     const [categoriesImages, setCategoriesImages] = useState([]);
+    const [numberComplaints, setNumberComplaints] = useState(0);
     const percentage = 66;
 
 
@@ -61,6 +63,12 @@ function CarView() {
             setCategoriesAmount(Object.values(response.data["categories"]));
             console.log(categories);
         });
+/*
+        const numComplaints = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
+            setCategories(Object.keys(response.data["categories"]));
+            setCategoriesAmount(Object.values(response.data["categories"]));
+            console.log(categories);
+        }); */
 
 
 
@@ -70,10 +78,19 @@ function CarView() {
 
     return (
         <div>
-            <div id="score">
-                <h1>CarFlow Score</h1>
-                <div style={{ width: 200, height: 200 }}>
-                    <CircularProgressbar value={percentage} text={`${percentage}`} />
+            <div id="flex-container">
+                <div class="flex-child score-image left-child">
+                    <img src={highlander} id="car-img"></img>
+                </div>
+
+                <div class="flex-child score right-child">
+                    <h1 id="car-model">2015 Emperor Habanero</h1>
+                    <h1 id="carflow-score">CarFlow Score</h1>
+                    <div style={{ width: '10em', height: '10em' }} id="score-meter">
+                        <CircularProgressbar value={percentage} text={`${percentage}`} />
+                    </div>
+                    <h3 class="score-header">NHTSA COMPLAINTS</h3>
+                    <h3 class="score-header">SALES</h3>
                 </div>
             </div>
 

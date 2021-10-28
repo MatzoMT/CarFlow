@@ -32,7 +32,7 @@ function CarSearch() {
 
     return (
         <div>
-            <h2>YearSection:</h2>
+            {/*
             <form>
                 <select name="years" id="years-dropdown">
                     <option value="" selected>Year</option>
@@ -60,6 +60,7 @@ function CarSearch() {
                 </select>
                 <button type="submit" id="search-button">CLick Here</button>
             </form>
+*/}
         </div>
     );
 }

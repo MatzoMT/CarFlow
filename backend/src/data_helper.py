@@ -205,6 +205,61 @@ def get_complaints_type_json():
     print(sorted_return_dict)
     return sorted_return_dict
 
+def get_recharts_complaints(make, model):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM car_project.car_info WHERE Make='"+make+"'AND Model='"+model+"'")
+
+    years = mycursor.fetchall()
+    
+    complaints_array = []
+    info = {}
+    
+    for year in years:
+        json_info = {}
+        json_info["year"] = year[0]
+        json_info["complaints"] = year[3]
+        complaints_array.append(json_info)
+
+    return complaints_array
+
+
+"""
+# Parses a JSON parameter for important manager information
+# Returns important info per Argo CD app
+# name, namespace, repoURL, path, destination, project, syncStatus, healthStatus, targetRevision
+def parse_info_from_json(input_json):
+    app_array = []
+    info = {}
+    items_json = input_json['items']
+    if items_json is None:
+        return []
+    # for loop runs for every app under 'items' in json
+    # should only be apps under one particular instance; function will be called again with next
+    # instance in get_important_info
+    for app in items_json:
+        json_info = {}
+        json_info['name'] = app['metadata']['name']
+        json_info['namespace'] = app['spec']['destination']['namespace']
+        json_info['repoURL'] = app['spec']['source']['repoURL']
+        json_info['path'] = app['spec']['source']['path']
+        json_info['destination'] = app['spec']['destination']['server']
+        json_info['project'] = app['spec']['project']
+        json_info['syncStatus'] = app['status']['sync']['status']
+        json_info['healthStatus'] = app['status']['health']['status']
+        json_info['targetRevision'] = app['spec']['source']['targetRevision']
+        app_array.append(json_info)
+
+    return app_array
+"""
+
+
 # pseudocode 
 """
 def get_makes_for_year(year):
