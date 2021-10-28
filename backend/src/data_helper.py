@@ -227,9 +227,77 @@ def get_recharts_complaints(make, model):
         json_info["complaints"] = year[3]
         complaints_array.append(json_info)
 
-    print(complaints_array)
     return complaints_array
 
+def get_recharts_sales(make, model):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM car_project.sales_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year ASC")
+
+    years = mycursor.fetchall()
+    
+    sales_array = []
+    info = {}
+    
+    for year in years:
+        json_info = {}
+        json_info["year"] = year[0]
+        json_info["sales"] = year[3]
+        sales_array.append(json_info)
+    print(sales_array)
+
+    return sales_array
+
+
+# Return complaints, sales in recharts form
+def get_recharts_info(make, model):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT * FROM car_project.car_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year ASC")
+
+    years = mycursor.fetchall()
+    
+
+
+    info_array = []
+    info_array = []
+    info = {}
+
+    for year in years:
+        json_info = {}
+        json_info["year"] = year[0]
+        json_info["complaints"] = year[3]
+        sales_cursor = mydb.cursor()
+        sales_cursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='" + str(year[0]) + "' AND Make='"+make+"' AND Model='"+model+"'")
+        sales = sales_cursor.fetchall()
+        try:
+            json_info["sales"] = sales[0][0]
+        except:
+            json_info["sales"] = 0
+        info_array.append(json_info)
+    print(info_array)
+    return info_array
+
+"""
+    for year, sales in zip(years, sales):
+        json_info = {}
+        json_info["year"] = year[0]
+        json_info["complaints"] = year[3]
+        json_info["sales"] = sales[3]
+        info_array.append(json_info)
+"""
 
 
 

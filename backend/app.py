@@ -113,15 +113,36 @@ const data = [
 
 
 @app.route('/api/v1/recharts-complaints', methods=['POST'])
-def get_recharts_sales():
+def recharts_complaints():
     if not request.json or 'make' not in request.json or 'model' not in request.json:
         print("ABORTING")
         abort(400)
     data = request.get_json()
-    years = get_all_years()
     complaints_info = get_recharts_complaints(data["make"], data["model"])
     return jsonify({
         "data": complaints_info
+    })
+
+@app.route('/api/v1/recharts-sales', methods=['POST'])
+def recharts_sales():
+    if not request.json or 'make' not in request.json or 'model' not in request.json:
+        print("ABORTING")
+        abort(400)
+    data = request.get_json()
+    sales_info = get_recharts_sales(data["make"], data["model"])
+    return jsonify({
+        "data": sales_info
+    })
+
+@app.route('/api/v1/recharts', methods=['POST'])
+def recharts_info():
+    if not request.json or 'make' not in request.json or 'model' not in request.json:
+        print("ABORTING")
+        abort(400)
+    data = request.get_json()
+    car_info = get_recharts_info(data["make"], data["model"])
+    return jsonify({
+        "data": car_info
     })
 
 if __name__ == '__main__':

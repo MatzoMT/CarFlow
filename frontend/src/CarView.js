@@ -7,7 +7,7 @@ import Axios from 'axios';
 import './App.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart, Label, ComposedChart, Legend, Bar, domain } from 'recharts';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
@@ -54,6 +54,8 @@ function CarView() {
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
     const [complaintsChartData, setComplaintsChartData] = useState({});
+    const [salesChartData, setSalesChartData] = useState({});
+    const [rechartsData, setRechartsData] = useState({});
     const percentage = 66;
 
     useEffect(async () => {
@@ -68,7 +70,15 @@ function CarView() {
             console.log(complaintsChartData);
             console.log(response.data.data)
         });
+
+        const resultRechartsSales = await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
+            setSalesChartData(response.data.data);
+        });
         console.log(complaintsChartData);
+
+        const rechartsResult = await Axios.post("/api/v1/recharts", { "year": "2014", "make": "honda", "model": "civic" }).then((response) => {
+            setRechartsData(response.data.data);
+        });
 
 
         /*
@@ -121,8 +131,35 @@ function CarView() {
                 <YAxis />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
-                <Area type="monotone" dataKey="complaints" stroke="#BA0C2F" fillOpacity={1} fill="#BA0C2F" />
+                <Area type="monotone" dataKey="complaints" stroke="#BA0C2F" fillOpacity={0.5} fill="#BA0C2F" />
             </AreaChart>
+            <br></br>
+            <br></br>
+
+            <br></br>
+
+            <AreaChart width={1000} height={250} data={salesChartData}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+
+                </defs>
+                <XAxis dataKey="year" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
+            </AreaChart>
+
+            <ComposedChart width={730} height={250} data={rechartsData}>
+                <XAxis dataKey="time" />
+                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90 }} domain={[0, 350000]}/>
+                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90 }} domain={[0, 3000]} />
+                <Tooltip />
+                <Legend />
+                <CartesianGrid stroke="#f5f5f5" />
+                <Line yAxisId={1} dataKey="sales" lineSize={40} fill="#413ea0" />
+                <Line yAxisId={2} type="monotone" dataKey="complaints" stroke="#ff0000" />
+            </ComposedChart>
         </div>
     );
 }
