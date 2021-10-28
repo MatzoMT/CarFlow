@@ -7,6 +7,7 @@ import Axios from 'axios';
 import './App.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart } from 'recharts';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
@@ -20,6 +21,7 @@ import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
 import highlander from './resources/highlander.jpg';
+import ComplaintChart from './ComplaintYearChart.js';
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -51,11 +53,8 @@ function CarView() {
     const [categoriesAmount, setCategoriesAmount] = useState([]);
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
+    const [complaintsChartData, setComplaintsChartData] = useState({});
     const percentage = 66;
-
-
-
-
 
     useEffect(async () => {
         const result = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
@@ -63,18 +62,26 @@ function CarView() {
             setCategoriesAmount(Object.values(response.data["categories"]));
             console.log(categories);
         });
-/*
-        const numComplaints = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
-            setCategories(Object.keys(response.data["categories"]));
-            setCategoriesAmount(Object.values(response.data["categories"]));
-            console.log(categories);
-        }); */
+
+        const resultRecharts = await Axios.post("/api/v1/recharts-complaints", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
+            setComplaintsChartData(response.data.data);
+            console.log(complaintsChartData);
+            console.log(response.data.data)
+        });
+        console.log(complaintsChartData);
+
+
+        /*
+                const numComplaints = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
+                    setCategories(Object.keys(response.data["categories"]));
+                    setCategoriesAmount(Object.values(response.data["categories"]));
+                    console.log(categories);
+                }); */
 
 
 
 
     }, []);
-
 
     return (
         <div>
@@ -105,7 +112,17 @@ function CarView() {
                 </div>
             </div>
 
+            <AreaChart width={730} height={250} data={complaintsChartData}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <defs>
 
+                </defs>
+                <XAxis dataKey="year" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Area type="monotone" dataKey="complaints" stroke="#BA0C2F" fillOpacity={1} fill="#BA0C2F" />
+            </AreaChart>
         </div>
     );
 }
