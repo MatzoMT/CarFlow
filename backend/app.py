@@ -137,7 +137,6 @@ def recharts_sales():
 @app.route('/api/v1/recharts', methods=['POST'])
 def recharts_info():
     if not request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
         abort(400)
     data = request.get_json()
     car_info = get_recharts_info(data["make"], data["model"])

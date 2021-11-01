@@ -150,10 +150,10 @@ function CarView() {
                 <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
             </AreaChart>
 
-            <ComposedChart width={730} height={250} data={rechartsData}>
-                <XAxis dataKey="time" />
-                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90 }} domain={[0, 350000]}/>
-                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90 }} domain={[0, 3000]} />
+            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 50, bottom: 0, left: 30 }}>
+                <XAxis dataKey="time"/>
+                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50}} domain={[0, 350000]} />
+                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90 , dx: -30}} domain={[0, 3000]} />
                 <Tooltip />
                 <Legend />
                 <CartesianGrid stroke="#f5f5f5" />
