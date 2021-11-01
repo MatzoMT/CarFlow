@@ -7,14 +7,68 @@
     margin-top: -1em;
 }
 #categories-div:not(.header), #categories-div:not(.smaller-header) {
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: 5em;
-    
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-top: 3em;
+    padding-bottom: 3em;
 }
 .nonbold {
     font-weight: normal;
 }
 .category {
-    border-bottom: 0.1em solid rgb(177, 177, 177);
+    border-bottom: 0.025em solid rgb(177, 177, 177);
+    font-size: 125%;
+    padding-bottom: 0.75em;
+    padding-left: 1em;
+}
+.gray {
+    padding-top: 1em;
+    background-color: #e7e7e7;
+}
+.complaint-icon {
+    max-height: 1.25em;
+    padding-right: 1em;
+}
+
+
+#flex-container {
+    display: flex;
+}
+.flex-child {
+    flex: 1;
+}
+.score-image {
+    margin-top: 6em;
+    margin-bottom: 6em;
+}
+
+#car-img {
+    min-width: 65%;
+    max-width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+#score-meter {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;   
+}
+
+.left-child {
+    margin-left: 3%;
+}
+.right-child {
+    text-align: center;
+    padding-top: 2%;
+    margin-right: 5%;
+}
+#car-model {
+    font-size: 250%;
+    font-weight: normal;
+}
+#carflow-score {
+    font-size: 200%;
+    font-weight: normal;
 }
