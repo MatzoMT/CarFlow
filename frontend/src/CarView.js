@@ -97,7 +97,7 @@ function CarView() {
         <div>
             <div id="flex-container">
                 <div class="flex-child score-image left-child">
-                    <img src={highlander} id="car-img"></img>
+                    <img src="https://static.nhtsa.gov/images/vehicles/8584_st0640_046.png" id="car-img"></img>
                 </div>
 
                 <div class="flex-child score right-child">
@@ -122,7 +122,7 @@ function CarView() {
                 </div>
             </div>
 
-            <AreaChart width={730} height={250} data={complaintsChartData}
+            <AreaChart width={800} height={250} data={complaintsChartData}
                 margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
 
@@ -138,13 +138,13 @@ function CarView() {
 
             <br></br>
 
-            <AreaChart width={1000} height={250} data={salesChartData}
+            <AreaChart width={800} height={250} data={salesChartData}
                 margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
 
                 </defs>
                 <XAxis dataKey="year" />
-                <YAxis />
+                <YAxis domain={[0, 3000]} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />

@@ -153,6 +153,23 @@ def get_all_models(year, make):
     print_json(models_array)
     return models_array
 
+def get_vehicle_id(year, make, model):
+    nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/modelyear/" + year +"/make/" +make+"/model/" + model
+    source_code = requests.get(nhtsa_link)
+    plain_text = source_code.text
+    # Converts JSON information into Python dictionary
+    site_json = json.loads(plain_text)
+    id = site_json["Results"][0]["VehicleId"]
+    return id
+
+def get_vehicle_picture(vehicle_id):
+    nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
+    source_code = requests.get(nhtsa_link)
+    plain_text = source_code.text
+    site_json = json.loads(plain_text)
+    picture_url = site_json["Results"][0]["VehiclePicture"]
+    return picture_url
+
 # pseudocode
 # create a dict
 # parse through complaint categories, add new category if not existing

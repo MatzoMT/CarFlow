@@ -144,5 +144,26 @@ def recharts_info():
         "data": car_info
     })
 
+@app.route('/api/v1/vehicle-id', methods=['POST'])
+def route_vehicle_id():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        abort(400)
+    data = request.get_json()
+    vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
+    return jsonify({
+        "vehicleID": vehicle_id 
+    })
+
+@app.route('/api/v1/vehicle-picture', methods=['POST'])
+def route_vehicle_picture():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        abort(400)
+    data = request.get_json()
+    vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
+    picture_url = get_vehicle_picture(vehicle_id)
+    return jsonify({
+        "vehicleID": picture_url 
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)
