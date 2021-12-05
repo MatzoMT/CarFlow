@@ -110,7 +110,19 @@ function CarView() {
                     <h3 class="score-header">SALES</h3>
                 </div>
             </div>
+            <div class="gray">
+                <h1 class="header">Safety Ratings</h1>
+                <div class="tooltip">NHTSA ⓘ
+                    <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the 
+                     crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
+                </div>
+                <div class="tooltip">IIHS ⓘ
+                    <span class="tooltiptext">The Insurance Institute for Highway Safety is an independent organization that
+                    is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are 
+                    considered to be more difficult than crash tests conducted by NHTSA.</span>
+                </div>
 
+            </div>
             <div class="gray">
                 <h1 class="header">Complaints</h1>
                 <h2 class="smaller-header">Reported by NHTSA</h2>
@@ -151,9 +163,9 @@ function CarView() {
             </AreaChart>
 
             <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 50, bottom: 0, left: 30 }}>
-                <XAxis dataKey="time"/>
-                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50}} domain={[0, 350000]} />
-                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90 , dx: -30}} domain={[0, 3000]} />
+                <XAxis dataKey="time" />
+                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50 }} domain={[0, 350000]} />
+                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90, dx: -30 }} domain={[0, 3000]} />
                 <Tooltip />
                 <Legend />
                 <CartesianGrid stroke="#f5f5f5" />
