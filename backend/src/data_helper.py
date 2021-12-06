@@ -110,6 +110,27 @@ def initialize_sales_dict(make, model, dict):
 def get_makers(self):
    return get_car_makers()
 
+def get_all_entries():
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+    print("ITERAEIDSIGADG")
+    mycursor = mydb.cursor()
+
+    mycursor.execute("SELECT Year, Make, Model FROM car_project.car_info WHERE Year > 1999 ORDER BY Year DESC")
+
+    entries = mycursor.fetchall()
+    entries_array = []
+
+    for entry in entries:
+        formatted_entry = str(entry[0]) + " " + entry[1] + " " + entry[2]
+        entries_array.append(formatted_entry)
+
+    return entries_array
+
 def get_all_years():
     mydb = mysql.connector.connect(
         host="localhost",

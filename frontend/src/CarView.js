@@ -22,6 +22,7 @@ import steering from './resources/steering.png';
 import tire from './resources/tire.png';
 import highlander from './resources/highlander.jpg';
 import ComplaintChart from './ComplaintYearChart.js';
+import SearchBar from './SearchBar.js';
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -46,6 +47,17 @@ function initializeImage(complaint) {
 
 }
 
+const filterPosts = (allVehicles, query) => {
+    if (!query) {
+        return allVehicles;
+    }
+
+    return allVehicles.filter((vehicle) => {
+        const vehicleName = vehicle.toLowerCase();
+        return vehicleName.includes(query);
+    });
+};
+
 // Component for automakers dropdown
 function CarView() {
     const [score, setScore] = useState(0);
@@ -53,10 +65,15 @@ function CarView() {
     const [categoriesAmount, setCategoriesAmount] = useState([]);
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
+    const [allVehicles, setAllVehicles] = useState([]);
     const [complaintsChartData, setComplaintsChartData] = useState({});
     const [salesChartData, setSalesChartData] = useState({});
     const [rechartsData, setRechartsData] = useState({});
     const percentage = 66;
+    const { search } = window.location;
+    const query = new URLSearchParams(search).get('s');
+    const [searchQuery, setSearchQuery] = useState(query || '');
+    const filteredVehicles = filterPosts(allVehicles, searchQuery);
 
     useEffect(async () => {
         const result = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
@@ -80,6 +97,10 @@ function CarView() {
             setRechartsData(response.data.data);
         });
 
+        const allVehiclesResult = await Axios.get("/api/v1/all-vehicles").then((response) => {
+            setAllVehicles(response.data.data);
+        });
+        console.log(allVehicles);
 
         /*
                 const numComplaints = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
@@ -110,16 +131,20 @@ function CarView() {
                     <h3 class="score-header">SALES</h3>
                 </div>
             </div>
+            <SearchBar />
+            {filteredVehicles.map((vehicle) => (
+                <li key={vehicle}>{vehicle}</li>
+            ))}
             <div class="gray">
                 <h1 class="header">Safety Ratings</h1>
                 <div class="tooltip">NHTSA ⓘ
-                    <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the 
-                     crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
+                    <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the
+                        crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
                 </div>
                 <div class="tooltip">IIHS ⓘ
                     <span class="tooltiptext">The Insurance Institute for Highway Safety is an independent organization that
-                    is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are 
-                    considered to be more difficult than crash tests conducted by NHTSA.</span>
+                        is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
+                        considered to be more difficult than crash tests conducted by NHTSA.</span>
                 </div>
 
             </div>

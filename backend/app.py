@@ -165,5 +165,15 @@ def route_vehicle_picture():
         "vehicleID": picture_url 
     })
 
+@app.route('/api/v1/all-vehicles', methods=['GET'])
+def route_all_vehicles():
+    data = request.get_json()
+    entries = get_all_entries()    
+
+    return jsonify({
+        "data": entries
+    })
+
+
 if __name__ == '__main__':
     app.run(debug=True)
