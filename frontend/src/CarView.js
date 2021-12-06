@@ -131,8 +131,9 @@ function CarView() {
                     <h3 class="score-header">SALES</h3>
                 </div>
             </div>
-            <SearchBar />
-            {filteredVehicles.map((vehicle) => (
+            <SearchBar                 searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}/>
+            {filteredVehicles.slice(0, 8).map((vehicle) => (
                 <li key={vehicle}>{vehicle}</li>
             ))}
             <div class="gray">
