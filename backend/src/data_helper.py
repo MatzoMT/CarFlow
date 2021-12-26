@@ -117,7 +117,6 @@ def get_all_entries():
         password="password",
         database="car_project"
     )
-    print("ITERAEIDSIGADG")
     mycursor = mydb.cursor()
 
     mycursor.execute("SELECT Year, Make, Model FROM car_project.car_info WHERE Year > 1999 ORDER BY Year DESC")
@@ -149,7 +148,7 @@ def get_all_years():
     for year in years:
         year_array.append(year[0])
 
-    print_json(year_array)
+    #print_json(year_array)
     return year_array
 
 
@@ -171,7 +170,7 @@ def get_all_models(year, make):
     for model in models:
         models_array.append(model[0])
 
-    print_json(models_array)
+    #print_json(models_array)
     return models_array
 
 def get_vehicle_id(year, make, model):
@@ -240,7 +239,7 @@ def get_complaints_type_json():
 
             break
     sorted_return_dict = dict(sorted(return_dict.items(), key=operator.itemgetter(1),reverse=True))
-    print(sorted_return_dict)
+    #print(sorted_return_dict)
     return sorted_return_dict
 
 def get_recharts_complaints(make, model):
@@ -252,7 +251,7 @@ def get_recharts_complaints(make, model):
     )
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM car_project.car_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year ASC")
+    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.car_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year DESC LIMIT 16) AS Resp ORDER BY Resp.Year ASC")
 
     years = mycursor.fetchall()
     
@@ -288,7 +287,7 @@ def get_recharts_sales(make, model):
         json_info["year"] = year[0]
         json_info["sales"] = year[3]
         sales_array.append(json_info)
-    print(sales_array)
+    #print(sales_array)
 
     return sales_array
 
@@ -325,7 +324,7 @@ def get_recharts_info(make, model):
         except:
             json_info["sales"] = 0
         info_array.append(json_info)
-    print(info_array)
+    #print(info_array)
     return info_array
 
 """

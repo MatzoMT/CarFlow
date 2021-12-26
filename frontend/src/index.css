@@ -37,3 +37,9 @@ code {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+.charts {
+  margin: auto;
+  margin-bottom: 5em;
+  width: 50%;
+}

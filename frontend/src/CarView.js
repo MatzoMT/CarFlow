@@ -7,7 +7,7 @@ import Axios from 'axios';
 import './App.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart, Label, ComposedChart, Legend, Bar, domain } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart, Label, ComposedChart, Legend, Bar, domain, ResponsiveContainer } from 'recharts';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
@@ -23,6 +23,8 @@ import tire from './resources/tire.png';
 import highlander from './resources/highlander.jpg';
 import ComplaintChart from './ComplaintYearChart.js';
 import SearchBar from './SearchBar.js';
+import wrench from './resources/general.png';
+import ComplaintsChart from './ComplaintsChart.js';
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -82,11 +84,7 @@ function CarView() {
             console.log(categories);
         });
 
-        const resultRecharts = await Axios.post("/api/v1/recharts-complaints", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
-            setComplaintsChartData(response.data.data);
-            console.log(complaintsChartData);
-            console.log(response.data.data)
-        });
+
 
         const resultRechartsSales = await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
             setSalesChartData(response.data.data);
@@ -116,9 +114,16 @@ function CarView() {
 
     return (
         <div>
+            <div id="searchbar-div">
+                <SearchBar searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery} />
+                {filteredVehicles.slice(0, 8).map((vehicle) => (
+                    <li key={vehicle}>{vehicle}</li>
+                ))}
+            </div>
             <div id="flex-container">
                 <div class="flex-child score-image left-child">
-                    <img src="https://static.nhtsa.gov/images/vehicles/8584_st0640_046.png" id="car-img"></img>
+                    <img src="https://static.nhtsa.gov/images/vehicles/6984_st0640_046.png" id="car-img"></img>
                 </div>
 
                 <div class="flex-child score right-child">
@@ -131,25 +136,21 @@ function CarView() {
                     <h3 class="score-header">SALES</h3>
                 </div>
             </div>
-            <SearchBar                 searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}/>
-            {filteredVehicles.slice(0, 8).map((vehicle) => (
-                <li key={vehicle}>{vehicle}</li>
-            ))}
+
             <div class="gray">
                 <h1 class="header">Safety Ratings</h1>
                 <div class="tooltip">NHTSA ⓘ
                     <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the
                         crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
                 </div>
+                <br></br><br></br>
+
                 <div class="tooltip">IIHS ⓘ
                     <span class="tooltiptext">The Insurance Institute for Highway Safety is an independent organization that
                         is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
                         considered to be more difficult than crash tests conducted by NHTSA.</span>
                 </div>
 
-            </div>
-            <div class="gray">
                 <h1 class="header">Complaints</h1>
                 <h2 class="smaller-header">Reported by NHTSA</h2>
                 <div id="categories-div">
@@ -159,45 +160,47 @@ function CarView() {
                     <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
                 </div>
             </div>
+            <div class="charts">
+            <ResponsiveContainer width="95%" height={300}>
+                    <ComplaintsChart />
+            </ResponsiveContainer>
 
-            <AreaChart width={800} height={250} data={complaintsChartData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
 
-                </defs>
-                <XAxis dataKey="year" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Area type="monotone" dataKey="complaints" stroke="#BA0C2F" fillOpacity={0.5} fill="#BA0C2F" />
-            </AreaChart>
+            </div>
+
             <br></br>
             <br></br>
 
             <br></br>
 
-            <AreaChart width={800} height={250} data={salesChartData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
+            <div class="charts">
+                <AreaChart width={800} height={350} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 
-                </defs>
-                <XAxis dataKey="year" />
-                <YAxis domain={[0, 3000]} />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
-            </AreaChart>
+                    <XAxis dataKey="year">
+                        <Label value="Year" offset={-20} position="insideBottom" />
 
-            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 50, bottom: 0, left: 30 }}>
-                <XAxis dataKey="time" />
-                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50 }} domain={[0, 350000]} />
-                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90, dx: -30 }} domain={[0, 3000]} />
-                <Tooltip />
-                <Legend />
-                <CartesianGrid stroke="#f5f5f5" />
-                <Line yAxisId={1} dataKey="sales" lineSize={40} fill="#413ea0" />
-                <Line yAxisId={2} type="monotone" dataKey="complaints" stroke="#ff0000" />
-            </ComposedChart>
+                    </XAxis>
+                    <YAxis domain={[0, 3000]} label={{ value: 'Unit Sales', angle: -90, offset: -15, position: 'insideLeft' }} />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
+                </AreaChart>
+
+            </div>
+
+            <div class="charts">
+                <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 50, bottom: 0, left: 30 }} class="charts">
+                    <XAxis dataKey="time" />
+                    <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50 }} domain={[0, 350000]} />
+                    <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90, dx: -30 }} domain={[0, 3000]} />
+                    <Tooltip />
+                    <Legend />
+                    <CartesianGrid stroke="#f5f5f5" />
+                    <Line yAxisId={1} dataKey="sales" lineSize={40} fill="#413ea0" />
+                    <Line yAxisId={2} type="monotone" dataKey="complaints" stroke="#ff0000" />
+                </ComposedChart>
+            </div>
+
         </div>
     );
 }

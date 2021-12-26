@@ -10,6 +10,7 @@ import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
 import CarSearch from './CarSearch.js';
 import CarView from './CarView.js';
+import SearchBar from './SearchBar';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
 
 ReactDOM.render(
   <React.StrictMode>
+
     <CarSearch />
     <CarView />
 

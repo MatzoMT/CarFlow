@@ -6,12 +6,22 @@
     text-align: center;
     margin-top: -1em;
 }
-#categories-div:not(.header), #categories-div:not(.smaller-header) {
-    padding-left: 25%;
-    padding-right: 25%;
-    padding-top: 3em;
-    padding-bottom: 3em;
+#categories-div {
+    margin-left: 25%;
+    margin-right: 25%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
 }
+
+#categories-div > h1 {
+    padding-top: 0.5em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    padding-bottom: 0.5em;
+    font-size: 150%;
+    background-color: #3ddd85;
+}
+
 .nonbold {
     font-weight: normal;
 }
@@ -23,7 +33,7 @@
 }
 .gray {
     padding-top: 1em;
-    background-color: #e7e7e7;
+    background-color: #f8f8f8;
 }
 .complaint-icon {
     max-height: 1.25em;
@@ -71,4 +81,10 @@
 #carflow-score {
     font-size: 200%;
     font-weight: normal;
+}
+
+#searchbar-div {
+    margin: auto;
+    background-color: red;
+    width: 50%;
 }
