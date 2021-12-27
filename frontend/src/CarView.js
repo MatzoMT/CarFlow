@@ -25,6 +25,7 @@ import ComplaintChart from './ComplaintYearChart.js';
 import SearchBar from './SearchBar.js';
 import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';
+import SalesChart from './SalesChart.js';
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -164,7 +165,9 @@ function CarView() {
             <ResponsiveContainer width="95%" height={300}>
                     <ComplaintsChart />
             </ResponsiveContainer>
-
+                <ResponsiveContainer width="95%" height={300}>
+                    <SalesChart />
+                    </ResponsiveContainer>
 
             </div>
 
@@ -174,17 +177,7 @@ function CarView() {
             <br></br>
 
             <div class="charts">
-                <AreaChart width={800} height={350} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 
-                    <XAxis dataKey="year">
-                        <Label value="Year" offset={-20} position="insideBottom" />
-
-                    </XAxis>
-                    <YAxis domain={[0, 3000]} label={{ value: 'Unit Sales', angle: -90, offset: -15, position: 'insideLeft' }} />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
-                </AreaChart>
 
             </div>
 

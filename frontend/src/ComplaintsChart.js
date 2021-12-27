@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
-import logo from './logo.svg';
 import Axios from 'axios';
 import './App.css';
-import MakesDropdown from './MakesDropdown.js';
-import YearDropdown from './YearDropdown.js';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart, Label, ComposedChart, Legend, Bar, domain, ResponsiveContainer } from 'recharts';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -63,7 +58,6 @@ function ComplaintsChart() {
                     <Area type="monotone" dataKey="complaints" stroke="#BA0C2F" fillOpacity={0.5} fill="#BA0C2F" />
                 </AreaChart>
             </ResponsiveContainer>
-            <h1>{typeof maxValue} {maxValue}</h1>
         </div>
 
     );

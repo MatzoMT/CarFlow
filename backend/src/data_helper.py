@@ -275,7 +275,7 @@ def get_recharts_sales(make, model):
     )
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM car_project.sales_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year ASC")
+    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.sales_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year DESC LIMIT 16) AS Resp ORDER BY Resp.Year ASC")
 
     years = mycursor.fetchall()
     
