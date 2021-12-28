@@ -26,6 +26,7 @@ import SearchBar from './SearchBar.js';
 import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';
 import SalesChart from './SalesChart.js';
+import ComplaintsSalesChart from './ComplaintsSalesChart';
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -162,13 +163,19 @@ function CarView() {
                 </div>
             </div>
             <div class="charts">
-            <ResponsiveContainer width="95%" height={300}>
+                <ResponsiveContainer width="95%" height={300}>
                     <ComplaintsChart />
-            </ResponsiveContainer>
+                </ResponsiveContainer>
+            </div>
+            <div class="charts">
                 <ResponsiveContainer width="95%" height={300}>
                     <SalesChart />
-                    </ResponsiveContainer>
-
+                </ResponsiveContainer>
+            </div>
+            <div class="charts">
+                <ResponsiveContainer width="95%" height={300}>
+                    <ComplaintsSalesChart />
+                </ResponsiveContainer>
             </div>
 
             <br></br>
@@ -182,19 +189,10 @@ function CarView() {
             </div>
 
             <div class="charts">
-                <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 50, bottom: 0, left: 30 }} class="charts">
-                    <XAxis dataKey="time" />
-                    <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50 }} domain={[0, 350000]} />
-                    <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90, dx: -30 }} domain={[0, 3000]} />
-                    <Tooltip />
-                    <Legend />
-                    <CartesianGrid stroke="#f5f5f5" />
-                    <Line yAxisId={1} dataKey="sales" lineSize={40} fill="#413ea0" />
-                    <Line yAxisId={2} type="monotone" dataKey="complaints" stroke="#ff0000" />
-                </ComposedChart>
+
             </div>
 
-        </div>
+        </div >
     );
 }
 

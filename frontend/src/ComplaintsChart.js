@@ -36,7 +36,7 @@ function ComplaintsChart() {
     const [maxValue, setMaxValue] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts-complaints", { "year": "2014", "make": "hyundai", "model": "sonata" }).then((response) => {
+        await Axios.post("/api/v1/recharts-complaints", { "year": "2014", "make": "ford", "model": "fusion" }).then((response) => {
             setComplaintsChartData(response.data.data);
             setMaxValue(parseInt(getMaxComplaints(response.data.data)));
         });

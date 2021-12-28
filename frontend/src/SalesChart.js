@@ -24,26 +24,24 @@ function SalesChart() {
     const [maxValue, setMaxValue] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
+        await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "ford", "model": "fusion" }).then((response) => {
             setSalesChartData(response.data.data);
             setMaxValue(parseInt(getMaxSales(response.data.data)));
         });
     }, []);
     return (
         <div>
-            <ResponsiveContainer width="95%" height={300}>
-                <AreaChart width={800} height={350} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
+            <AreaChart width={800} height={350} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 
-                    <XAxis dataKey="year">
-                        <Label value="Year" offset={-20} position="insideBottom" />
+                <XAxis dataKey="year">
+                    <Label value="Year" offset={-20} position="insideBottom" />
 
-                    </XAxis>
-                    <YAxis domain={[0, maxValue]} label={{ value: 'Unit Sales', angle: -90, offset: -15, position: 'insideLeft' }} />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
-                </AreaChart>
-            </ResponsiveContainer>
+                </XAxis>
+                <YAxis domain={[0, maxValue]} label={{ value: 'Unit Sales', angle: -90, offset: -15, position: 'insideLeft' }} />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
+            </AreaChart>
         </div>
 
     );

@@ -15,6 +15,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
             id="header-search"
             placeholder="Search by year, make, model..."
             name="s" 
+            autocomplete="off"
         />
         <button type="submit">Search</button>
     </form>
