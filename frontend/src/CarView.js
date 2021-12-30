@@ -141,13 +141,15 @@ function CarView() {
 
             <div class="gray">
                 <h1 class="header">Safety Ratings</h1>
-                <div class="tooltip">NHTSA ⓘ
+                <div class="tooltip">
+                    <h1>NHTSA ⓘ</h1>
                     <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the
                         crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
                 </div>
                 <br></br><br></br>
 
-                <div class="tooltip">IIHS ⓘ
+                <div class="tooltip">
+                    <h1>IIHS ⓘ</h1>
                     <span class="tooltiptext">The Insurance Institute for Highway Safety is an independent organization that
                         is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
                         considered to be more difficult than crash tests conducted by NHTSA.</span>
