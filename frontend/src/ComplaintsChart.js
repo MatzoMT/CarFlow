@@ -48,7 +48,7 @@ function ComplaintsChart() {
                     <defs>
 
                     </defs>
-                    <XAxis dataKey="year">
+                    <XAxis interval={1} dataKey="year">
                         <Label value="Year" offset={-20} position="insideBottom" />
 
                     </XAxis>

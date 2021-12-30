@@ -86,32 +86,6 @@ function CarView() {
             console.log(categories);
         });
 
-
-
-        const resultRechartsSales = await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
-            setSalesChartData(response.data.data);
-        });
-        console.log(complaintsChartData);
-
-        const rechartsResult = await Axios.post("/api/v1/recharts", { "year": "2014", "make": "honda", "model": "civic" }).then((response) => {
-            setRechartsData(response.data.data);
-        });
-
-        const allVehiclesResult = await Axios.get("/api/v1/all-vehicles").then((response) => {
-            setAllVehicles(response.data.data);
-        });
-        console.log(allVehicles);
-
-        /*
-                const numComplaints = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
-                    setCategories(Object.keys(response.data["categories"]));
-                    setCategoriesAmount(Object.values(response.data["categories"]));
-                    console.log(categories);
-                }); */
-
-
-
-
     }, []);
 
     return (
@@ -164,7 +138,11 @@ function CarView() {
                     <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
                 </div>
             </div>
-            <div class="charts">
+            <div>
+            <h1 class="header">Metrics</h1>
+            <h2 class="smaller-header">Car Sales and Complaints</h2>
+
+             <div class="charts">
                 <ResponsiveContainer width="95%" height={300}>
                     <ComplaintsChart />
                 </ResponsiveContainer>
@@ -178,21 +156,9 @@ function CarView() {
                 <ResponsiveContainer width="95%" height={300}>
                     <ComplaintsSalesChart />
                 </ResponsiveContainer>
+            </div>               
             </div>
 
-            <br></br>
-            <br></br>
-
-            <br></br>
-
-            <div class="charts">
-
-
-            </div>
-
-            <div class="charts">
-
-            </div>
 
         </div >
     );

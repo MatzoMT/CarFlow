@@ -33,7 +33,7 @@ function SalesChart() {
         <div>
             <AreaChart width={800} height={350} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 
-                <XAxis dataKey="year">
+                <XAxis interval={1} dataKey="year">
                     <Label value="Year" offset={-20} position="insideBottom" />
 
                 </XAxis>
