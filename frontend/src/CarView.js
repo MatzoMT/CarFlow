@@ -27,6 +27,23 @@ import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';
 import SalesChart from './SalesChart.js';
 import ComplaintsSalesChart from './ComplaintsSalesChart';
+import { BrowserRouter as Router } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
+
+function updateURL(vehicle) {
+    alert(vehicle);
+    const url = new URL(window.location);
+    url.searchParams.set('foo', vehicle);
+    window.history.pushState({}, '', url);
+    /*
+    const state = { 'page_id': 1, 'user_id': 5 };
+    const title = '';
+    const url = vehicle;    
+    window.history.pushState(state, title, url)}
+    */
+}
+
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -85,17 +102,23 @@ function CarView() {
             setCategoriesAmount(Object.values(response.data["categories"]));
             console.log(categories);
         });
-
+        await Axios.get("/api/v1/all-vehicles").then((response) => {
+            setAllVehicles(response.data.data);
+        });
     }, []);
+
 
     return (
         <div>
             <div id="searchbar-div">
+                <Router>
+
                 <SearchBar searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery} />
                 {filteredVehicles.slice(0, 8).map((vehicle) => (
-                    <li key={vehicle}>{vehicle}</li>
+                    <li onClick={() => { updateURL(vehicle)}} key={vehicle}>{vehicle}</li>
                 ))}
+                </Router>
             </div>
             <div id="flex-container">
                 <div class="flex-child score-image left-child">

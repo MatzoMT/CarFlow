@@ -1,10 +1,14 @@
 import './SearchBar.css';
+import { useNavigate } from 'react-router-dom';
 
+const SearchBar = ({ searchQuery, setSearchQuery }) => {
+    const navigate = useNavigate();
+    const onSubmit = e => {
+        navigate('/home');
+        e.preventDefault()
+    };
 
-const SearchBar = ({ searchQuery, setSearchQuery }) => (
-
-    
-    <form action="/" method="get">
+    return <form action="/" method="get" autoComplete="off" onSubmit={onSubmit}>
         <label htmlFor="header-search">
             <span className="visually-hidden">Search a vehicle</span>
         </label>
@@ -19,6 +23,6 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
         />
         <button type="submit">Search</button>
     </form>
-);
+};
 
 export default SearchBar;

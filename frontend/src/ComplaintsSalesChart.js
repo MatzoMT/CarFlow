@@ -6,6 +6,8 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart,
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
+import './charts.css';
+
 
 function getMaxSales(jsonData) {
     console.log(jsonData);
@@ -43,8 +45,9 @@ function ComplaintsSalesChart() {
 
     return (
         <div>
-            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 30, right: 100, bottom: 30, left: 30 }}  class="charts">
-                <XAxis dataKey="year">
+            <h2 class="chart-title">BRAND MODEL: Complaints and Sales per Year</h2>
+            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 100, bottom: 30, left: 30 }}  class="charts">
+                <XAxis interval={1} dataKey="year">
                 <Label value="Year" offset={-10} position="insideBottom" />
 
                 </XAxis>
@@ -52,9 +55,9 @@ function ComplaintsSalesChart() {
 
                 <YAxis yAxisId={1} orientation="left" label={{ value: 'Sales', angle: -90, dx: -50 }} domain={[0, maxSales]} />
                 <Tooltip />
-                <Legend layout="horizontal" verticalAlign="top" align="center" />
+                <Legend wrapperStyle={{bottom: 0}} layout="horizontal" verticalAlign="bottom" align="center" />
                 <CartesianGrid strokeDasharray="3 3" />
-                <Line yAxisId={1} dataKey="sales" lineSize={40} fill="#413ea0" />
+                <Line yAxisId={1} type="monotone" dataKey="sales" lineSize={40} fill="#413ea0" />
                 <Line yAxisId={2} type="monotone" dataKey="complaints" stroke="#ff0000" />
             </ComposedChart>
         </div>

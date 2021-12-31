@@ -6,6 +6,8 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart,
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
+import './charts.css';
+
 
 
 function getMaxComplaints(jsonData) {
@@ -43,6 +45,7 @@ function ComplaintsChart() {
     }, []);
     return (
         <div>
+            <h2 class="chart-title">BRAND MODEL: NHTSA Complaints per Year</h2>
             <ResponsiveContainer width="95%" height={300}>
                 <AreaChart width={800} height={250} data={complaintsChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }} class="charts">
                     <defs>

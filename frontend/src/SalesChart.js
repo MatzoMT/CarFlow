@@ -6,6 +6,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart,
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
+import './charts.css';
 
 
 function getMaxSales(jsonData) {
@@ -31,7 +32,9 @@ function SalesChart() {
     }, []);
     return (
         <div>
-            <AreaChart width={800} height={350} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
+            <h2 class="chart-title">BRAND MODEL: Sales per Year</h2>
+            <ResponsiveContainer width="95%" height={300}>
+            <AreaChart width={800} height={250} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 
                 <XAxis interval={1} dataKey="year">
                     <Label value="Year" offset={-20} position="insideBottom" />
@@ -42,6 +45,8 @@ function SalesChart() {
                 <Tooltip />
                 <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
             </AreaChart>
+            </ResponsiveContainer>
+
         </div>
 
     );
