@@ -34,13 +34,32 @@ import { useNavigate } from 'react-router-dom';
 function updateURL(vehicle) {
     alert(vehicle);
     const url = new URL(window.location);
-    url.searchParams.set('foo', vehicle);
+    url.searchParams.set('year', vehicle.split(' ')[0]);
+    let make = vehicle.split(' ')[1];
+    let modelIndex = 2;
+
+    // Case for automaker containing whitespace: ALFA ROMEO, ASTON MARTIN, LAND ROVER, MERCEDES BENZ
+    if (make.includes("ALFA") || make.includes("ASTON") || make.includes("LAND") || make.includes("MERCEDES ")) {
+        modelIndex = 3;
+        url.searchParams.set('make', vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
+    } else {
+        url.searchParams.set('make', vehicle.split(' ')[1]);
+    }
+    url.searchParams.set('model', vehicle.split(' ')[modelIndex]);
     window.history.pushState({}, '', url);
     /*
     const state = { 'page_id': 1, 'user_id': 5 };
     const title = '';
     const url = vehicle;    
     window.history.pushState(state, title, url)}
+    */
+
+    /*
+    ALFA ROMEO
+    ASTON MARTIN
+    LAND ROVER 
+    MERCEDES BENZ or MERCEDES-BENZ (first only)
+    ROLLS R
     */
 }
 
@@ -87,14 +106,15 @@ function CarView() {
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
     const [allVehicles, setAllVehicles] = useState([]);
-    const [complaintsChartData, setComplaintsChartData] = useState({});
-    const [salesChartData, setSalesChartData] = useState({});
-    const [rechartsData, setRechartsData] = useState({});
     const percentage = 66;
     const { search } = window.location;
     const query = new URLSearchParams(search).get('s');
     const [searchQuery, setSearchQuery] = useState(query || '');
     const filteredVehicles = filterPosts(allVehicles, searchQuery);
+    const [selectedYear, setSelectedYear] = useState("");
+    const [selectedMaker, setSelectedMaker] = useState("");
+    const [selectedModel, setSelectedModel] = useState("");
+
 
     useEffect(async () => {
         const result = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
@@ -105,6 +125,14 @@ function CarView() {
         await Axios.get("/api/v1/all-vehicles").then((response) => {
             setAllVehicles(response.data.data);
         });
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        if (urlParams.get('year') != null) {
+            setSelectedYear(urlParams.get("year"));
+            setSelectedMaker(urlParams.get("make"));
+            setSelectedModel(urlParams.get("model"));
+        }
     }, []);
 
 
@@ -113,11 +141,11 @@ function CarView() {
             <div id="searchbar-div">
                 <Router>
 
-                <SearchBar searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery} />
-                {filteredVehicles.slice(0, 8).map((vehicle) => (
-                    <li onClick={() => { updateURL(vehicle)}} key={vehicle}>{vehicle}</li>
-                ))}
+                    <SearchBar searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery} />
+                    {filteredVehicles.slice(0, 8).map((vehicle) => (
+                        <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
+                    ))}
                 </Router>
             </div>
             <div id="flex-container">
@@ -127,6 +155,8 @@ function CarView() {
 
                 <div class="flex-child score right-child">
                     <h1 id="car-model">2015 Emperor Habanero</h1>
+                    <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
+
                     <h1 id="carflow-score">CarFlow Score</h1>
                     <div style={{ width: '10em', height: '10em' }} id="score-meter">
                         <CircularProgressbar value={percentage} text={`${percentage}`} />
@@ -162,24 +192,24 @@ function CarView() {
                 </div>
             </div>
             <div>
-            <h1 class="header">Metrics</h1>
-            <h2 class="smaller-header">Car Sales and Complaints</h2>
+                <h1 class="header">Metrics</h1>
+                <h2 class="smaller-header">Car Sales and Complaints</h2>
 
-             <div class="charts">
-                <ResponsiveContainer width="95%" height={300}>
-                    <ComplaintsChart />
-                </ResponsiveContainer>
-            </div>
-            <div class="charts">
-                <ResponsiveContainer width="95%" height={300}>
-                    <SalesChart />
-                </ResponsiveContainer>
-            </div>
-            <div class="charts">
-                <ResponsiveContainer width="95%" height={300}>
-                    <ComplaintsSalesChart />
-                </ResponsiveContainer>
-            </div>               
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <ComplaintsChart />
+                    </ResponsiveContainer>
+                </div>
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <SalesChart />
+                    </ResponsiveContainer>
+                </div>
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <ComplaintsSalesChart />
+                    </ResponsiveContainer>
+                </div>
             </div>
 
 
