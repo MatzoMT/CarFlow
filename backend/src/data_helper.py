@@ -175,6 +175,7 @@ def get_all_models(year, make):
 
 def get_vehicle_id(year, make, model):
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/modelyear/" + year +"/make/" +make+"/model/" + model
+    print(nhtsa_link)
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
     # Converts JSON information into Python dictionary

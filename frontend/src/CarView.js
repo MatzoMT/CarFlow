@@ -31,37 +31,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 
-function updateURL(vehicle) {
-    alert(vehicle);
-    const url = new URL(window.location);
-    url.searchParams.set('year', vehicle.split(' ')[0]);
-    let make = vehicle.split(' ')[1];
-    let modelIndex = 2;
 
-    // Case for automaker containing whitespace: ALFA ROMEO, ASTON MARTIN, LAND ROVER, MERCEDES BENZ
-    if (make.includes("ALFA") || make.includes("ASTON") || make.includes("LAND") || make.includes("MERCEDES ")) {
-        modelIndex = 3;
-        url.searchParams.set('make', vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
-    } else {
-        url.searchParams.set('make', vehicle.split(' ')[1]);
-    }
-    url.searchParams.set('model', vehicle.split(' ')[modelIndex]);
-    window.history.pushState({}, '', url);
-    /*
-    const state = { 'page_id': 1, 'user_id': 5 };
-    const title = '';
-    const url = vehicle;    
-    window.history.pushState(state, title, url)}
-    */
-
-    /*
-    ALFA ROMEO
-    ASTON MARTIN
-    LAND ROVER 
-    MERCEDES BENZ or MERCEDES-BENZ (first only)
-    ROLLS R
-    */
-}
 
 
 function initializeImage(complaint) {
@@ -114,6 +84,56 @@ function CarView() {
     const [selectedYear, setSelectedYear] = useState("");
     const [selectedMaker, setSelectedMaker] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
+    const [imageURL, setImageURL] = useState("");
+
+    const [count, setCount] = useState(0);
+
+    const url = window.location.pathname.split('/').pop();
+
+    function updateURL(vehicle) {
+        alert(vehicle);
+        const url = new URL(window.location);
+      //  url.searchParams.set('year', vehicle.split(' ')[0]);
+        setSelectedYear(vehicle.split(' ')[0]);
+        let make = vehicle.split(' ')[1];
+        let model = "";
+        let modelIndex = 2;
+    
+
+        // Case for automaker containing whitespace: ALFA ROMEO, ASTON MARTIN, LAND ROVER, MERCEDES BENZ
+        if (make.includes("ALFA") || make.includes("ASTON") || make.includes("LAND") || make.includes("MERCEDES ")) {
+            modelIndex = 3;
+          //  url.searchParams.set('make', vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
+            setSelectedMaker(vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
+            make = vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2];
+        } else {
+      //      url.searchParams.set('make', vehicle.split(' ')[1]);
+            setSelectedMaker(vehicle.split(' ')[1]);
+            make = vehicle.split(' ')[1];
+        }
+     //   url.searchParams.set('model', vehicle.split(' ')[modelIndex]);
+        setSelectedModel(vehicle.split(' ')[modelIndex]);
+        model = vehicle.split(' ')[modelIndex];
+     //   window.history.pushState({}, '', url);
+        /*
+        const state = { 'page_id': 1, 'user_id': 5 };
+        const title = '';
+        const url = vehicle;    
+        window.history.pushState(state, title, url)}
+        */
+        Axios.post("/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
+            setImageURL(response.data.vehicleID);
+            console.log(response);
+        });
+    
+        /*
+        ALFA ROMEO
+        ASTON MARTIN
+        LAND ROVER 
+        MERCEDES BENZ or MERCEDES-BENZ (first only)
+        ROLLS R
+        */
+    }
 
 
     useEffect(async () => {
@@ -125,19 +145,16 @@ function CarView() {
         await Axios.get("/api/v1/all-vehicles").then((response) => {
             setAllVehicles(response.data.data);
         });
-        const queryString = window.location.search;
-        console.log(queryString);
-        const urlParams = new URLSearchParams(queryString);
-        if (urlParams.get('year') != null) {
-            setSelectedYear(urlParams.get("year"));
-            setSelectedMaker(urlParams.get("make"));
-            setSelectedModel(urlParams.get("model"));
-        }
+
     }, []);
+
 
 
     return (
         <div>
+            <button onClick={() => setCount(count + 1)}>
+                Click me
+            </button>
             <div id="searchbar-div">
                 <Router>
 
@@ -150,11 +167,10 @@ function CarView() {
             </div>
             <div id="flex-container">
                 <div class="flex-child score-image left-child">
-                    <img src="https://static.nhtsa.gov/images/vehicles/6984_st0640_046.png" id="car-img"></img>
+                    <img src={imageURL} id="car-img"></img>
                 </div>
 
                 <div class="flex-child score right-child">
-                    <h1 id="car-model">2015 Emperor Habanero</h1>
                     <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
 
                     <h1 id="carflow-score">CarFlow Score</h1>
