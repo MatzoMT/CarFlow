@@ -11,7 +11,7 @@ import operator
 # If not found, return -1 (sentinel)
 def get_sales(year, make, model):
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
-    print(link)
+    #print(link)
     html_text = requests.get(link).text
     soup = BeautifulSoup(html_text, 'html.parser')
     table = soup.find_all('table')[1]
@@ -23,9 +23,9 @@ def get_sales(year, make, model):
         if td_counter >= 2:
             # A year less is compared, assuming U.S. convention of having MY ahead by 1 year
             if ((year - 1 == int(td.text.replace('.', '').strip()))):
-                print(td.text)
+                #print(td.text)
                 # RETURN THE VALUE BELOW
-                print(td.find_next('td').text.replace('.', ''))
+                #print(td.find_next('td').text.replace('.', ''))
                 return td.find_next('td').text.replace('.', '')
         
 
@@ -38,7 +38,6 @@ def get_sales(year, make, model):
 # Prints all sales for each model year
 def get_sales_all(year, make, model):
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
-    print(link)
     html_text = requests.get(link).text
     soup = BeautifulSoup(html_text, 'html.parser')
     table = soup.find_all('table')[1]
@@ -85,7 +84,6 @@ def get_all_sales_json(make, model):
 # Prints all sales for each model year
 def initialize_sales_dict(make, model, dict):
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
-    print(link)
     html_text = requests.get(link).text
     soup = BeautifulSoup(html_text, 'html.parser')
     table = soup.find_all('table')[1]
@@ -98,7 +96,6 @@ def initialize_sales_dict(make, model, dict):
         # if statement reassigns year only if it is the first iteration
         if td_counter % 2 == 1:
             year = td.find_next('td').text.replace('.', '')
-            print(year)
         td_counter = td_counter + 1
         if td_counter >= 2:
             if counter % 2 == 1:
@@ -175,7 +172,6 @@ def get_all_models(year, make):
 
 def get_vehicle_id(year, make, model):
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/modelyear/" + year +"/make/" +make+"/model/" + model
-    print(nhtsa_link)
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
     # Converts JSON information into Python dictionary
@@ -248,15 +244,13 @@ def get_complaints_type_json(year, make, model):
 
             break
     sorted_return_dict = dict(sorted(return_dict.items(), key=operator.itemgetter(1),reverse=True))
-    print("LOOK HERE")
-    print(sorted_return_dict)
+
     return sorted_return_dict
 
 #BUG
 #2012 NISSAN JUKE: FUEL SYSTEM, GASOLINE complaint category
 def get_all_complaint_types_json(year, make, model):
     nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make="+make+"&model="+model+"&modelYear=" + year
-    print(nhtsa_link)
     json_array = []
     categories_dict = {}
     source_code = requests.get(nhtsa_link)
@@ -368,7 +362,6 @@ def get_recharts_info(make, model):
         except:
             json_info["sales"] = 0
         info_array.append(json_info)
-    print(info_array)
     return info_array
 
 """

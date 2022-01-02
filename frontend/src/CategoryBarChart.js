@@ -18,7 +18,7 @@ function CategoryBarChart(props) {
         });
 
 
-    }, [props]);
+    }, [props.year, props.make, props.model]);
     return (
         <div>
             <ResponsiveContainer width="100%" height={900}>

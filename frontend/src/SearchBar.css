@@ -17,3 +17,6 @@ input:focus {
     color: black;
     transition: 0.25s;
 }
+#header-search {
+    width: 95%;
+}

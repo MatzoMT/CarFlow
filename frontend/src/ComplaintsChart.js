@@ -47,7 +47,7 @@ function ComplaintsChart(props) {
             setComplaintsChartData(response.data.data);
             setMaxValue(parseInt(getMaxComplaints(response.data.data)));
         });
-    }, [props]);
+    }, [props.year, props.make, props.model]);
     return (
         <div>
             <h2 class="chart-title">{props.make} {props.model}: NHTSA Complaints per Year</h2>

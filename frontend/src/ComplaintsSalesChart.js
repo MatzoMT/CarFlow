@@ -42,7 +42,7 @@ function ComplaintsSalesChart(props) {
             setMaxComplaints(parseInt(getMaxComplaints(response.data.data)));
             console.log(response.data.data);
         });
-    }, [props]);
+    }, [props.year, props.make, props.model]);
 
     return (
         <div>

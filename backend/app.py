@@ -142,7 +142,6 @@ def recharts_sales():
         abort(400)
     data = request.get_json()
     sales_info = get_recharts_sales(data["make"], data["model"])
-    print(sales_info)
     return jsonify({
         "data": sales_info
     })
@@ -174,8 +173,7 @@ def route_vehicle_picture():
     data = request.get_json()
     vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
     picture_url = get_vehicle_picture(vehicle_id)
-    print("URL BELOW")
-    print(picture_url)
+
     return jsonify({
         "vehicleID": picture_url 
     })

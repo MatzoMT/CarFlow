@@ -30,7 +30,7 @@ function SalesChart(props) {
             setMaxValue(parseInt(getMaxSales(response.data.data)));
             console.log(response.data.data);
         });
-    }, [props]);
+    }, [props.year, props.make, props.model]);
     return (
         <div>
             <h2 class="chart-title">{props.make} {props.model}: Sales per Year</h2>

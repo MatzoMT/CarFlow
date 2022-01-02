@@ -21,7 +21,6 @@ import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
 import highlander from './resources/highlander.jpg';
-import ComplaintChart from './ComplaintYearChart.js';
 import SearchBar from './SearchBar.js';
 import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';
@@ -155,7 +154,6 @@ function CarView() {
 
             <div id="searchbar-div">
                 <Router>
-
                     <SearchBar searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery} />
                     {filteredVehicles.slice(0, 8).map((vehicle) => (
@@ -224,7 +222,7 @@ function CarView() {
                         <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
-                <div class="charts">
+                <div>
                     <ResponsiveContainer width="95%" height={300}>
                         <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
