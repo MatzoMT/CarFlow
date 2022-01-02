@@ -123,6 +123,12 @@ function CarView() {
             console.log(response);
         });
 
+        Axios.post("/api/v1/complaint-categories", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
+            setCategories(Object.keys(response.data["categories"]));
+            setCategoriesAmount(Object.values(response.data["categories"]));
+            console.log(categories);
+        });
+
         /*
         ALFA ROMEO
         ASTON MARTIN
@@ -134,11 +140,7 @@ function CarView() {
 
 
     useEffect(async () => {
-        const result = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
-            setCategories(Object.keys(response.data["categories"]));
-            setCategoriesAmount(Object.values(response.data["categories"]));
-            console.log(categories);
-        });
+
         await Axios.get("/api/v1/all-vehicles").then((response) => {
             setAllVehicles(response.data.data);
         });

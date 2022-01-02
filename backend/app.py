@@ -70,7 +70,8 @@ def get_complaint_categories():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
         print("ABORTING")
         abort(400)
-    categories = get_complaints_type_json()
+    data = request.get_json()
+    categories = get_complaints_type_json(data['year'], data['make'], data['model'])
     return jsonify({
         "categories": categories
     })

@@ -203,10 +203,12 @@ def get_vehicle_picture(vehicle_id):
 # otherwise increment
 # return top three complaint types
 # if less than three complaint types present, return 2, 1, or 0 categories
-def get_complaints_type_json():
+def get_complaints_type_json(year, make, model):
     #nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make={}&model={}&modelYear={}".format(year, make, model)
     # HARD CODE
-    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=hyundai&model=elantra&modelYear=2014"
+   # nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make=hyundai&model=elantra&modelYear=2014"
+    nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make="+make+"&model="+model+"&modelYear=" + year
+
     categories_dict = {}
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
@@ -246,7 +248,8 @@ def get_complaints_type_json():
 
             break
     sorted_return_dict = dict(sorted(return_dict.items(), key=operator.itemgetter(1),reverse=True))
-    #print(sorted_return_dict)
+    print("LOOK HERE")
+    print(sorted_return_dict)
     return sorted_return_dict
 
 def get_recharts_complaints(make, model):
@@ -319,8 +322,7 @@ def get_recharts_info(make, model):
     info_array = []
     info = {}
 
-    print("YEARS")
-    print(years)
+
     for year in years:
         json_info = {}
         json_info["year"] = year[0]
@@ -333,7 +335,7 @@ def get_recharts_info(make, model):
         except:
             json_info["sales"] = 0
         info_array.append(json_info)
-    #print(info_array)
+    print(info_array)
     return info_array
 
 """
