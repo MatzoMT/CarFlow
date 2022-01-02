@@ -256,7 +256,8 @@ def get_complaints_type_json(year, make, model):
 #2012 NISSAN JUKE: FUEL SYSTEM, GASOLINE complaint category
 def get_all_complaint_types_json(year, make, model):
     nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make="+make+"&model="+model+"&modelYear=" + year
-
+    print(nhtsa_link)
+    json_array = []
     categories_dict = {}
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
@@ -264,17 +265,10 @@ def get_all_complaint_types_json(year, make, model):
     site_json = json.loads(plain_text)
     results = site_json["results"]
     # BROKEN: EX: Electrical System
-    """
-    pseudo:
-    replace whitespace with hyphens
-    replace comma with space
-    parse each word, separated by space
-    remove hyphens before storing in dict
-    """
     for complaint in results:
         category = complaint["components"].replace(' ', '-').replace(',', ' ')
         #category = complaint["components"].replace(',', ' ')
-
+        category_key = ""
         for formatted_category in category.split():
             category_key = formatted_category.replace('-', ' ')
             if category_key == "UNKNOWN OR OTHER":
@@ -282,17 +276,14 @@ def get_all_complaint_types_json(year, make, model):
             if category_key in categories_dict:
                 categories_dict[category_key] += 1
             else:
-                categories_dict[category_key] = 1               
+                categories_dict[category_key] = 1   
 
-    return_dict = {}
-    sorted_keys = sorted(categories_dict, key=categories_dict.get, reverse=False)
-    for key in sorted_keys:
-        return_dict[key] = categories_dict[key]
-
-    sorted_return_dict = dict(sorted(return_dict.items(), key=lambda item: item[1], reverse=True))
-    print("ALL COMPLAINTS ARE HERE")
-    print(sorted_return_dict)
-    return sorted_return_dict
+    for category in categories_dict:
+        json_info = {}
+        json_info["category"] = category
+        json_info["numberComplaints"] = categories_dict[category]
+        json_array.append(json_info)
+    return json_array
 
 def get_recharts_complaints(make, model):
     mydb = mysql.connector.connect(

@@ -28,6 +28,7 @@ function SalesChart(props) {
         await Axios.post("/api/v1/recharts-sales", {"make": props.make, "model": props.model }).then((response) => {
             setSalesChartData(response.data.data);
             setMaxValue(parseInt(getMaxSales(response.data.data)));
+            console.log(response.data.data);
         });
     }, [props]);
     return (

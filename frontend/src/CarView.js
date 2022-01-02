@@ -29,6 +29,7 @@ import SalesChart from './SalesChart.js';
 import ComplaintsSalesChart from './ComplaintsSalesChart';
 import { BrowserRouter as Router } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import CategoryBarChart from './CategoryBarChart.js';
 
 
 
@@ -223,6 +224,12 @@ function CarView() {
                         <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
+                    </ResponsiveContainer>
+                </div>
+
             </div>
 
 
