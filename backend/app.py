@@ -130,6 +130,7 @@ def recharts_sales():
         abort(400)
     data = request.get_json()
     sales_info = get_recharts_sales(data["make"], data["model"])
+    print(sales_info)
     return jsonify({
         "data": sales_info
     })
@@ -159,9 +160,10 @@ def route_vehicle_picture():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
         abort(400)
     data = request.get_json()
-    print(data)
     vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
     picture_url = get_vehicle_picture(vehicle_id)
+    print("URL BELOW")
+    print(picture_url)
     return jsonify({
         "vehicleID": picture_url 
     })

@@ -91,41 +91,38 @@ function CarView() {
     const url = window.location.pathname.split('/').pop();
 
     function updateURL(vehicle) {
-        alert(vehicle);
+
         const url = new URL(window.location);
-      //  url.searchParams.set('year', vehicle.split(' ')[0]);
+        //  url.searchParams.set('year', vehicle.split(' ')[0]);
         setSelectedYear(vehicle.split(' ')[0]);
         let make = vehicle.split(' ')[1];
         let model = "";
         let modelIndex = 2;
-    
+
 
         // Case for automaker containing whitespace: ALFA ROMEO, ASTON MARTIN, LAND ROVER, MERCEDES BENZ
         if (make.includes("ALFA") || make.includes("ASTON") || make.includes("LAND") || make.includes("MERCEDES ")) {
             modelIndex = 3;
-          //  url.searchParams.set('make', vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
-            setSelectedMaker(vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
-            make = vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2];
+            //  url.searchParams.set('make', vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
+            setSelectedMaker(vehicle.split(' ')[1] + " " + vehicle.split(' ')[2]);
+            make = vehicle.split(' ')[1] + " " + vehicle.split(' ')[2];
         } else {
-      //      url.searchParams.set('make', vehicle.split(' ')[1]);
+            //      url.searchParams.set('make', vehicle.split(' ')[1]);
             setSelectedMaker(vehicle.split(' ')[1]);
             make = vehicle.split(' ')[1];
         }
-     //   url.searchParams.set('model', vehicle.split(' ')[modelIndex]);
-        setSelectedModel(vehicle.split(' ')[modelIndex]);
+        //   url.searchParams.set('model', vehicle.split(' ')[modelIndex]);
         model = vehicle.split(' ')[modelIndex];
-     //   window.history.pushState({}, '', url);
-        /*
-        const state = { 'page_id': 1, 'user_id': 5 };
-        const title = '';
-        const url = vehicle;    
-        window.history.pushState(state, title, url)}
-        */
+        for (let i = modelIndex + 1; i < vehicle.split(' ').length; i++) {
+            model = model + " " + vehicle.split(' ')[i];
+        }
+        setSelectedModel(model);
+        //   window.history.pushState({}, '', url);
         Axios.post("/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setImageURL(response.data.vehicleID);
             console.log(response);
         });
-    
+
         /*
         ALFA ROMEO
         ASTON MARTIN
@@ -152,9 +149,7 @@ function CarView() {
 
     return (
         <div>
-            <button onClick={() => setCount(count + 1)}>
-                Click me
-            </button>
+
             <div id="searchbar-div">
                 <Router>
 
@@ -213,17 +208,17 @@ function CarView() {
 
                 <div class="charts">
                     <ResponsiveContainer width="95%" height={300}>
-                        <ComplaintsChart />
+                        <ComplaintsChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
                 <div class="charts">
                     <ResponsiveContainer width="95%" height={300}>
-                        <SalesChart />
+                        <SalesChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
                 <div class="charts">
                     <ResponsiveContainer width="95%" height={300}>
-                        <ComplaintsSalesChart />
+                        <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
             </div>

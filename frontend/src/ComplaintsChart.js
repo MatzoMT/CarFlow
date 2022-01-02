@@ -33,19 +33,24 @@ function getMaxComplaints(jsonData) {
 
 }
 
-function ComplaintsChart() {
+/*
+props:
+make - user-defined automaker
+model - user-defined car model
+*/
+function ComplaintsChart(props) {
     const [complaintsChartData, setComplaintsChartData] = useState({});
     const [maxValue, setMaxValue] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts-complaints", { "year": "2014", "make": "ford", "model": "fusion" }).then((response) => {
+        await Axios.post("/api/v1/recharts-complaints", { "make": props.make, "model": props.model }).then((response) => {
             setComplaintsChartData(response.data.data);
             setMaxValue(parseInt(getMaxComplaints(response.data.data)));
         });
-    }, []);
+    }, [props]);
     return (
         <div>
-            <h2 class="chart-title">BRAND MODEL: NHTSA Complaints per Year</h2>
+            <h2 class="chart-title">{props.make} {props.model}: NHTSA Complaints per Year</h2>
             <ResponsiveContainer width="95%" height={300}>
                 <AreaChart width={800} height={250} data={complaintsChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }} class="charts">
                     <defs>

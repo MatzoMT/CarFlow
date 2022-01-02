@@ -20,19 +20,19 @@ function getMaxSales(jsonData) {
     return maxValue;
 }
 
-function SalesChart() {
+function SalesChart(props) {
     const [salesChartData, setSalesChartData] = useState({});
     const [maxValue, setMaxValue] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "ford", "model": "fusion" }).then((response) => {
+        await Axios.post("/api/v1/recharts-sales", {"make": props.make, "model": props.model }).then((response) => {
             setSalesChartData(response.data.data);
             setMaxValue(parseInt(getMaxSales(response.data.data)));
         });
-    }, []);
+    }, [props]);
     return (
         <div>
-            <h2 class="chart-title">BRAND MODEL: Sales per Year</h2>
+            <h2 class="chart-title">{props.make} {props.model}: Sales per Year</h2>
             <ResponsiveContainer width="95%" height={300}>
             <AreaChart width={800} height={250} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 

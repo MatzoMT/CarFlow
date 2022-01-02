@@ -29,23 +29,24 @@ function getMaxComplaints(jsonData) {
     }
     return maxComplaints;
 }
-function ComplaintsSalesChart() {
+
+function ComplaintsSalesChart(props) {
     const [rechartsData, setRechartsData] = useState({});
     const [maxSales, setMaxSales] = useState(0);
     const [maxComplaints, setMaxComplaints] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts", { "year": "2014", "make": "ford", "model": "fusion" }).then((response) => {
+        await Axios.post("/api/v1/recharts", {"make": props.make, "model": props.model }).then((response) => {
             setRechartsData(response.data.data);
             setMaxSales(parseInt(getMaxSales(response.data.data)));
             setMaxComplaints(parseInt(getMaxComplaints(response.data.data)));
             console.log(response.data.data);
         });
-    }, []);
+    }, [props]);
 
     return (
         <div>
-            <h2 class="chart-title">BRAND MODEL: Complaints and Sales per Year</h2>
+            <h2 class="chart-title">{props.make} {props.model}: Complaints and Sales per Year</h2>
             <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 100, bottom: 30, left: 30 }}  class="charts">
                 <XAxis interval={1} dataKey="year">
                 <Label value="Year" offset={-10} position="insideBottom" />
