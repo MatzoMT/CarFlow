@@ -93,3 +93,9 @@
     background-color: red;
     width: 50%;
 }
+
+#search-results {
+    background-color: white;
+    list-style-type: none;
+    position: absolute;
+}

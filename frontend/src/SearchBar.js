@@ -21,7 +21,6 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             name="s" 
             autocomplete="off"
         />
-        <button type="submit">Search</button>
     </form>
 };
 

@@ -156,9 +156,11 @@ function CarView() {
                 <Router>
                     <SearchBar searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery} />
-                    {filteredVehicles.slice(0, 8).map((vehicle) => (
+                        <div id="search-results">
+                        {filteredVehicles.slice(0, 8).map((vehicle) => (
                         <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
                     ))}
+                        </div>
                 </Router>
             </div>
             <div id="flex-container">
