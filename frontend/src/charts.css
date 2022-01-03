@@ -1,0 +1,17 @@
+.chart-title {
+    text-align: center;
+}
+
+.charts {
+    margin: auto;
+    margin-bottom: 6em;
+    width: 60%;
+  }
+
+#bar-chart {
+    margin: auto;
+    padding-top: 2em;
+    margin-bottom: 6em;
+    width: 65%;
+    margin-left: 12em;
+}

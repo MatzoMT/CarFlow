@@ -7,7 +7,7 @@ import Axios from 'axios';
 import './App.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart, Label, ComposedChart, Legend, Bar, domain } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart, Label, ComposedChart, Legend, Bar, domain, ResponsiveContainer } from 'recharts';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import './CircularProgressbar.css';
@@ -21,7 +21,18 @@ import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
 import highlander from './resources/highlander.jpg';
-import ComplaintChart from './ComplaintYearChart.js';
+import SearchBar from './SearchBar.js';
+import wrench from './resources/general.png';
+import ComplaintsChart from './ComplaintsChart.js';
+import SalesChart from './SalesChart.js';
+import ComplaintsSalesChart from './ComplaintsSalesChart';
+import { BrowserRouter as Router } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import CategoryBarChart from './CategoryBarChart.js';
+
+
+
+
 
 function initializeImage(complaint) {
     if (complaint !== undefined) {
@@ -46,6 +57,17 @@ function initializeImage(complaint) {
 
 }
 
+const filterPosts = (allVehicles, query) => {
+    if (!query) {
+        return allVehicles;
+    }
+
+    return allVehicles.filter((vehicle) => {
+        const vehicleName = vehicle.toLowerCase();
+        return vehicleName.includes(query);
+    });
+};
+
 // Component for automakers dropdown
 function CarView() {
     const [score, setScore] = useState(0);
@@ -53,55 +75,102 @@ function CarView() {
     const [categoriesAmount, setCategoriesAmount] = useState([]);
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
-    const [complaintsChartData, setComplaintsChartData] = useState({});
-    const [salesChartData, setSalesChartData] = useState({});
-    const [rechartsData, setRechartsData] = useState({});
+    const [allVehicles, setAllVehicles] = useState([]);
     const percentage = 66;
+    const { search } = window.location;
+    const query = new URLSearchParams(search).get('s');
+    const [searchQuery, setSearchQuery] = useState(query || '');
+    const filteredVehicles = filterPosts(allVehicles, searchQuery);
+    const [selectedYear, setSelectedYear] = useState("");
+    const [selectedMaker, setSelectedMaker] = useState("");
+    const [selectedModel, setSelectedModel] = useState("");
+    const [imageURL, setImageURL] = useState("");
 
-    useEffect(async () => {
-        const result = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
+    const [count, setCount] = useState(0);
+
+    const url = window.location.pathname.split('/').pop();
+
+    function updateURL(vehicle) {
+
+        const url = new URL(window.location);
+        //  url.searchParams.set('year', vehicle.split(' ')[0]);
+        setSelectedYear(vehicle.split(' ')[0]);
+        let make = vehicle.split(' ')[1];
+        let model = "";
+        let modelIndex = 2;
+
+
+        // Case for automaker containing whitespace: ALFA ROMEO, ASTON MARTIN, LAND ROVER, MERCEDES BENZ
+        if (make.includes("ALFA") || make.includes("ASTON") || make.includes("LAND") || make.includes("MERCEDES ")) {
+            modelIndex = 3;
+            //  url.searchParams.set('make', vehicle.split(' ')[1] + "-" + vehicle.split(' ')[2]);
+            setSelectedMaker(vehicle.split(' ')[1] + " " + vehicle.split(' ')[2]);
+            make = vehicle.split(' ')[1] + " " + vehicle.split(' ')[2];
+        } else {
+            //      url.searchParams.set('make', vehicle.split(' ')[1]);
+            setSelectedMaker(vehicle.split(' ')[1]);
+            make = vehicle.split(' ')[1];
+        }
+        //   url.searchParams.set('model', vehicle.split(' ')[modelIndex]);
+        model = vehicle.split(' ')[modelIndex];
+        for (let i = modelIndex + 1; i < vehicle.split(' ').length; i++) {
+            model = model + " " + vehicle.split(' ')[i];
+        }
+        setSelectedModel(model);
+        //   window.history.pushState({}, '', url);
+        Axios.post("/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
+            setImageURL(response.data.vehicleID);
+            console.log(response);
+        });
+
+        Axios.post("/api/v1/complaint-categories", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setCategories(Object.keys(response.data["categories"]));
             setCategoriesAmount(Object.values(response.data["categories"]));
             console.log(categories);
         });
 
-        const resultRecharts = await Axios.post("/api/v1/recharts-complaints", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
-            setComplaintsChartData(response.data.data);
-            console.log(complaintsChartData);
-            console.log(response.data.data)
-        });
-
-        const resultRechartsSales = await Axios.post("/api/v1/recharts-sales", { "year": "2014", "make": "hyundai", "model": "tucson" }).then((response) => {
-            setSalesChartData(response.data.data);
-        });
-        console.log(complaintsChartData);
-
-        const rechartsResult = await Axios.post("/api/v1/recharts", { "year": "2014", "make": "honda", "model": "civic" }).then((response) => {
-            setRechartsData(response.data.data);
-        });
-
-
         /*
-                const numComplaints = await Axios.post("/api/v1/complaint-categories", { "year": "2014", "make": "hyundai", "model": "elantra" }).then((response) => {
-                    setCategories(Object.keys(response.data["categories"]));
-                    setCategoriesAmount(Object.values(response.data["categories"]));
-                    console.log(categories);
-                }); */
+        ALFA ROMEO
+        ASTON MARTIN
+        LAND ROVER 
+        MERCEDES BENZ or MERCEDES-BENZ (first only)
+        ROLLS R
+        */
+    }
 
 
+    useEffect(async () => {
 
+        await Axios.get("/api/v1/all-vehicles").then((response) => {
+            setAllVehicles(response.data.data);
+        });
 
     }, []);
 
+
+
     return (
         <div>
+
+            <div id="searchbar-div">
+                <Router>
+                    <SearchBar searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery} />
+                        <div id="search-results">
+                        {filteredVehicles.slice(0, 8).map((vehicle) => (
+                        <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
+                    ))}
+                        </div>
+                </Router>
+            </div>
             <div id="flex-container">
                 <div class="flex-child score-image left-child">
-                    <img src={highlander} id="car-img"></img>
+                    <img src={imageURL} id="car-img"></img>
                 </div>
 
                 <div class="flex-child score right-child">
-                    <h1 id="car-model">2015 Emperor Habanero</h1>
+                    <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
+
                     <h1 id="carflow-score">CarFlow Score</h1>
                     <div style={{ width: '10em', height: '10em' }} id="score-meter">
                         <CircularProgressbar value={percentage} text={`${percentage}`} />
@@ -112,6 +181,21 @@ function CarView() {
             </div>
 
             <div class="gray">
+                <h1 class="header">Safety Ratings</h1>
+                <div class="tooltip">
+                    <h1>NHTSA ⓘ</h1>
+                    <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the
+                        crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
+                </div>
+                <br></br><br></br>
+
+                <div class="tooltip">
+                    <h1>IIHS ⓘ</h1>
+                    <span class="tooltiptext">The Insurance Institute for Highway Safety is an independent organization that
+                        is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
+                        considered to be more difficult than crash tests conducted by NHTSA.</span>
+                </div>
+
                 <h1 class="header">Complaints</h1>
                 <h2 class="smaller-header">Reported by NHTSA</h2>
                 <div id="categories-div">
@@ -121,46 +205,35 @@ function CarView() {
                     <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
                 </div>
             </div>
+            <div>
+                <h1 class="header">Metrics</h1>
+                <h2 class="smaller-header">Car Sales and Complaints</h2>
 
-            <AreaChart width={730} height={250} data={complaintsChartData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <ComplaintsChart make={selectedMaker} model={selectedModel} />
+                    </ResponsiveContainer>
+                </div>
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <SalesChart make={selectedMaker} model={selectedModel} />
+                    </ResponsiveContainer>
+                </div>
+                <div class="charts">
+                    <ResponsiveContainer width="95%" height={300}>
+                        <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
+                    </ResponsiveContainer>
+                </div>
+                <div id="bar-chart"> 
+                    <ResponsiveContainer width="95%" height={300}>
+                        <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
+                    </ResponsiveContainer>
+                </div>
 
-                </defs>
-                <XAxis dataKey="year" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Area type="monotone" dataKey="complaints" stroke="#BA0C2F" fillOpacity={0.5} fill="#BA0C2F" />
-            </AreaChart>
-            <br></br>
-            <br></br>
+            </div>
 
-            <br></br>
 
-            <AreaChart width={1000} height={250} data={salesChartData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
-
-                </defs>
-                <XAxis dataKey="year" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Area type="monotone" dataKey="sales" stroke="green" fillOpacity={0.5} fill="green" />
-            </AreaChart>
-
-            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 50, bottom: 0, left: 30 }}>
-                <XAxis dataKey="time"/>
-                <YAxis yAxisId={1} orientation="right" label={{ value: 'Sales', angle: -90, dx: 50}} domain={[0, 350000]} />
-                <YAxis yAxisId={2} label={{ value: 'Complaints', angle: -90 , dx: -30}} domain={[0, 3000]} />
-                <Tooltip />
-                <Legend />
-                <CartesianGrid stroke="#f5f5f5" />
-                <Line yAxisId={1} dataKey="sales" lineSize={40} fill="#413ea0" />
-                <Line yAxisId={2} type="monotone" dataKey="complaints" stroke="#ff0000" />
-            </ComposedChart>
-        </div>
+        </div >
     );
 }
 

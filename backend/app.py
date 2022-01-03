@@ -5,6 +5,7 @@ from src.database_writer import *
 from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 
 # Returns JSON object of all recorded sales of a model
 @app.route('/api/v1/all-sales', methods=['POST'])
@@ -64,15 +65,26 @@ def get_models():
         "models": models
     })
 
-# HARD CODED
 @app.route('/api/v1/complaint-categories', methods=['POST'])
 def get_complaint_categories():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
         print("ABORTING")
         abort(400)
-    categories = get_complaints_type_json()
+    data = request.get_json()
+    categories = get_complaints_type_json(data['year'], data['make'], data['model'])
     return jsonify({
         "categories": categories
+    })
+
+@app.route('/api/v1/all-complaint-categories', methods=['POST'])
+def get_all_complaint_categories():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("ABORTING")
+        abort(400)
+    data = request.get_json()
+    categories = get_all_complaint_types_json(data['year'], data['make'], data['model'])
+    return jsonify({
+        "completeCategories": categories
     })
 
 """
@@ -143,6 +155,38 @@ def recharts_info():
     return jsonify({
         "data": car_info
     })
+
+@app.route('/api/v1/vehicle-id', methods=['POST'])
+def route_vehicle_id():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        abort(400)
+    data = request.get_json()
+    vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
+    return jsonify({
+        "vehicleID": vehicle_id 
+    })
+
+@app.route('/api/v1/vehicle-picture', methods=['POST'])
+def route_vehicle_picture():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        abort(400)
+    data = request.get_json()
+    vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
+    picture_url = get_vehicle_picture(vehicle_id)
+
+    return jsonify({
+        "vehicleID": picture_url 
+    })
+
+@app.route('/api/v1/all-vehicles', methods=['GET'])
+def route_all_vehicles():
+    data = request.get_json()
+    entries = get_all_entries()    
+
+    return jsonify({
+        "data": entries
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True)
