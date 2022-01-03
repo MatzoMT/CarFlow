@@ -11,26 +11,29 @@ import './charts.css';
 function CategoryBarChart(props) {
     const [categories, setCategories] = useState({});
     const [chartHeight, setChartHeight] = useState(0);
+
+
     useEffect(async () => {
         await Axios.post("/api/v1/all-complaint-categories", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
             console.log(response.data.completeCategories);
             setCategories(response.data.completeCategories);
+            setChartHeight(response.data.completeCategories.length);
         });
 
 
     }, [props.year, props.make, props.model]);
     return (
         <div>
-            <ResponsiveContainer width="100%" height={900}>
+            <ResponsiveContainer width="100%" height={40 * chartHeight}>
                 <BarChart
                     width={600}
-                    height={390}
+
                     data={categories}
                     layout="vertical"
-                    margin={{ top: 5, right: 30, left: 10, bottom: 5 }}
+                    margin={{ top: 5, right: 50, left: 10, bottom: 5 }}
                 >
                     <XAxis type="number" />
-                    <YAxis type="category" dataKey="category" width={250}/>
+                    <YAxis tick={{fontSize: 14}} type="category" dataKey="category" width={250}/>
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
                     <Legend />

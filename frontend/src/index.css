@@ -51,11 +51,7 @@ code {
   visibility: visible;
 }
 
-.charts {
-  margin: auto;
-  margin-bottom: 5em;
-  width: 50%;
-}
+
 
 .individual-chart {
   background-color: blue;

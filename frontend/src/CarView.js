@@ -222,7 +222,7 @@ function CarView() {
                         <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
-                <div>
+                <div id="bar-chart"> 
                     <ResponsiveContainer width="95%" height={300}>
                         <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>

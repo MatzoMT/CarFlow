@@ -272,6 +272,8 @@ def get_all_complaint_types_json(year, make, model):
             else:
                 categories_dict[category_key] = 1   
 
+    categories_dict = dict(sorted(categories_dict.items(), key=lambda item: item[1], reverse=True))
+
     for category in categories_dict:
         json_info = {}
         json_info["category"] = category
