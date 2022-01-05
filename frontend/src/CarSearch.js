@@ -8,6 +8,17 @@ import './App.css';
 import MakesDropdown from './MakesDropdown.js';
 import YearDropdown from './YearDropdown.js';
 
+const filterPosts = (allVehicles, query) => {
+    if (!query) {
+        return allVehicles;
+    }
+
+    return allVehicles.filter((vehicle) => {
+        const vehicleName = vehicle.toLowerCase();
+        return vehicleName.includes(query);
+    });
+};
+
 // Component for automakers dropdown
 function CarSearch() {
     const [years, setYears] = useState([]);
