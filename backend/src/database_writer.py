@@ -27,14 +27,11 @@ car_makers = [
     "FIAT",
     "FISKER",
     "FORD",
-    "FREIGHTLINER",
     "GENESIS",
-    "GEO",
     "GMC",
     "HONDA",
     "HYUNDAI",
     "INFINITI",
-    "ISUZU",
     "JAGUAR",
     "JEEP",
     "KARMA",
@@ -141,6 +138,70 @@ def parse_years():
     print("Number of errors: " + str(error_count))
     print("Error models: " + error_string)
                 
+def get_sales_test():
+
+    entered_models = {}
+    current_year = datetime.now().year
+    constant_year = current_year
+
+    while current_year > 2005:
+        for car_maker in car_makers:
+            url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
+            source_code_make = requests.get(url_make)
+            plain_text_make = source_code_make.text
+            make_site_json = json.loads(plain_text_make)       
+            for model in make_site_json["Results"]: 
+                if model["Make"] + " " + model["Model"] in entered_models:
+                    continue
+               # print(model)
+                sales_link = "https://carsalesbase.com/us-" + car_maker + "-" + model["Model"] + "/"
+                html_text = requests.get(sales_link).text
+                soup = BeautifulSoup(html_text, 'html.parser')
+                try:
+                    table = soup.find_all('table')[1]
+                    tds = table.find_all('td')
+                    counter = 0
+                    td_counter = 0
+                    for td in tds:
+                        counter = counter + 1
+                        # if statement reassigns year only if it is the first iteration
+                        if td_counter % 2 == 1:
+                            year = td.find_next('td').text.replace('.', '')
+                        td_counter = td_counter + 1
+                        if td_counter >= 2:
+                            if counter % 2 == 1:
+                                sale = td.find_next('td').text.replace('.', '') 
+                                # reflects common U.S. convention of selling model with one additional model year
+                                model_year = int(year) + 1
+                                if model_year < constant_year - 16:
+                                    continue
+                                print(str(model_year) + " " + car_maker + " " + model["Model"] + ": " + sale) 
+                                
+                                f = open("mockSales.txt", "a")
+                                f.write(str(model_year) + " " + car_maker + " " + model["Model"] + ": " + sale + "\n")
+                                f.close()
+                                
+                                #print(td.find_next('td').find_next('td'))
+                              #  mycursor = mydb.cursor()
+                                entered_models[car_maker + " " + model["Model"]] = 1
+                                
+                                value = [str(model_year), car_maker.upper(),model["Model"].upper(), sale]
+                               # print('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES ({},{},{},{})'.format(str(model_year), car_maker.upper(),model["Model"].upper(), sale))
+                               # mycursor.execute('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES (%s,%s,%s,%s)',value)
+                                #mydb.commit()
+                                
+                except Exception as e:
+                    print("Error: " + str(e))
+                    print(model)
+                    f = open("invalidModels.txt", "a")
+                    f.write(model["ModelYear"] + " " + model["Make"] + " " + model["Model"] + "\n")
+                    f.close()
+
+        current_year = current_year - 1
+
+    return current_year
+
+
 # Writes sales of available models into database
 def write_sales_into_database():
     # Establishes connection with database located on computer
