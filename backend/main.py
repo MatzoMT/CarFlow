@@ -14,7 +14,8 @@ import pandas as pd
 from src.util import *
 import sqlparse as sqlparse
 
-get_sales_test()
+#get_sales_test()
+sales_test_two_word_brands()
 exit()
 
 """
