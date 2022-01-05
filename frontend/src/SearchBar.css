@@ -9,6 +9,7 @@ input {
 }
 ::placeholder {
     color: rgb(90, 90, 90);
+    
 }
 
 input:focus {
