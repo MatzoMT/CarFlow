@@ -139,13 +139,12 @@ def parse_years():
     print("Error models: " + error_string)
                 
 def sales_test_two_word_brands():
-
     entered_models = {}
     current_year = datetime.now().year
     constant_year = current_year
     while current_year > constant_year - 16:
         # HARD CODE
-        car_maker = "land rover"
+        car_maker = "alfa romeo"
         url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
         #url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
         print(url_make)
@@ -200,8 +199,10 @@ def sales_test_two_word_brands():
 def get_sales_link(car_maker, car_model):
     if car_maker.lower() == "land rover" and "range rover" in car_model.lower():
         return "https://carsalesbase.com/us-" + car_model.replace(' ', '-') + "/"
+    elif "toyota corolla" in car_model.lower():
+        return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-corolla-sedan/"
     else:
-        return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + car_model + "/"
+        return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + car_model.replace(' ', '-') + "/"
 
 def get_sales_test():
 
@@ -211,9 +212,7 @@ def get_sales_test():
 
     while current_year > 2005:
         for car_maker in car_makers:
-            # HARD CODE
-            url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + "land rover" + "?format=json"
-            #url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
+            url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
             source_code_make = requests.get(url_make)
             plain_text_make = source_code_make.text
             make_site_json = json.loads(plain_text_make)       
@@ -221,7 +220,7 @@ def get_sales_test():
                 if model["Make"] + " " + model["Model"] in entered_models:
                     continue
                # print(model)
-                sales_link = "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + model["Model"] + "/"
+                sales_link = get_sales_link(car_maker, model["Model"])
                 html_text = requests.get(sales_link).text
                 soup = BeautifulSoup(html_text, 'html.parser')
                 try:
