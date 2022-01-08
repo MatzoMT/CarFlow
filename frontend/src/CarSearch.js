@@ -19,12 +19,14 @@ const filterPosts = (allVehicles, query) => {
     });
 };
 
+
 // Component for automakers dropdown
 function CarSearch() {
     const [years, setYears] = useState([]);
     const [models, setModels] = useState([]);
     const [yearProp, setYear] = useState("");
     const [makeSelection, setMakeSelection] = useState("");
+    const [allVehicles, setAllVehicles] = useState([]);
     const yearsArray = [];
 
     useEffect(() => {
@@ -34,9 +36,13 @@ function CarSearch() {
             setYears(response.data.years);
         });
 
-        Axios.post("/api/v1/models", {year: "2012", make: "NISSAN"}).then((response) => {
+        Axios.post("/api/v1/models", { year: "2012", make: "NISSAN" }).then((response) => {
             console.log(response.data.models);
             setModels(response.data.models);
+        });
+
+        Axios.get("/api/v1/all-vehicles").then((response) => {
+            setAllVehicles(response.data.data);
         });
 
     }, []);

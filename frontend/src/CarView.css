@@ -90,12 +90,22 @@
 
 #searchbar-div {
     margin: auto;
+    padding-top: 2%;
     background-color: red;
     width: 50%;
+    height: 6em;
 }
 
 #search-results {
     background-color: white;
     list-style-type: none;
     position: absolute;
+    display: none;
+}
+
+#logo {
+    padding-top: 2.5%;
+    padding-left: 1.5%;
+    max-width: 20%;
+    float: left;
 }

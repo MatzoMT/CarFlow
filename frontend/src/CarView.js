@@ -29,6 +29,7 @@ import ComplaintsSalesChart from './ComplaintsSalesChart';
 import { BrowserRouter as Router } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import CategoryBarChart from './CategoryBarChart.js';
+import carflow from './resources/carflowlogo.png';
 
 
 
@@ -150,17 +151,25 @@ function CarView() {
 
 
     return (
+
         <div>
+                <img src={carflow} id="logo"/>
 
             <div id="searchbar-div">
                 <Router>
-                    <SearchBar searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery} />
+                    <div>
+                        <SearchBar searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                            class="header-search testattu"
+                        />
                         <div id="search-results">
-                        {filteredVehicles.slice(0, 8).map((vehicle) => (
-                        <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
-                    ))}
+                            {filteredVehicles.slice(0, 8).map((vehicle) => (
+                                <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
+                            ))}
                         </div>
+                    </div>
+
+
                 </Router>
             </div>
             <div id="flex-container">
@@ -224,7 +233,7 @@ function CarView() {
                         <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>
                 </div>
-                <div id="bar-chart"> 
+                <div id="bar-chart">
                     <ResponsiveContainer width="95%" height={300}>
                         <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
                     </ResponsiveContainer>

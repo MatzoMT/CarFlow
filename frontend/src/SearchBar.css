@@ -7,9 +7,18 @@ input {
     border-radius: 0.2em;
     background-color: rgb(228, 228, 228);
 }
+@font-face {
+    font-family: 'Quicksand';
+      src: local('Quicksand'), url(./fonts/Quicksand-VariableFont_wght.ttf) format('truetype');
+      /* other formats include: 'woff2', 'truetype, 'opentype',
+                                'embedded-opentype', and 'svg' */
+    }
+  
+
 ::placeholder {
     color: rgb(90, 90, 90);
-    
+    font-family: 'Quicksand';
+      src: local('Quicksand'), url(./fonts/Quicksand-VariableFont_wght.ttf) format('truetype');
 }
 
 input:focus {
@@ -17,7 +26,14 @@ input:focus {
     background-color: white;
     color: black;
     transition: 0.25s;
+    font-family: 'Quicksand';
+      src: local('Quicksand'), url(./fonts/Quicksand-VariableFont_wght.ttf) format('truetype');
 }
-#header-search {
+.header-search {
     width: 95%;
+}
+
+.header-search:focus + div {
+    background-color: blue;
+
 }

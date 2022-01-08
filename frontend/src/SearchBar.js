@@ -1,4 +1,5 @@
 import './SearchBar.css';
+import './index.css';
 import { useNavigate } from 'react-router-dom';
 
 const SearchBar = ({ searchQuery, setSearchQuery }) => {
@@ -7,6 +8,14 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
         navigate('/home');
         e.preventDefault()
     };
+    const onFocus = () => {
+        document.getElementById("search-results").style.display = "block";
+    };
+
+    const onBlur = () => {
+        document.getElementById("search-results").style.display = "none";
+    };
+
 
     return <form action="/" method="get" autoComplete="off" onSubmit={onSubmit}>
         <label htmlFor="header-search">
@@ -16,11 +25,15 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             type="text"
             value={searchQuery}
             onInput={e => setSearchQuery(e.target.value)}
-            id="header-search"
+            class="header-search"
             placeholder="Search by year, make, model..."
-            name="s" 
+            name="s"
+            onFocus={onFocus}
+            onBlur={onBlur}
             autocomplete="off"
         />
+
+
     </form>
 };
 
