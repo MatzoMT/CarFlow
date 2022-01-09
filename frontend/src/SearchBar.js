@@ -10,10 +10,15 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
     };
     const onFocus = () => {
         document.getElementById("search-results").style.display = "block";
-    };
+        };
 
     const onBlur = () => {
-        document.getElementById("search-results").style.display = "none";
+        setTimeout(function(){
+            document.getElementById("search-results").style.display = "none";
+            document.getElementById("search-results").style.display = "font-family: 'Quicksand'";
+
+        }, 100); 
+    
     };
 
 

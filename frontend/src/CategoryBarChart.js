@@ -24,7 +24,7 @@ function CategoryBarChart(props) {
     }, [props.year, props.make, props.model]);
     return (
         <div>
-            <h2 class="chart-title">{props.make} {props.model}: Highest Complaint Types</h2>
+            <h2 class="chart-title">{props.year} {props.make} {props.model}: Highest Complaint Types</h2>
             <ResponsiveContainer width="100%" height={40 * chartHeight}>
                 <BarChart
                     width={600}
@@ -37,7 +37,7 @@ function CategoryBarChart(props) {
                     <YAxis tick={{fontSize: 14}} type="category" dataKey="category" width={250}/>
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
-                    <Bar dataKey="numberComplaints" fill="#8884d8" />
+                    <Bar dataKey="numberComplaints" fill="#BA0C2F" />
                 </BarChart>
             </ResponsiveContainer>
         </div>
