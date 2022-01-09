@@ -14,7 +14,7 @@ import pandas as pd
 from src.util import *
 import sqlparse as sqlparse
 
-get_sales_test()
+get_safety_ratings("2019", "TESLA", "MODEL 3")
 exit()
 
 """

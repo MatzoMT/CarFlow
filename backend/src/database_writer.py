@@ -149,6 +149,13 @@ def get_sales_link(car_maker, car_model):
     else:
         return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + car_model.replace(' ', '-') + "/"
 
+
+"""
+Replace table with another SQL query:
+TRUNCATE car_project.sales_info;
+INSERT INTO car_project.sales_info SELECT * FROM car_project.sales_info_temp;
+
+"""
 def get_sales_test():
     # Establishes connection with database located on computer
     mydb = mysql.connector.connect(
