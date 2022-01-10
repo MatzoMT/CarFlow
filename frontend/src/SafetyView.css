@@ -1,0 +1,19 @@
+.stars {
+    max-height: 1em;
+}
+
+.ratings h1, h2, h3, h4, h5 {
+}
+
+.ratings img {
+    float: right;
+}
+
+.ratings-line {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.underline {
+    border-bottom: 0.1em solid #c0c0c0;
+}

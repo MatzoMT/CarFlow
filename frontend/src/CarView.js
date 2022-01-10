@@ -30,6 +30,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import CategoryBarChart from './CategoryBarChart.js';
 import carflow from './resources/carflowlogo.png';
+import SafetyView from './SafetyView.js';
 
 
 
@@ -192,28 +193,7 @@ function CarView() {
                     </div>
                 </div>
 
-                <div>
-                    <h1 class="header">Safety</h1>
-                    <h1 class="safety-header">NHTSA</h1>
-                    <p class="paragraph">
-                    The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the
-                    crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.
-                    </p>
-                    <h2>Overall Crash Rating</h2>
-                    <h2>Front Rating</h2>
-                    <h2>Side Rating</h2>
-                    <h2>Rollover Rating</h2>
-
-                    <br></br><br></br>
-
-                    <h1 class="safety-header">IIHS</h1>
-                    <p class="paragraph">
-                    The Insurance Institute for Highway Safety is an independent organization that
-                    is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
-                    considered to be more difficult than crash tests conducted by NHTSA.
-                    </p>
-
-                </div>
+                <SafetyView year={selectedYear} make={selectedMaker} model={selectedModel} />
                 <div class="gray">
 
                     <h1 class="header">Complaints</h1>

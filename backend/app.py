@@ -187,6 +187,17 @@ def route_all_vehicles():
         "data": entries
     })
 
+@app.route('/api/v1/safety-nhtsa', methods=['POST'])
+def route_safety_nhtsa():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        abort(400)
+    data = request.get_json()
+    safety_info = get_safety_ratings(data["year"], data["make"], data["model"])
+
+    return jsonify({
+        "safetyInfo": safety_info
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True)

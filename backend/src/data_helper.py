@@ -173,6 +173,7 @@ def get_all_models(year, make):
 def get_safety_ratings(year, make, model):
     vehicle_id = get_vehicle_id(year, make, model)
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
+    print("LINK IS HERE!!!")
     print(nhtsa_link)
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
@@ -182,8 +183,12 @@ def get_safety_ratings(year, make, model):
     json_info["OverallFrontCrashRating"] = site_json["Results"][0]["OverallFrontCrashRating"]
     json_info["OverallSideCrashRating"] = site_json["Results"][0]["OverallSideCrashRating"]
     json_info["RolloverRating"] = site_json["Results"][0]["RolloverRating"]
-
+    json_info["FrontCrashDriversideRating"] = site_json["Results"][0]["FrontCrashDriversideRating"]
+    json_info["FrontCrashPassengersideRating"] = site_json["Results"][0]["FrontCrashPassengersideRating"]
+    json_info["SideCrashDriversideRating"] = site_json["Results"][0]["SideCrashDriversideRating"]
+    json_info["SideCrashPassengersideRating"] = site_json["Results"][0]["SideCrashPassengersideRating"]
     print_json(json_info)
+    return json_info
 
 
 
@@ -197,7 +202,7 @@ def get_vehicle_id(year, make, model):
         id = site_json["Results"][0]["VehicleId"]
         return id
     except:
-        return "NA"
+        return 0
 
 def get_vehicle_picture(vehicle_id):
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
