@@ -3,6 +3,7 @@ import requests
 from src.data_helper import *
 from src.database_writer import *
 from flask import Flask, jsonify, request, abort
+import sys
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
@@ -11,7 +12,7 @@ app.config['JSON_SORT_KEYS'] = False
 @app.route('/api/v1/all-sales', methods=['POST'])
 def get_all_sales():
     if not request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     dict = get_all_sales_json(data['make'], data['model'])
@@ -25,7 +26,7 @@ def get_all_sales():
 @app.route('/api/v1/year-sales', methods=['POST'])
 def get_year_sales():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     sales_for_year = get_sales(int(data['year']), data['make'], data['model'])
@@ -44,8 +45,6 @@ def get_makers():
 
 @app.route('/api/v1/years', methods=['GET'])
 def get_years():
-
-    data = request.get_json()
     years = get_all_years()
 
     return jsonify({
@@ -56,7 +55,7 @@ def get_years():
 def get_models():
 
     if not request.json or 'year' not in request.json or 'make' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     models = get_all_models(data['year'], data['make'])
@@ -68,7 +67,7 @@ def get_models():
 @app.route('/api/v1/complaint-categories', methods=['POST'])
 def get_complaint_categories():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     categories = get_complaints_type_json(data['year'], data['make'], data['model'])
@@ -79,7 +78,7 @@ def get_complaint_categories():
 @app.route('/api/v1/all-complaint-categories', methods=['POST'])
 def get_all_complaint_categories():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     categories = get_all_complaint_types_json(data['year'], data['make'], data['model'])
@@ -87,47 +86,11 @@ def get_all_complaint_categories():
         "completeCategories": categories
     })
 
-"""
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-];
-
-"""
-
 
 @app.route('/api/v1/recharts-complaints', methods=['POST'])
 def recharts_complaints():
     if not request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     complaints_info = get_recharts_complaints(data["make"], data["model"])
@@ -138,7 +101,7 @@ def recharts_complaints():
 @app.route('/api/v1/recharts-sales', methods=['POST'])
 def recharts_sales():
     if not request.json or 'make' not in request.json or 'model' not in request.json:
-        print("ABORTING")
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     sales_info = get_recharts_sales(data["make"], data["model"])
@@ -149,6 +112,7 @@ def recharts_sales():
 @app.route('/api/v1/recharts', methods=['POST'])
 def recharts_info():
     if not request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     car_info = get_recharts_info(data["make"], data["model"])
@@ -159,6 +123,7 @@ def recharts_info():
 @app.route('/api/v1/vehicle-id', methods=['POST'])
 def route_vehicle_id():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
@@ -169,6 +134,7 @@ def route_vehicle_id():
 @app.route('/api/v1/vehicle-picture', methods=['POST'])
 def route_vehicle_picture():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     vehicle_id = get_vehicle_id(data["year"], data["make"], data["model"])
@@ -180,7 +146,6 @@ def route_vehicle_picture():
 
 @app.route('/api/v1/all-vehicles', methods=['GET'])
 def route_all_vehicles():
-    data = request.get_json()
     entries = get_all_entries()    
 
     return jsonify({
@@ -190,6 +155,7 @@ def route_all_vehicles():
 @app.route('/api/v1/safety-nhtsa', methods=['POST'])
 def route_safety_nhtsa():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
     safety_info = get_safety_ratings(data["year"], data["make"], data["model"])
