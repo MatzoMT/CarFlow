@@ -29,6 +29,8 @@ import ComplaintsSalesChart from './ComplaintsSalesChart';
 import { BrowserRouter as Router } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import CategoryBarChart from './CategoryBarChart.js';
+import carflow from './resources/carflowlogo.png';
+import SafetyView from './SafetyView.js';
 
 
 
@@ -50,8 +52,10 @@ function initializeImage(complaint) {
             return steering;
         } else if (complaint.includes("WHEELS")) {
             return tire;
-        } else {
+        } else if (complaint.includes("ENGINE")) {
             return engine;
+        } else {
+            return wrench;
         }
     }
 
@@ -91,7 +95,8 @@ function CarView() {
     const url = window.location.pathname.split('/').pop();
 
     function updateURL(vehicle) {
-
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("car-view").style.display = "block";
         const url = new URL(window.location);
         //  url.searchParams.set('year', vehicle.split(' ')[0]);
         setSelectedYear(vehicle.split(' ')[0]);
@@ -150,87 +155,87 @@ function CarView() {
 
 
     return (
+
         <div>
+            <img src={carflow} id="logo" />
 
             <div id="searchbar-div">
                 <Router>
-                    <SearchBar searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery} />
+                    <div>
+                        <SearchBar searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                            class="header-search testattu"
+                        />
                         <div id="search-results">
-                        {filteredVehicles.slice(0, 8).map((vehicle) => (
-                        <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
-                    ))}
+                            {filteredVehicles.slice(0, 6).map((vehicle) => (
+                                <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
+                            ))}
                         </div>
+                    </div>
+
+
                 </Router>
             </div>
-            <div id="flex-container">
-                <div class="flex-child score-image left-child">
-                    <img src={imageURL} id="car-img"></img>
-                </div>
 
-                <div class="flex-child score right-child">
-                    <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
-
-                    <h1 id="carflow-score">CarFlow Score</h1>
-                    <div style={{ width: '10em', height: '10em' }} id="score-meter">
-                        <CircularProgressbar value={percentage} text={`${percentage}`} />
+            <div id="car-view">
+                <div id="flex-container">
+                    <div class="flex-child score-image left-child">
+                        <img src={imageURL} id="car-img"></img>
                     </div>
-                    <h3 class="score-header">NHTSA COMPLAINTS</h3>
-                    <h3 class="score-header">SALES</h3>
+
+                    <div class="flex-child score right-child">
+                        <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
+
+                        <h1 id="carflow-score">CarFlow Score</h1>
+                        <div style={{ width: '10em', height: '10em' }} id="score-meter">
+                            <CircularProgressbar value={percentage} text={`${percentage}`} />
+                        </div>
+                        <h3 class="score-header">NHTSA COMPLAINTS</h3>
+                        <h3 class="score-header">SALES</h3>
+                    </div>
+                </div>
+
+                <SafetyView year={selectedYear} make={selectedMaker} model={selectedModel} />
+                <div class="gray">
+
+                    <h1 class="header">Complaints</h1>
+                    <h2 class="smaller-header">Reported by NHTSA</h2>
+                    <div id="categories-div">
+                        <h1>Most Common Complaint Types</h1>
+                        <h2 class="nonbold category">{categories[0]}{/*categoriesAmount[0]*/}<img align="right" src={initializeImage(categories[0])} class="complaint-icon"></img></h2>
+                        <h2 class="nonbold category">{categories[1]}{/*categoriesAmount[1]*/}<img align="right" src={initializeImage(categories[1])} class="complaint-icon"></img></h2>
+                        <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
+                    </div>
+                    <div id="bar-chart">
+                        <ResponsiveContainer width="95%">
+                            <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="header">Metrics</h1>
+                    <h2 class="smaller-header">Car Sales and Complaints</h2>
+
+                    <div class="charts">
+                        <ResponsiveContainer width="95%" height={300}>
+                            <ComplaintsChart make={selectedMaker} model={selectedModel} />
+                        </ResponsiveContainer>
+                    </div>
+                    <div class="charts">
+                        <ResponsiveContainer width="95%" height={300}>
+                            <SalesChart make={selectedMaker} model={selectedModel} />
+                        </ResponsiveContainer>
+                    </div>
+                    <div class="charts final-chart">
+                        <ResponsiveContainer width="95%" height={300}>
+                            <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
+                        </ResponsiveContainer>
+                    </div>
+
+
                 </div>
             </div>
 
-            <div class="gray">
-                <h1 class="header">Safety Ratings</h1>
-                <div class="tooltip">
-                    <h1>NHTSA ⓘ</h1>
-                    <span class="tooltiptext">The National Highway Traffic Safety Administration is an agency of the U.S. government. It's New Car Assessment Program (NCAP) rates the
-                        crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.</span>
-                </div>
-                <br></br><br></br>
-
-                <div class="tooltip">
-                    <h1>IIHS ⓘ</h1>
-                    <span class="tooltiptext">The Insurance Institute for Highway Safety is an independent organization that
-                        is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
-                        considered to be more difficult than crash tests conducted by NHTSA.</span>
-                </div>
-
-                <h1 class="header">Complaints</h1>
-                <h2 class="smaller-header">Reported by NHTSA</h2>
-                <div id="categories-div">
-                    <h1>Most Common Complaint Types</h1>
-                    <h2 class="nonbold category">{categories[0]}{/*categoriesAmount[0]*/}<img align="right" src={initializeImage(categories[0])} class="complaint-icon"></img></h2>
-                    <h2 class="nonbold category">{categories[1]}{/*categoriesAmount[1]*/}<img align="right" src={initializeImage(categories[1])} class="complaint-icon"></img></h2>
-                    <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
-                </div>
-            </div>
-            <div>
-                <h1 class="header">Metrics</h1>
-                <h2 class="smaller-header">Car Sales and Complaints</h2>
-
-                <div class="charts">
-                    <ResponsiveContainer width="95%" height={300}>
-                        <ComplaintsChart make={selectedMaker} model={selectedModel} />
-                    </ResponsiveContainer>
-                </div>
-                <div class="charts">
-                    <ResponsiveContainer width="95%" height={300}>
-                        <SalesChart make={selectedMaker} model={selectedModel} />
-                    </ResponsiveContainer>
-                </div>
-                <div class="charts">
-                    <ResponsiveContainer width="95%" height={300}>
-                        <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
-                    </ResponsiveContainer>
-                </div>
-                <div id="bar-chart"> 
-                    <ResponsiveContainer width="95%" height={300}>
-                        <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
-                    </ResponsiveContainer>
-                </div>
-
-            </div>
 
 
         </div >

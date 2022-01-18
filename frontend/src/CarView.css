@@ -1,6 +1,13 @@
 .header {
-    text-align: center;
     font-size: 300%;
+    background: transparent;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2em;
+    border-radius: 10px;
+    height: 0.1em;
+    box-shadow: 0 1.3em 0 0 #9400FF;
+    width: fit-content;
 }
 .smaller-header {
     text-align: center;
@@ -44,11 +51,14 @@
 
 #flex-container {
     display: flex;
-    background-color: #595c68;
-    color: white;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
+    color: #000000;
+/*    box-shadow: 0 2px 4px0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);*/
+    border-top: 0.1em solid #dadada;
+    border-bottom: 0.1em solid #dadada;
 
 }
+
 .flex-child {
     flex: 1;
 }
@@ -90,12 +100,82 @@
 
 #searchbar-div {
     margin: auto;
-    background-color: red;
+    padding-top: 2%;
     width: 50%;
+    height: 6em;
 }
 
 #search-results {
     background-color: white;
     list-style-type: none;
     position: absolute;
+    display: none;
+    width: 50%;
+    font-size: 150%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+
 }
+
+#search-results li {
+    padding-left: 1em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    color: #3f3f3f;
+}
+#search-results li:hover {
+    background-color: #eeeeee;
+    color: #000000;
+    transition: 0.25s;
+}
+
+#logo {
+    padding-top: 2.5%;
+    padding-left: 2.25%;
+    max-width: 20%;
+    float: left;
+}
+#intro-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5em;
+    margin-bottom: 5em;
+    max-width: 30%;
+}
+
+.center {
+    text-align: center;
+    font-size: 250%;
+}
+
+.centered-list ul {
+    margin-left: 20%;
+    font-size: 125%;
+}
+.paragraph {
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 125%;
+}
+.contact {
+    margin-left: 20%;
+    font-size: 125%;
+}
+#intro {
+    background-color: #e2e2e2;
+}
+
+.intro-section {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+#car-view {
+    display: none;
+}
+
+.safety-header {
+    text-align: center;
+}
+
+  

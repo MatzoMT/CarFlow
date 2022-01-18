@@ -21,15 +21,6 @@ code {
     monospace;
 }
 
-.tooltip {
-  border: 3px solid green;
-
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .tooltip .tooltiptext {
   visibility: hidden;

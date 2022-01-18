@@ -170,6 +170,28 @@ def get_all_models(year, make):
     #print_json(models_array)
     return models_array
 
+def get_safety_ratings(year, make, model):
+    vehicle_id = get_vehicle_id(year, make, model)
+    nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
+    print("LINK IS HERE!!!")
+    print(nhtsa_link)
+    source_code = requests.get(nhtsa_link)
+    plain_text = source_code.text
+    site_json = json.loads(plain_text)
+    json_info = {}
+    json_info["OverallRating"] = site_json["Results"][0]["OverallRating"]
+    json_info["OverallFrontCrashRating"] = site_json["Results"][0]["OverallFrontCrashRating"]
+    json_info["OverallSideCrashRating"] = site_json["Results"][0]["OverallSideCrashRating"]
+    json_info["RolloverRating"] = site_json["Results"][0]["RolloverRating"]
+    json_info["FrontCrashDriversideRating"] = site_json["Results"][0]["FrontCrashDriversideRating"]
+    json_info["FrontCrashPassengersideRating"] = site_json["Results"][0]["FrontCrashPassengersideRating"]
+    json_info["SideCrashDriversideRating"] = site_json["Results"][0]["SideCrashDriversideRating"]
+    json_info["SideCrashPassengersideRating"] = site_json["Results"][0]["SideCrashPassengersideRating"]
+    print_json(json_info)
+    return json_info
+
+
+
 def get_vehicle_id(year, make, model):
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/modelyear/" + year +"/make/" +make+"/model/" + model
     source_code = requests.get(nhtsa_link)
@@ -180,7 +202,7 @@ def get_vehicle_id(year, make, model):
         id = site_json["Results"][0]["VehicleId"]
         return id
     except:
-        return "NA"
+        return 0
 
 def get_vehicle_picture(vehicle_id):
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
@@ -295,7 +317,6 @@ def get_recharts_complaints(make, model):
     years = mycursor.fetchall()
     
     complaints_array = []
-    info = {}
     
     for year in years:
         json_info = {}

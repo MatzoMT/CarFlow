@@ -138,72 +138,34 @@ def parse_years():
     print("Number of errors: " + str(error_count))
     print("Error models: " + error_string)
                 
-def sales_test_two_word_brands():
 
-    entered_models = {}
-    current_year = datetime.now().year
-    constant_year = current_year
-    while current_year > constant_year - 16:
-        # HARD CODE
-        car_maker = "land rover"
-        url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
-        #url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
-        print(url_make)
-        source_code_make = requests.get(url_make)
-        plain_text_make = source_code_make.text
-        make_site_json = json.loads(plain_text_make)       
-        for model in make_site_json["Results"]: 
-            if model["Make"] + " " + model["Model"] in entered_models:
-                continue
-            sales_link = get_sales_link(car_maker, model["Model"])
-            print(sales_link)
-            html_text = requests.get(sales_link).text
-            soup = BeautifulSoup(html_text, 'html.parser')
-            try:
-                table = soup.find_all('table')[1]
-                tds = table.find_all('td')
-                counter = 0
-                td_counter = 0
-                for td in tds:
-                    counter = counter + 1
-                    # if statement reassigns year only if it is the first iteration
-                    if td_counter % 2 == 1:
-                        year = td.find_next('td').text.replace('.', '')
-                    td_counter = td_counter + 1
-                    if td_counter >= 2:
-                        if counter % 2 == 1:
-                            sale = td.find_next('td').text.replace('.', '') 
-                            # reflects common U.S. convention of selling model with one additional model year
-                            model_year = int(year) + 1
-                            if model_year < constant_year - 16:
-                                continue
-                            print(str(model_year) + " " + car_maker + " " + model["Model"] + ": " + sale) 
-
-                            
-                            #print(td.find_next('td').find_next('td'))
-                            #  mycursor = mydb.cursor()
-                            entered_models[car_maker + " " + model["Model"]] = 1
-
-                            value = [str(model_year), car_maker.upper(),model["Model"].upper(), sale]
-                            # print('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES ({},{},{},{})'.format(str(model_year), car_maker.upper(),model["Model"].upper(), sale))
-                            # mycursor.execute('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES (%s,%s,%s,%s)',value)
-                            #mydb.commit()
-                            
-            except Exception as e:
-                print("Error: " + str(e))
-                print(model)
-                print(sales_link)
-
-        current_year = current_year - 1
 
 # Function for converting NHTSA car maker name to carsalesbase-readable name
 def get_sales_link(car_maker, car_model):
     if car_maker.lower() == "land rover" and "range rover" in car_model.lower():
         return "https://carsalesbase.com/us-" + car_model.replace(' ', '-') + "/"
+    elif "toyota corolla" in car_model.lower():
+        return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-corolla-sedan/"
     else:
-        return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + car_model + "/"
+        return "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + car_model.replace(' ', '-') + "/"
 
+
+"""
+Replace table with another SQL query:
+TRUNCATE car_project.sales_info;
+INSERT INTO car_project.sales_info SELECT * FROM car_project.sales_info_temp;
+
+"""
 def get_sales_test():
+    # Establishes connection with database located on computer
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="password",
+        database="car_project"
+    )
+    mycursor = mydb.cursor()
+    mycursor.execute("CREATE TABLE IF NOT EXISTS sales_info_temp (Year VARCHAR(255), Make VARCHAR(255), Model VARCHAR(255), Sales VARCHAR(255))")
 
     entered_models = {}
     current_year = datetime.now().year
@@ -211,9 +173,7 @@ def get_sales_test():
 
     while current_year > 2005:
         for car_maker in car_makers:
-            # HARD CODE
-            url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + "land rover" + "?format=json"
-            #url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
+            url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
             source_code_make = requests.get(url_make)
             plain_text_make = source_code_make.text
             make_site_json = json.loads(plain_text_make)       
@@ -221,7 +181,7 @@ def get_sales_test():
                 if model["Make"] + " " + model["Model"] in entered_models:
                     continue
                # print(model)
-                sales_link = "https://carsalesbase.com/us-" + car_maker.replace(' ', '-') + "-" + model["Model"] + "/"
+                sales_link = get_sales_link(car_maker, model["Model"])
                 html_text = requests.get(sales_link).text
                 soup = BeautifulSoup(html_text, 'html.parser')
                 try:
@@ -249,13 +209,12 @@ def get_sales_test():
                                 f.close()
                                 
                                 #print(td.find_next('td').find_next('td'))
-                              #  mycursor = mydb.cursor()
                                 entered_models[car_maker + " " + model["Model"]] = 1
                                 
                                 value = [str(model_year), car_maker.upper(),model["Model"].upper(), sale]
                                # print('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES ({},{},{},{})'.format(str(model_year), car_maker.upper(),model["Model"].upper(), sale))
-                               # mycursor.execute('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES (%s,%s,%s,%s)',value)
-                                #mydb.commit()
+                                mycursor.execute('INSERT INTO sales_info_temp (Year, Make, Model, Sales) VALUES (%s,%s,%s,%s)',value)
+                                mydb.commit()
                                 
                 except Exception as e:
                     print("Error: " + str(e))
@@ -361,6 +320,63 @@ def get_all_complaints(make, model, dict):
 
 def get_car_makers():
     return car_makers
+
+def sales_test_two_word_brands():
+    entered_models = {}
+    current_year = datetime.now().year
+    constant_year = current_year
+    while current_year > constant_year - 16:
+        # HARD CODE
+        car_maker = "alfa romeo"
+        url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
+        #url_make = "https://webapi.nhtsa.gov/api/Complaints/vehicle/modelyear/" + str(current_year) + "/make/" + car_maker + "?format=json"
+        print(url_make)
+        source_code_make = requests.get(url_make)
+        plain_text_make = source_code_make.text
+        make_site_json = json.loads(plain_text_make)       
+        for model in make_site_json["Results"]: 
+            if model["Make"] + " " + model["Model"] in entered_models:
+                continue
+            sales_link = get_sales_link(car_maker, model["Model"])
+            print(sales_link)
+            html_text = requests.get(sales_link).text
+            soup = BeautifulSoup(html_text, 'html.parser')
+            try:
+                table = soup.find_all('table')[1]
+                tds = table.find_all('td')
+                counter = 0
+                td_counter = 0
+                for td in tds:
+                    counter = counter + 1
+                    # if statement reassigns year only if it is the first iteration
+                    if td_counter % 2 == 1:
+                        year = td.find_next('td').text.replace('.', '')
+                    td_counter = td_counter + 1
+                    if td_counter >= 2:
+                        if counter % 2 == 1:
+                            sale = td.find_next('td').text.replace('.', '') 
+                            # reflects common U.S. convention of selling model with one additional model year
+                            model_year = int(year) + 1
+                            if model_year < constant_year - 16:
+                                continue
+                            print(str(model_year) + " " + car_maker + " " + model["Model"] + ": " + sale) 
+
+                            
+                            #print(td.find_next('td').find_next('td'))
+                            mycursor = mydb.cursor()
+                            entered_models[car_maker + " " + model["Model"]] = 1
+
+                            value = [str(model_year), car_maker.upper(),model["Model"].upper(), sale]
+                            # print('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES ({},{},{},{})'.format(str(model_year), car_maker.upper(),model["Model"].upper(), sale))
+                            # mycursor.execute('INSERT INTO sales_info (Year, Make, Model, Sales) VALUES (%s,%s,%s,%s)',value)
+                            #mydb.commit()
+                            
+            except Exception as e:
+                print("Error: " + str(e))
+                print(model)
+                print(sales_link)
+
+        current_year = current_year - 1
 
 """
 mydb = mysql.connector.connect(
