@@ -28,7 +28,6 @@ function CategoryBarChart(props) {
             <ResponsiveContainer width="100%" height={40 * chartHeight}>
                 <BarChart
                     width={600}
-
                     data={categories}
                     layout="vertical"
                     margin={{ top: 5, right: 50, left: 10, bottom: 5 }}

@@ -52,8 +52,10 @@ function initializeImage(complaint) {
             return steering;
         } else if (complaint.includes("WHEELS")) {
             return tire;
-        } else {
+        } else if (complaint.includes("ENGINE")) {
             return engine;
+        } else {
+            return wrench;
         }
     }
 
@@ -204,6 +206,11 @@ function CarView() {
                         <h2 class="nonbold category">{categories[1]}{/*categoriesAmount[1]*/}<img align="right" src={initializeImage(categories[1])} class="complaint-icon"></img></h2>
                         <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
                     </div>
+                    <div id="bar-chart">
+                        <ResponsiveContainer width="95%">
+                            <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
+                        </ResponsiveContainer>
+                    </div>
                 </div>
                 <div>
                     <h1 class="header">Metrics</h1>
@@ -224,11 +231,7 @@ function CarView() {
                             <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
                         </ResponsiveContainer>
                     </div>
-                    <div id="bar-chart">
-                        <ResponsiveContainer width="95%" height={300}>
-                            <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
-                        </ResponsiveContainer>
-                    </div>
+
 
                 </div>
             </div>
