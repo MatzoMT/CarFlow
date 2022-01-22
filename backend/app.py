@@ -3,10 +3,22 @@ import requests
 from src.data_helper import *
 from src.database_writer import *
 from flask import Flask, jsonify, request, abort
+import src.config as config
 import sys
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
+
+@app.route('/api/v1/iihs-data', methods=['POST'])
+def get_iihs_data():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
+        abort(400)
+    data = request.get_json()
+
+    get_iihs_slug(data['year'], data['make'], data['model'])
+    return "placeholder"
+
 
 # Returns JSON object of all recorded sales of a model
 @app.route('/api/v1/all-sales', methods=['POST'])
