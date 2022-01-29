@@ -3,7 +3,7 @@
 ### What is CarFlow?
 CarFlow is a web application that provides useful information for a car model, such as its yearly sales, the number of complaints received, and other important consumer or safety information. It was conceived in the wake of the COVID-19 pandemic, which has crippled the global supply of cars and have made new and used car prices higher than ever. The goal of CarFlow is to help consumers learn more about cars they are considering before making a purchase.
 
-![carflowlogo](frontend/src/resources/carflowlogo.png)
+![carflowlogo](frontend/src/resources/carflowlogowhite.png)
 
 To search a model on CarFlow, use the search bar at the top. Input a desired model based on year, automaker, and model name.
 
