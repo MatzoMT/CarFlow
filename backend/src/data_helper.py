@@ -6,6 +6,31 @@ from bs4 import BeautifulSoup
 from .util import *
 from .database_writer import *
 import operator
+from .config import *
+
+def iihs_test():
+    print("hello world")
+    link = "https://api.iihs.org/V4/ratings/all-makes?auth=ePbmYQAAAABq3IdtlNuU3Ng5zGUGukflmeFinaZROzKOmx1J&format=json"
+
+# returns slug for make and model in IIHS API
+def get_iihs_slug(year, make, model):
+    # HARD CODE
+    #link = "https://api.iihs.org/V4/ratings/series-for-makemodel/bentley/bentayga?&format=json"
+    link = "https://api.iihs.org/V4/ratings/series-for-makemodel/" + make.lower() +"/" + model.lower()+"?&format=json"
+
+    ploads = {'User-Agent': 'MyAutoSafetyApp/v1','Pragma': 'no-cache', 'Accept-Language': 'en-US', 'Host': 'api.iihs.org', 'IIHS-apikey': api_key}
+
+    source_code = requests.get(link, headers=ploads)
+    plain_text = source_code.text
+    site_json = json.loads(plain_text)
+    try:
+        slug = site_json[0]["slug"]
+    except:
+        slug = ""
+    print(slug)
+    return slug
+    #print(site_json)
+
 
 # GOAL: return the number of sales for the specified year, make, model
 # If not found, return -1 (sentinel)
