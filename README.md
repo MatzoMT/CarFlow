@@ -24,6 +24,9 @@ Python
 - BeautifulSoup
 - Flask
 
+SQL
+- MySQL
+
 ### Sources
 - National Highway Traffic Safety Administration (NHTSA): Used API to find number of complaints, recalls, investigations of a car
 - CarSalesBase: For finding sales information for cars sold in the United States
