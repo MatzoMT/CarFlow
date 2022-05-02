@@ -1,3 +1,5 @@
 carenv/
 backend/src/config.py
 commands.txt
+__pycache__
+*/*/__pycache__

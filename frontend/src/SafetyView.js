@@ -20,7 +20,6 @@ import gas from './resources/gas.png';
 import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
-import highlander from './resources/highlander.jpg';
 import SearchBar from './SearchBar.js';
 import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';

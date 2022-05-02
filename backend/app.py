@@ -3,7 +3,7 @@ import requests
 from src.data_helper import *
 from src.database_writer import *
 from flask import Flask, jsonify, request, abort
-import src.config as config
+#import src.config as config
 import sys
 
 app = Flask(__name__)

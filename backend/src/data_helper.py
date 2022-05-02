@@ -6,7 +6,10 @@ from bs4 import BeautifulSoup
 from .util import *
 from .database_writer import *
 import operator
-from .config import *
+#from .config import *
+
+# CHANGE BEFORE COMMIT
+
 
 def iihs_test():
     print("hello world")
@@ -135,7 +138,7 @@ def get_makers(self):
 def get_all_entries():
     mydb = mysql.connector.connect(
         host="localhost",
-        user="root",
+        user="caruser",
         password="password",
         database="car_project"
     )
@@ -155,7 +158,7 @@ def get_all_entries():
 def get_all_years():
     mydb = mysql.connector.connect(
         host="localhost",
-        user="root",
+        user="caruser",
         password="password",
         database="car_project"
     )
@@ -177,7 +180,7 @@ def get_all_years():
 def get_all_models(year, make):
     mydb = mysql.connector.connect(
         host="localhost",
-        user="root",
+        user="caruser",
         password="password",
         database="car_project"
     )
@@ -297,6 +300,7 @@ def get_complaints_type_json(year, make, model):
 #BUG
 #2012 NISSAN JUKE: FUEL SYSTEM, GASOLINE complaint category
 def get_all_complaint_types_json(year, make, model):
+    print("BEGIN")
     nhtsa_link = "https://api.nhtsa.gov/complaints/complaintsByVehicle?make="+make+"&model="+model+"&modelYear=" + year
     json_array = []
     categories_dict = {}
@@ -318,7 +322,7 @@ def get_all_complaint_types_json(year, make, model):
                 categories_dict[category_key] += 1
             else:
                 categories_dict[category_key] = 1   
-
+    print("END")
     categories_dict = dict(sorted(categories_dict.items(), key=lambda item: item[1], reverse=True))
 
     for category in categories_dict:
@@ -331,7 +335,7 @@ def get_all_complaint_types_json(year, make, model):
 def get_recharts_complaints(make, model):
     mydb = mysql.connector.connect(
         host="localhost",
-        user="root",
+        user="caruser",
         password="password",
         database="car_project"
     )
@@ -354,7 +358,7 @@ def get_recharts_complaints(make, model):
 def get_recharts_sales(make, model):
     mydb = mysql.connector.connect(
         host="localhost",
-        user="root",
+        user="caruser",
         password="password",
         database="car_project"
     )
@@ -381,7 +385,7 @@ def get_recharts_sales(make, model):
 def get_recharts_info(make, model):
     mydb = mysql.connector.connect(
         host="localhost",
-        user="root",
+        user="caruser",
         password="password",
         database="car_project"
     )
@@ -397,6 +401,7 @@ def get_recharts_info(make, model):
     info_array = []
     info = {}
 
+    print("REACHED REACHED REACHED")
 
     for year in years:
         json_info = {}

@@ -8,13 +8,14 @@ import tkinter as tk
 from tkinter import *
 import time
 import threading
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
+#import pandas as pd
 from src.util import *
 import sqlparse as sqlparse
 
-get_safety_ratings("2019", "TESLA", "MODEL 3")
+#get_safety_ratings("2019", "TESLA", "MODEL 3")
+get_sales_test()
 exit()
 
 """

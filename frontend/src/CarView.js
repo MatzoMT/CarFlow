@@ -20,7 +20,6 @@ import gas from './resources/gas.png';
 import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
-import highlander from './resources/highlander.jpg';
 import SearchBar from './SearchBar.js';
 import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';
@@ -31,6 +30,12 @@ import { useNavigate } from 'react-router-dom';
 import CategoryBarChart from './CategoryBarChart.js';
 import carflow from './resources/carflowlogo.png';
 import SafetyView from './SafetyView.js';
+import fivestar from './resources/fivestar.png';
+import fourstar from './resources/fourstar.png';
+import threestar from './resources/threestar.png';
+import twostar from './resources/twostar.png';
+import onestar from './resources/onestar.png';
+import norating from './resources/norating.png';
 
 
 
@@ -79,6 +84,7 @@ function CarView() {
     const [categoriesAmount, setCategoriesAmount] = useState([]);
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
+    const [safetyNHTSA, setSafetyNHTSA] = useState({});
     const [allVehicles, setAllVehicles] = useState([]);
     const percentage = 66;
     const { search } = window.location;
@@ -89,10 +95,34 @@ function CarView() {
     const [selectedMaker, setSelectedMaker] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
     const [imageURL, setImageURL] = useState("");
+    const [overallRating, setOverallRating] = useState([fivestar, fourstar, threestar, twostar, onestar, norating])
 
     const [count, setCount] = useState(0);
 
     const url = window.location.pathname.split('/').pop();
+
+    function initializeStars(rating) {
+        if (rating !== undefined) {
+            if (rating == 5) {
+                setOverallRating(fivestar);
+                return <img src={fivestar} class="stars"></img>;
+            } else if (rating == 4) {
+                setOverallRating(fourstar);
+
+                return <img src={fourstar} class="stars"></img>;
+            } else if (rating == 3) {
+                setOverallRating(threestar);
+
+                return <img src={threestar} class="stars"></img>;
+            } else if (rating == 2) {
+                return <img src={twostar} class="stars"></img>;
+            } else if (rating == 1) {
+                return <img src={onestar} class="stars"></img>;
+            } else {
+                return <img src={norating} class="stars"></img>;
+            }
+        }
+    }
 
     function updateURL(vehicle) {
         document.getElementById("intro").style.display = "none";
@@ -134,6 +164,11 @@ function CarView() {
             console.log(categories);
         });
 
+        Axios.post("/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+            console.log(response.data.safetyInfo);
+            setSafetyNHTSA(response.data.safetyInfo);
+        });
+
         /*
         ALFA ROMEO
         ASTON MARTIN
@@ -151,6 +186,13 @@ function CarView() {
         });
 
     }, []);
+
+    useEffect(async () => {
+
+        initializeStars(safetyNHTSA["OverallRating"])
+
+    }, [safetyNHTSA]);
+
 
 
 
@@ -186,16 +228,18 @@ function CarView() {
                     <div class="flex-child score right-child">
                         <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
 
-                        <h1 id="carflow-score">CarFlow Score</h1>
-                        <div style={{ width: '10em', height: '10em' }} id="score-meter">
+                        {/*<h1 id="carflow-score">NHTSA CRASH TEST RATING</h1>*/}
+                        {/*<div style={{ width: '10em', height: '10em' }} id="score-meter">
                             <CircularProgressbar value={percentage} text={`${percentage}`} />
-                        </div>
-                        <h3 class="score-header">NHTSA COMPLAINTS</h3>
-                        <h3 class="score-header">SALES</h3>
+                            </div>*/}
+                        <h2 class="score-header">NHTSA CRASH TEST RATING</h2>
+                        <img src={overallRating} class="stars"></img>
+                        <h2 class="score-header">NHTSA COMPLAINTS</h2>
+                        <h2 class="score-header">SALES</h2>
                     </div>
                 </div>
 
-                <SafetyView year={selectedYear} make={selectedMaker} model={selectedModel} />
+                {selectedYear !== "" && <SafetyView year={selectedYear} make={selectedMaker} model={selectedModel} />}
                 <div class="gray">
 
                     <h1 class="header">Complaints</h1>
@@ -207,9 +251,9 @@ function CarView() {
                         <h2 class="nonbold category">{categories[2]}{/*categoriesAmount[2]*/}<img align="right" src={initializeImage(categories[2])} class="complaint-icon"></img></h2>
                     </div>
                     <div id="bar-chart">
-                        <ResponsiveContainer width="95%">
+                        {selectedYear !== "" && <ResponsiveContainer width="95%">
                             <CategoryBarChart year={selectedYear} make={selectedMaker} model={selectedModel} />
-                        </ResponsiveContainer>
+                        </ResponsiveContainer>}
                     </div>
                 </div>
                 <div>
@@ -217,19 +261,20 @@ function CarView() {
                     <h2 class="smaller-header">Car Sales and Complaints</h2>
 
                     <div class="charts">
-                        <ResponsiveContainer width="95%" height={300}>
+                        {selectedMaker !== "" && <ResponsiveContainer width="95%" height={300}>
                             <ComplaintsChart make={selectedMaker} model={selectedModel} />
-                        </ResponsiveContainer>
+                        </ResponsiveContainer>}
                     </div>
                     <div class="charts">
-                        <ResponsiveContainer width="95%" height={300}>
+
+                        {selectedMaker !== "" && <ResponsiveContainer width="95%" height={300}>
                             <SalesChart make={selectedMaker} model={selectedModel} />
-                        </ResponsiveContainer>
+                        </ResponsiveContainer>}
                     </div>
                     <div class="charts final-chart">
-                        <ResponsiveContainer width="95%" height={300}>
+                        {selectedMaker !== "" && <ResponsiveContainer width="95%" height={300}>
                             <ComplaintsSalesChart make={selectedMaker} model={selectedModel} />
-                        </ResponsiveContainer>
+                        </ResponsiveContainer>}
                     </div>
 
 
