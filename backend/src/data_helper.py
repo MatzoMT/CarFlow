@@ -1,3 +1,4 @@
+from sys import exec_prefix
 import mysql.connector
 import json
 import requests
@@ -332,6 +333,28 @@ def get_all_complaint_types_json(year, make, model):
         json_array.append(json_info)
     return json_array
 
+def helper_get_complaints_for_model(year, make, model):
+    print("hello")
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="caruser",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT Complaints FROM car_project.car_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+
+    entries = mycursor.fetchall()
+    
+    try:
+        for entry in entries:
+            print(entry[0])
+            return entry[0]
+    except Exception as e:
+        print(e)
+        return 0
+
 def get_recharts_complaints(make, model):
     mydb = mysql.connector.connect(
         host="localhost",
@@ -376,7 +399,8 @@ def get_recharts_sales(make, model):
         json_info["year"] = year[0]
         json_info["sales"] = year[3]
         sales_array.append(json_info)
-    #print(sales_array)
+    print("SALES ARRAY")
+    print(sales_array)
 
     return sales_array
 

@@ -76,6 +76,18 @@ def get_models():
         "models": models
     })
 
+@app.route('/api/v1/get-complaints-for-model', methods=['POST'])
+def get_complaints_for_model():
+    print(request.json)
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
+        abort(400)
+    data = request.get_json()
+    complaints = helper_get_complaints_for_model(data["year"], data["make"], data["model"])
+    return jsonify({
+        "numberComplaints": complaints
+    })
+
 @app.route('/api/v1/complaint-categories', methods=['POST'])
 def get_complaint_categories():
     if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:

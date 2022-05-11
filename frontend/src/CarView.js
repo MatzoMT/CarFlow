@@ -233,8 +233,9 @@ function CarView() {
                             <CircularProgressbar value={percentage} text={`${percentage}`} />
                             </div>*/}
                         <h2 class="score-header">NHTSA CRASH TEST RATING</h2>
-                        <img src={overallRating} class="stars"></img>
-                        <h2 class="score-header">NHTSA COMPLAINTS</h2>
+                        <img src={initializeImage(categories[0])} class="complaint-icon"></img>                       
+                         <h2 class="score-header">NHTSA COMPLAINTS</h2>
+                         <h2>{}</h2>
                         <h2 class="score-header">SALES</h2>
                     </div>
                 </div>

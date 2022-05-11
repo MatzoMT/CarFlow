@@ -17,7 +17,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             document.getElementById("search-results").style.display = "none";
             document.getElementById("search-results").style.display = "font-family: 'Quicksand'";
 
-        }, 100); 
+        }, 300); 
     
     };
 
