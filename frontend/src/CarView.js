@@ -84,6 +84,7 @@ function CarView() {
     const [categoriesAmount, setCategoriesAmount] = useState([]);
     const [categoriesImages, setCategoriesImages] = useState([]);
     const [numberComplaints, setNumberComplaints] = useState(0);
+    const [numberSales, setNumberSales] = useState(-1);
     const [safetyNHTSA, setSafetyNHTSA] = useState({});
     const [allVehicles, setAllVehicles] = useState([]);
     const percentage = 66;
@@ -95,7 +96,7 @@ function CarView() {
     const [selectedMaker, setSelectedMaker] = useState("");
     const [selectedModel, setSelectedModel] = useState("");
     const [imageURL, setImageURL] = useState("");
-    const [overallRating, setOverallRating] = useState([fivestar, fourstar, threestar, twostar, onestar, norating])
+    const [overallRating, setOverallRating] = useState()
 
     const [count, setCount] = useState(0);
 
@@ -169,6 +170,8 @@ function CarView() {
             setSafetyNHTSA(response.data.safetyInfo);
         });
 
+
+
         /*
         ALFA ROMEO
         ASTON MARTIN
@@ -192,6 +195,17 @@ function CarView() {
         initializeStars(safetyNHTSA["OverallRating"])
 
     }, [safetyNHTSA]);
+
+    useEffect(async () => {
+        Axios.post("/api/v1/get-complaints-for-model", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+            setNumberComplaints(response.data.numberComplaints);
+        });
+
+        Axios.post("/api/v1/year-sales", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+            setNumberSales(response.data.sales);
+        });
+
+    }, [selectedYear, selectedMaker, selectedModel]);
 
 
 
@@ -225,7 +239,7 @@ function CarView() {
                         <img src={imageURL} id="car-img"></img>
                     </div>
 
-                    <div class="flex-child score right-child">
+                    <div class="flex-child score right-child" style={{marginTop: '3%'}}>
                         <h1 id="car-model">{selectedYear} {selectedMaker} {selectedModel}</h1>
 
                         {/*<h1 id="carflow-score">NHTSA CRASH TEST RATING</h1>*/}
@@ -233,10 +247,24 @@ function CarView() {
                             <CircularProgressbar value={percentage} text={`${percentage}`} />
                             </div>*/}
                         <h2 class="score-header">NHTSA CRASH TEST RATING</h2>
-                        <img src={initializeImage(categories[0])} class="complaint-icon"></img>                       
-                         <h2 class="score-header">NHTSA COMPLAINTS</h2>
-                         <h2>{}</h2>
-                        <h2 class="score-header">SALES</h2>
+                        <img src={overallRating} class="complaint-icon"></img>                       
+                        {/* <h3 class="score-header">NHTSA COMPLAINTS</h3>
+                         <h3>{numberComplaints}</h3>
+                        <h3 class="score-header">SALES</h3>
+                        {numberSales == -1 ? <h3>N/A</h3> : <h3>{numberComplaints}</h3>}*/}
+
+                        <div>
+                            <div style={{display: 'inline-block', textAlign: 'right', paddingRight: 25}}>
+                                <h2>COMPLAINTS: </h2>
+                                <h2>SALES: </h2>
+                            </div>
+                            <div style={{ display: 'inline-block'}}>
+                                {numberComplaints == -1 ? <h2>N/A</h2> : <h2>{numberComplaints}</h2>}
+                                {numberSales == -1 ? <h2>N/A</h2> : <h2>{numberSales}</h2>}
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 

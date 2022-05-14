@@ -41,7 +41,8 @@ def get_year_sales():
         print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
-    sales_for_year = get_sales(int(data['year']), data['make'], data['model'])
+    print(data['year'])
+    sales_for_year = helper_get_sales_for_model(int(data['year']), data['make'], data['model'])
 
     return jsonify({
         "sales": sales_for_year

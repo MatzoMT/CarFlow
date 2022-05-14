@@ -64,6 +64,8 @@ def get_sales(year, make, model):
             counter = 0
     return -1
 
+
+
 # Prints all sales for each model year
 def get_sales_all(year, make, model):
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
@@ -353,7 +355,28 @@ def helper_get_complaints_for_model(year, make, model):
             return entry[0]
     except Exception as e:
         print(e)
-        return 0
+        return -1
+
+def helper_get_sales_for_model(year, make, model):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="caruser",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+
+    entries = mycursor.fetchall()
+    
+    try:
+        for entry in entries:
+            print(entry[0])
+            return entry[0]
+    except Exception as e:
+        print(e)
+        return -1
 
 def get_recharts_complaints(make, model):
     mydb = mysql.connector.connect(
