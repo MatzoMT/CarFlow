@@ -139,9 +139,10 @@ def get_makers(self):
    return get_car_makers()
 
 def get_all_entries():
+
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -160,8 +161,8 @@ def get_all_entries():
 
 def get_all_years():
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -182,8 +183,8 @@ def get_all_years():
 
 def get_all_models(year, make):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -338,8 +339,8 @@ def get_all_complaint_types_json(year, make, model):
 def helper_get_complaints_for_model(year, make, model):
     print("hello")
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -359,8 +360,8 @@ def helper_get_complaints_for_model(year, make, model):
 
 def helper_get_sales_for_model(year, make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -380,8 +381,8 @@ def helper_get_sales_for_model(year, make, model):
 
 def get_recharts_complaints(make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -403,8 +404,8 @@ def get_recharts_complaints(make, model):
 
 def get_recharts_sales(make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -431,8 +432,8 @@ def get_recharts_sales(make, model):
 # Return complaints, sales in recharts form
 def get_recharts_info(make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="caruser",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
