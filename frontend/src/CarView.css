@@ -126,6 +126,7 @@
     background-color: #eeeeee;
     color: #000000;
     transition: 0.25s;
+    cursor: pointer;
 }
 
 #logo {
