@@ -12,6 +12,14 @@ To search a model on CarFlow, use the search bar at the top. Input a desired mod
 ### What information does CarFlow provide?
 CarFlow currently uses information from the National Highway Traffic Safety Administration (NHTSA) to provide detailed information on complaints submitted to NHTSA about a particular car model by car owners. NHTSA is an agency of the U.S. federal government and is a part of the Department of Transportation. Information used by CarFlow from NHTSA includes the types of complaints car owners submit, the number and type of complaints reported, and crash test ratings. CarFlow also uses sales information provided by CarSalesBase to display the sales of a car model over its lifetime or for a specified model year.
 
+![safety](frontend/src/resources/safetypage.png)
+![common](frontend/src/resources/commoncomplaints.png)
+
+CarFlow will also visualize information relating to complaint types and sales and complaints statistics over a car model's lifetime.
+
+![highest](frontend/src/resources/highestcomplaints.png)
+![metrics](frontend/src/resources/metricspage.png)
+
 ### What technologies does CarFlow use?
 The frontend of CarFlow uses React JS and HTML/CSS. The backend utilizes Python for parsing data on the web for car information via parsing JSON responses or web parsing. Python's Flask framework is also used as a REST API that communicates between the frontend and a MySQL database containing the number of complaints and sales for car models. To deploy this project, 
 
