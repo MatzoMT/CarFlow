@@ -5,7 +5,9 @@ CarFlow is a web application that provides useful information for a car model, s
 
 ![carflowlogo](frontend/src/resources/carflowwhite.png)
 
-To search a model on CarFlow, use the search bar at the top. Input a desired model based on year, automaker, and model name.
+To search a model on CarFlow, use the search bar at the top. Input a desired model based on year, automaker, and model name. Once you select a particular car model, the page will update and reflect the information stored for that model.
+
+![homepage](frontend/src/resources/homepage.png)
 
 ### What information does CarFlow provide?
 CarFlow currently uses information from the National Highway Traffic Safety Administration (NHTSA) to provide detailed information on complaints submitted to NHTSA about a particular car model by car owners. NHTSA is an agency of the U.S. federal government and is a part of the Department of Transportation. Information used by CarFlow from NHTSA includes the types of complaints car owners submit, the number and type of complaints reported, and crash test ratings. CarFlow also uses sales information provided by CarSalesBase to display the sales of a car model over its lifetime or for a specified model year.
