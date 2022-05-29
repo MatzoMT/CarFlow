@@ -20,7 +20,6 @@ import gas from './resources/gas.png';
 import seatbelt from './resources/seatbelt.png';
 import steering from './resources/steering.png';
 import tire from './resources/tire.png';
-import highlander from './resources/highlander.jpg';
 import SearchBar from './SearchBar.js';
 import wrench from './resources/general.png';
 import ComplaintsChart from './ComplaintsChart.js';
@@ -89,12 +88,12 @@ function SafetyView(props) {
 
             <br></br><br></br>
 
-            <h1 class="safety-header">IIHS</h1>
+            {/*<h1 class="safety-header">IIHS</h1>
             <p class="paragraph">
                 The Insurance Institute for Highway Safety is an independent organization that
                 is funded by insurance companies and also conducts safety ratings on automobiles. Its crash tests are
                 considered to be more difficult than crash tests conducted by NHTSA.
-            </p>
+    </p>*/}
 
         </div>
     );

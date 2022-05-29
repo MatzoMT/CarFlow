@@ -3,7 +3,7 @@ import requests
 from src.data_helper import *
 from src.database_writer import *
 from flask import Flask, jsonify, request, abort
-import src.config as config
+#import src.config as config
 import sys
 
 app = Flask(__name__)
@@ -41,7 +41,7 @@ def get_year_sales():
         print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
-    sales_for_year = get_sales(int(data['year']), data['make'], data['model'])
+    sales_for_year = helper_get_sales_for_model(int(float(data['year'])), data['make'], data['model'])
 
     return jsonify({
         "sales": sales_for_year
@@ -74,6 +74,17 @@ def get_models():
 
     return jsonify({
         "models": models
+    })
+
+@app.route('/api/v1/get-complaints-for-model', methods=['POST'])
+def get_complaints_for_model():
+    if not request.json or 'year' not in request.json or 'make' not in request.json or 'model' not in request.json:
+        print("Error: invalid request", file = sys.stderr )
+        abort(400)
+    data = request.get_json()
+    complaints = helper_get_complaints_for_model(data["year"], data["make"], data["model"])
+    return jsonify({
+        "numberComplaints": complaints
     })
 
 @app.route('/api/v1/complaint-categories', methods=['POST'])
@@ -178,4 +189,7 @@ def route_safety_nhtsa():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    #app.run(host='0.0.0.0')
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000, threads=6)

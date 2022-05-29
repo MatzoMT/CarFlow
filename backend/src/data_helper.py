@@ -1,3 +1,4 @@
+from sys import exec_prefix
 import mysql.connector
 import json
 import requests
@@ -6,30 +7,12 @@ from bs4 import BeautifulSoup
 from .util import *
 from .database_writer import *
 import operator
-from .config import *
+#from .config import *
 
-def iihs_test():
-    print("hello world")
-    link = "https://api.iihs.org/V4/ratings/all-makes?auth=ePbmYQAAAABq3IdtlNuU3Ng5zGUGukflmeFinaZROzKOmx1J&format=json"
+# CHANGE BEFORE COMMIT
 
-# returns slug for make and model in IIHS API
-def get_iihs_slug(year, make, model):
-    # HARD CODE
-    #link = "https://api.iihs.org/V4/ratings/series-for-makemodel/bentley/bentayga?&format=json"
-    link = "https://api.iihs.org/V4/ratings/series-for-makemodel/" + make.lower() +"/" + model.lower()+"?&format=json"
+ 
 
-    ploads = {'User-Agent': 'MyAutoSafetyApp/v1','Pragma': 'no-cache', 'Accept-Language': 'en-US', 'Host': 'api.iihs.org', 'IIHS-apikey': api_key}
-
-    source_code = requests.get(link, headers=ploads)
-    plain_text = source_code.text
-    site_json = json.loads(plain_text)
-    try:
-        slug = site_json[0]["slug"]
-    except:
-        slug = ""
-    print(slug)
-    return slug
-    #print(site_json)
 
 
 # GOAL: return the number of sales for the specified year, make, model
@@ -60,6 +43,8 @@ def get_sales(year, make, model):
             counter = 0
     return -1
 
+
+"""
 # Prints all sales for each model year
 def get_sales_all(year, make, model):
     link = "https://carsalesbase.com/us-" + make + "-" + model + "/"
@@ -75,6 +60,7 @@ def get_sales_all(year, make, model):
         if td_counter >= 2:
             if counter % 2 == 1:
                 print(td.find_next('td').text.replace('.', ''))
+"""
 
 # Prints all sales for each model year
 def get_all_sales_json(make, model):
@@ -133,9 +119,10 @@ def get_makers(self):
    return get_car_makers()
 
 def get_all_entries():
+
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -154,8 +141,8 @@ def get_all_entries():
 
 def get_all_years():
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -176,8 +163,8 @@ def get_all_years():
 
 def get_all_models(year, make):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -198,8 +185,6 @@ def get_all_models(year, make):
 def get_safety_ratings(year, make, model):
     vehicle_id = get_vehicle_id(year, make, model)
     nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
-    print("LINK IS HERE!!!")
-    print(nhtsa_link)
     source_code = requests.get(nhtsa_link)
     plain_text = source_code.text
     site_json = json.loads(plain_text)
@@ -212,7 +197,6 @@ def get_safety_ratings(year, make, model):
     json_info["FrontCrashPassengersideRating"] = site_json["Results"][0]["FrontCrashPassengersideRating"]
     json_info["SideCrashDriversideRating"] = site_json["Results"][0]["SideCrashDriversideRating"]
     json_info["SideCrashPassengersideRating"] = site_json["Results"][0]["SideCrashPassengersideRating"]
-    print_json(json_info)
     return json_info
 
 
@@ -318,7 +302,6 @@ def get_all_complaint_types_json(year, make, model):
                 categories_dict[category_key] += 1
             else:
                 categories_dict[category_key] = 1   
-
     categories_dict = dict(sorted(categories_dict.items(), key=lambda item: item[1], reverse=True))
 
     for category in categories_dict:
@@ -328,10 +311,51 @@ def get_all_complaint_types_json(year, make, model):
         json_array.append(json_info)
     return json_array
 
+def helper_get_complaints_for_model(year, make, model):
+    mydb = mysql.connector.connect(
+        host="35.238.52.48",
+        user="carviewer",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT Complaints FROM car_project.car_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+
+    entries = mycursor.fetchall()
+    
+    try:
+        for entry in entries:
+            return entry[0]
+    except Exception as e:
+        print(e)
+        return -1
+
+def helper_get_sales_for_model(year, make, model):
+    mydb = mysql.connector.connect(
+        host="35.238.52.48",
+        user="carviewer",
+        password="password",
+        database="car_project"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+
+    entries = mycursor.fetchall()
+    
+    try:
+        for entry in entries:
+            print(entry[0])
+            return entry[0]
+    except Exception as e:
+        print(e)
+        return -1
+
 def get_recharts_complaints(make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -353,8 +377,8 @@ def get_recharts_complaints(make, model):
 
 def get_recharts_sales(make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -372,7 +396,7 @@ def get_recharts_sales(make, model):
         json_info["year"] = year[0]
         json_info["sales"] = year[3]
         sales_array.append(json_info)
-    #print(sales_array)
+
 
     return sales_array
 
@@ -380,8 +404,8 @@ def get_recharts_sales(make, model):
 # Return complaints, sales in recharts form
 def get_recharts_info(make, model):
     mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
+        host="35.238.52.48",
+        user="carviewer",
         password="password",
         database="car_project"
     )
@@ -421,7 +445,29 @@ def get_recharts_info(make, model):
         info_array.append(json_info)
 """
 
+"""
+def iihs_test():
+    link = "https://api.iihs.org/V4/ratings/all-makes?auth=ePbmYQAAAABq3IdtlNuU3Ng5zGUGukflmeFinaZROzKOmx1J&format=json"
 
+# returns slug for make and model in IIHS API
+def get_iihs_slug(year, make, model):
+    # HARD CODE
+    #link = "https://api.iihs.org/V4/ratings/series-for-makemodel/bentley/bentayga?&format=json"
+    link = "https://api.iihs.org/V4/ratings/series-for-makemodel/" + make.lower() +"/" + model.lower()+"?&format=json"
+
+    ploads = {'User-Agent': 'MyAutoSafetyApp/v1','Pragma': 'no-cache', 'Accept-Language': 'en-US', 'Host': 'api.iihs.org', 'IIHS-apikey': api_key}
+
+    source_code = requests.get(link, headers=ploads)
+    plain_text = source_code.text
+    site_json = json.loads(plain_text)
+    try:
+        slug = site_json[0]["slug"]
+    except:
+        slug = ""
+    print(slug)
+    return slug
+    #print(site_json)
+"""
 
 # pseudocode 
 """
@@ -468,3 +514,4 @@ def get_makes_for_year(year):
     } // printSales
 
 """
+
