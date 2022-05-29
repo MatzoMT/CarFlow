@@ -36,8 +36,29 @@ import threestar from './resources/threestar.png';
 import twostar from './resources/twostar.png';
 import onestar from './resources/onestar.png';
 import norating from './resources/norating.png';
+import { usePromiseTracker } from "react-promise-tracker";
+import { trackPromise } from 'react-promise-tracker';
+import * as Loader from "react-loader-spinner";
 
 
+
+const LoadingIndicator = props => {
+    const { promiseInProgress } = usePromiseTracker();
+    return (
+      promiseInProgress &&
+      <div
+        style={{
+          width: "100%",
+          height: "100",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Loader type="Oval" color="#f1784b" height="100" width="100" />
+      </div>
+    );
+  }
 
 
 
@@ -106,25 +127,22 @@ function CarView() {
         if (rating !== undefined) {
             if (rating == 5) {
                 setOverallRating(fivestar);
-                return <img src={fivestar} class="stars"></img>;
             } else if (rating == 4) {
                 setOverallRating(fourstar);
-
-                return <img src={fourstar} class="stars"></img>;
             } else if (rating == 3) {
                 setOverallRating(threestar);
-
-                return <img src={threestar} class="stars"></img>;
             } else if (rating == 2) {
-                return <img src={twostar} class="stars"></img>;
+                setOverallRating(twostar);
             } else if (rating == 1) {
-                return <img src={onestar} class="stars"></img>;
+                setOverallRating(onestar);
             } else {
-                return <img src={norating} class="stars"></img>;
+                setOverallRating(norating);
             }
         }
     }
 
+
+    
     function updateURL(vehicle) {
         document.getElementById("intro").style.display = "none";
         document.getElementById("car-view").style.display = "block";
@@ -154,21 +172,16 @@ function CarView() {
         }
         setSelectedModel(model);
         //   window.history.pushState({}, '', url);
+        
         Axios.post("/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setImageURL(response.data.vehicleID);
-            console.log(response);
         });
 
         Axios.post("/api/v1/complaint-categories", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setCategories(Object.keys(response.data["categories"]));
             setCategoriesAmount(Object.values(response.data["categories"]));
-            console.log(categories);
         });
 
-        Axios.post("/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
-            console.log(response.data.safetyInfo);
-            setSafetyNHTSA(response.data.safetyInfo);
-        });
 
 
 
@@ -192,8 +205,8 @@ function CarView() {
     }, []);
 
     useEffect(async () => {
+        //alert(selectedYear + selectedMaker + selectedModel);
 
-        initializeStars(safetyNHTSA["OverallRating"])
 
     }, [safetyNHTSA]);
 
@@ -205,6 +218,14 @@ function CarView() {
         Axios.post("/api/v1/year-sales", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             setNumberSales(response.data.sales);
             console.log(response.data.sales);
+        });
+
+        Axios.post("/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+        
+            console.log(response.data.safetyInfo);
+            setSafetyNHTSA(response.data.safetyInfo);
+            initializeStars(response.data.safetyInfo.OverallRating);
+
         });
 
     }, [selectedYear, selectedMaker, selectedModel]);
