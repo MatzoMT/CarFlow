@@ -186,8 +186,9 @@ function CarView() {
 
         await Axios.get("/api/v1/all-vehicles").then((response) => {
             setAllVehicles(response.data.data);
-        });
 
+        });
+        console.log("SHOW")
     }, []);
 
     useEffect(async () => {
@@ -203,6 +204,7 @@ function CarView() {
 
         Axios.post("/api/v1/year-sales", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             setNumberSales(response.data.sales);
+            console.log(response.data.sales);
         });
 
     }, [selectedYear, selectedMaker, selectedModel]);
@@ -260,7 +262,7 @@ function CarView() {
                             </div>
                             <div style={{ display: 'inline-block'}}>
                                 {numberComplaints == -1 ? <h2>N/A</h2> : <h2>{numberComplaints}</h2>}
-                                {numberSales == -1 ? <h2>N/A</h2> : <h2>{numberSales}</h2>}
+                                {numberSales == -1 || numberSales == null ? <h2>N/A</h2> : <h2>{numberSales}</h2>}
 
                             </div>
 
