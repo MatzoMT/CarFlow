@@ -24,7 +24,7 @@ function CategoryBarChart(props) {
     }, [props.year, props.make, props.model]);
     return (
         <div>
-            <h2 class="chart-title">{props.year} {props.make} {props.model}: Highest Complaint Types</h2>
+            <h2 className="chart-title">{props.year} {props.make} {props.model}: Highest Complaint Types</h2>
             <ResponsiveContainer width="100%" height={40 * chartHeight}>
                 <BarChart
                     width={600}

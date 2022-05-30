@@ -10,7 +10,7 @@ import './charts.css';
 
 
 function getMaxSales(jsonData) {
-    console.log(jsonData);
+    //console.log(jsonData);
     let maxValue = 0;
     for (let i = 0; i < jsonData.length; i++) {
         if (parseInt(jsonData[i]["sales"]) > maxValue) {
@@ -28,12 +28,12 @@ function SalesChart(props) {
         await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/recharts-sales", {"make": props.make, "model": props.model }).then((response) => {
             setSalesChartData(response.data.data);
             setMaxValue(parseInt(getMaxSales(response.data.data)));
-            console.log(response.data.data);
+            //console.log(response.data.data);
         });
     }, [props.year, props.make, props.model]);
     return (
         <div>
-            <h2 class="chart-title">{props.make} {props.model}: Sales per Year</h2>
+            <h2 className="chart-title">{props.make} {props.model}: Sales per Year</h2>
             <ResponsiveContainer width="95%" height={300}>
             <AreaChart width={800} height={250} data={salesChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }}>
 
