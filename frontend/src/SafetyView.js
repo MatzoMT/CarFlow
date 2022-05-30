@@ -14,15 +14,15 @@ import './SafetyView.css';
 
 function initializeStars(rating) {
     if (rating !== undefined) {
-        if (rating === 5) {
+        if (parseInt(rating) === 5) {
             return fivestar;
-        } else if (rating === 4) {
+        } else if (parseInt(rating) === 4) {
             return fourstar;
-        } else if (rating === 3) {
+        } else if (parseInt(rating) === 3) {
             return threestar;
-        } else if (rating === 2) {
+        } else if (parseInt(rating) === 2) {
             return twostar;
-        } else if (rating === 1) {
+        } else if (parseInt(rating) === 1) {
             return onestar;
         } else {
             return '';
