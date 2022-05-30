@@ -11,7 +11,7 @@ import './charts.css';
 
 
 function getMaxComplaints(jsonData) {
-    console.log(jsonData);
+    //console.log(jsonData);
     // let dataAsJson = JSON.parse(jsonData);
     let maxValue = 0;
     for (let i = 0; i < jsonData.length; i++) {
@@ -50,9 +50,9 @@ function ComplaintsChart(props) {
     }, [props.year, props.make, props.model]);
     return (
         <div>
-            <h2 class="chart-title">{props.make} {props.model}: NHTSA Complaints per Year</h2>
+            <h2 className="chart-title">{props.make} {props.model}: NHTSA Complaints per Year</h2>
             <ResponsiveContainer width="95%" height={300}>
-                <AreaChart width={800} height={250} data={complaintsChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }} class="charts">
+                <AreaChart width={800} height={250} data={complaintsChartData} margin={{ top: 0, right: 20, bottom: 30, left: 25 }} className="charts">
                     <defs>
 
                     </defs>

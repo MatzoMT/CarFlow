@@ -183,21 +183,24 @@ def get_all_models(year, make):
     return models_array
 
 def get_safety_ratings(year, make, model):
-    vehicle_id = get_vehicle_id(year, make, model)
-    nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
-    source_code = requests.get(nhtsa_link)
-    plain_text = source_code.text
-    site_json = json.loads(plain_text)
-    json_info = {}
-    json_info["OverallRating"] = site_json["Results"][0]["OverallRating"]
-    json_info["OverallFrontCrashRating"] = site_json["Results"][0]["OverallFrontCrashRating"]
-    json_info["OverallSideCrashRating"] = site_json["Results"][0]["OverallSideCrashRating"]
-    json_info["RolloverRating"] = site_json["Results"][0]["RolloverRating"]
-    json_info["FrontCrashDriversideRating"] = site_json["Results"][0]["FrontCrashDriversideRating"]
-    json_info["FrontCrashPassengersideRating"] = site_json["Results"][0]["FrontCrashPassengersideRating"]
-    json_info["SideCrashDriversideRating"] = site_json["Results"][0]["SideCrashDriversideRating"]
-    json_info["SideCrashPassengersideRating"] = site_json["Results"][0]["SideCrashPassengersideRating"]
-    return json_info
+    try:
+        vehicle_id = get_vehicle_id(year, make, model)
+        nhtsa_link = "https://api.nhtsa.gov/SafetyRatings/VehicleId/" + str(vehicle_id)
+        source_code = requests.get(nhtsa_link)
+        plain_text = source_code.text
+        site_json = json.loads(plain_text)
+        json_info = {}
+        json_info["OverallRating"] = site_json["Results"][0]["OverallRating"]
+        json_info["OverallFrontCrashRating"] = site_json["Results"][0]["OverallFrontCrashRating"]
+        json_info["OverallSideCrashRating"] = site_json["Results"][0]["OverallSideCrashRating"]
+        json_info["RolloverRating"] = site_json["Results"][0]["RolloverRating"]
+        json_info["FrontCrashDriversideRating"] = site_json["Results"][0]["FrontCrashDriversideRating"]
+        json_info["FrontCrashPassengersideRating"] = site_json["Results"][0]["FrontCrashPassengersideRating"]
+        json_info["SideCrashDriversideRating"] = site_json["Results"][0]["SideCrashDriversideRating"]
+        json_info["SideCrashPassengersideRating"] = site_json["Results"][0]["SideCrashPassengersideRating"]
+        return json_info
+    except Exception as e:
+        return {}
 
 
 
@@ -332,24 +335,27 @@ def helper_get_complaints_for_model(year, make, model):
         return -1
 
 def helper_get_sales_for_model(year, make, model):
-    mydb = mysql.connector.connect(
-        host="35.238.52.48",
-        user="carviewer",
-        password="password",
-        database="car_project"
-    )
-
-    mycursor = mydb.cursor()
-    mycursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
-
-    entries = mycursor.fetchall()
-    
     try:
-        for entry in entries:
-            print(entry[0])
-            return entry[0]
+        mydb = mysql.connector.connect(
+            host="35.238.52.48",
+            user="carviewer",
+            password="password",
+            database="car_project"
+        )
+
+        mycursor = mydb.cursor()
+        mycursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+
+        entries = mycursor.fetchall()
+        
+        try:
+            for entry in entries:
+                print(entry[0])
+                return entry[0]
+        except Exception as e:
+            print(e)
+            return -1
     except Exception as e:
-        print(e)
         return -1
 
 def get_recharts_complaints(make, model):

@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
-import logo from './logo.svg';
 import Axios from 'axios';
 import './App.css';
-import MakesDropdown from './MakesDropdown.js';
-import YearDropdown from './YearDropdown.js';
 
 const filterPosts = (allVehicles, query) => {
     if (!query) {
@@ -32,12 +27,12 @@ function CarSearch() {
     useEffect(() => {
         // Update the document title using the browser API
         Axios.get("/api/v1/years").then((response) => {
-            console.log(response.data.years);
+            //console.log(response.data.years);
             setYears(response.data.years);
         });
 
         Axios.post("/api/v1/models", { year: "2012", make: "NISSAN" }).then((response) => {
-            console.log(response.data.models);
+            //console.log(response.data.models);
             setModels(response.data.models);
         });
 

@@ -10,7 +10,7 @@ import './charts.css';
 
 
 function getMaxSales(jsonData) {
-    console.log(jsonData);
+    //console.log(jsonData);
     let maxSales = 0;
     for (let i = 0; i < jsonData.length; i++) {
         if (parseInt(jsonData[i]["sales"]) > maxSales) {
@@ -40,14 +40,14 @@ function ComplaintsSalesChart(props) {
             setRechartsData(response.data.data);
             setMaxSales(parseInt(getMaxSales(response.data.data)));
             setMaxComplaints(parseInt(getMaxComplaints(response.data.data)));
-            console.log(response.data.data);
+            //console.log(response.data.data);
         });
     }, [props.year, props.make, props.model]);
 
     return (
         <div>
-            <h2 class="chart-title">{props.make} {props.model}: Complaints and Sales per Year</h2>
-            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 100, bottom: 30, left: 30 }}  class="charts">
+            <h2 className="chart-title">{props.make} {props.model}: Complaints and Sales per Year</h2>
+            <ComposedChart width={800} height={350} data={rechartsData} margin={{ top: 0, right: 100, bottom: 30, left: 30 }}  className="charts">
                 <XAxis interval={1} dataKey="year">
                 <Label value="Year" offset={-10} position="insideBottom" />
 
