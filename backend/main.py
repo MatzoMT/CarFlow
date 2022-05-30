@@ -5,6 +5,7 @@ from src.database_writer import *
 from flask import Flask, jsonify, request, abort
 #import src.config as config
 import sys
+from flask_cors import CORS
 
 
 app = Flask(__name__)
@@ -15,6 +16,13 @@ app.config['MYSQL_USER'] = 'carviewer'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'car_project'
 
+CORS(app)
+
+@app.route("/api/v1/cors-test", methods=['GET'])
+def cors_test():
+    return jsonify({
+        "corsRequest": "successful"
+    })
 
 
 """

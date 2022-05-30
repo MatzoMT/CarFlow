@@ -10,7 +10,11 @@ function YearDropdown() {
 
     useEffect(() => {
         // Update the document title using the browser API
-        Axios.get("/api/v1/years").then((response) => {
+        Axios.get("https://zeta-courage-349220.ue.r.appspot.com/api/v1/years", {
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            }
+          }).then((response) => {
             console.log(response.data.years);
             setYears(response.data.years);
         });

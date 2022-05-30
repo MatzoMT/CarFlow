@@ -43,7 +43,7 @@ function ComplaintsChart(props) {
     const [maxValue, setMaxValue] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts-complaints", { "make": props.make, "model": props.model }).then((response) => {
+        await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/recharts-complaints", { "make": props.make, "model": props.model }).then((response) => {
             setComplaintsChartData(response.data.data);
             setMaxValue(parseInt(getMaxComplaints(response.data.data)));
         });

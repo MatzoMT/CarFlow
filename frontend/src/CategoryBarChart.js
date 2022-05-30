@@ -14,7 +14,7 @@ function CategoryBarChart(props) {
 
 
     useEffect(async () => {
-        await Axios.post("/api/v1/all-complaint-categories", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
+        await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/all-complaint-categories", { 'Access-Control-Allow-Origin': '*', "year": props.year, "make": props.make, "model": props.model }).then((response) => {
             console.log(response.data.completeCategories);
             setCategories(response.data.completeCategories);
             setChartHeight(response.data.completeCategories.length);

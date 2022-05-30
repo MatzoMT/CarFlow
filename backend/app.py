@@ -5,9 +5,19 @@ from src.database_writer import *
 from flask import Flask, jsonify, request, abort
 #import src.config as config
 import sys
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
+CORS(app)
+
+@app.route("/api/v1/cors-test", methods=['GET'])
+def cors_test():
+    return jsonify({
+        "corsRequest": "successful"
+    })
+
 
 @app.route('/api/v1/iihs-data', methods=['POST'])
 def get_iihs_data():

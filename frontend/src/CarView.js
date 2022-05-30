@@ -70,7 +70,9 @@ const filterPosts = (allVehicles, query) => {
     if (!query) {
         return allVehicles;
     }
-
+    if (allVehicles === undefined) {
+        return [];
+    }
     return allVehicles.filter((vehicle) => {
         const vehicleName = vehicle.toLowerCase();
         return vehicleName.includes(query);
@@ -154,18 +156,18 @@ function CarView() {
         }
         setSelectedModel(model);
         //   window.history.pushState({}, '', url);
-        Axios.post("/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
+        Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setImageURL(response.data.vehicleID);
             console.log(response);
         });
 
-        Axios.post("/api/v1/complaint-categories", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
+        Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/complaint-categories", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setCategories(Object.keys(response.data["categories"]));
             setCategoriesAmount(Object.values(response.data["categories"]));
             console.log(categories);
         });
 
-        Axios.post("/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+        Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             console.log(response.data.safetyInfo);
             setSafetyNHTSA(response.data.safetyInfo);
         });
@@ -184,11 +186,16 @@ function CarView() {
 
     useEffect(async () => {
 
-        await Axios.get("/api/v1/all-vehicles").then((response) => {
+        await Axios.get("https://zeta-courage-349220.ue.r.appspot.com/api/v1/all-vehicles", {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+            }
+          }).then((response) => {
             setAllVehicles(response.data.data);
 
         });
-        console.log("SHOW")
+        document.title = "CarFlow";
     }, []);
 
     useEffect(async () => {
@@ -198,11 +205,11 @@ function CarView() {
     }, [safetyNHTSA]);
 
     useEffect(async () => {
-        Axios.post("/api/v1/get-complaints-for-model", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+        Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/get-complaints-for-model", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             setNumberComplaints(response.data.numberComplaints);
         });
 
-        Axios.post("/api/v1/year-sales", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
+        Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/year-sales", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             setNumberSales(response.data.sales);
             console.log(response.data.sales);
         });
@@ -215,6 +222,7 @@ function CarView() {
     return (
 
         <div>
+
             <img src={carflow} id="logo" />
 
             <div id="searchbar-div">

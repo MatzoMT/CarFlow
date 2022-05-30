@@ -25,7 +25,7 @@ function SalesChart(props) {
     const [maxValue, setMaxValue] = useState(0);
 
     useEffect(async () => {
-        await Axios.post("/api/v1/recharts-sales", {"make": props.make, "model": props.model }).then((response) => {
+        await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/recharts-sales", {"make": props.make, "model": props.model }).then((response) => {
             setSalesChartData(response.data.data);
             setMaxValue(parseInt(getMaxSales(response.data.data)));
             console.log(response.data.data);

@@ -10,7 +10,11 @@ function MakesDropdown(year) {
 
     useEffect(() => {
         // Update the document title using the browser API
-        Axios.get("/api/v1/car-makers").then((response) => {
+        Axios.get("https://zeta-courage-349220.ue.r.appspot.com/api/v1/car-makers", {
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            }
+          }).then((response) => {
             console.log(response.data.carMakes);
             setMakes(response.data.carMakes);
         });

@@ -59,7 +59,7 @@ function SafetyView(props) {
     const [safetyNHTSA, setSafetyNHTSA] = useState({});
 
     useEffect(async () => {
-        await Axios.post("/api/v1/safety-nhtsa", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
+        await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
             console.log(response.data.safetyInfo);
             setSafetyNHTSA(response.data.safetyInfo);
         });
