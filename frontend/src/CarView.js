@@ -222,7 +222,9 @@ function CarView() {
         Axios.post("/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
 
             setSafetyNHTSA(response.data.safetyInfo);
-            if (response.data.safetyInfo.OverallRating !== undefined) {
+            console.log(response.data.safetyInfo);
+            //alert(Object.keys(response.data.safetyInfo).length === 0);
+            if (response.data.safetyInfo !== undefined) {
                 initializeStars(response.data.safetyInfo.OverallRating);
             }
 
@@ -246,8 +248,7 @@ function CarView() {
                             className="header-search testattu"
                         />
                         <div id="search-results">
-                            {console.log(filteredVehicles)}
-                            {filteredVehicles.length > 0 && filteredVehicles.slice(0, 6).map((vehicle) => (
+                            {filteredVehicles !== undefined && filteredVehicles.slice(0, 6).map((vehicle) => (
                                 <li onClick={() => { updateURL(vehicle) }} key={vehicle}>{vehicle}</li>
                             ))}
                         </div>
