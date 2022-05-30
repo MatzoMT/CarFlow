@@ -231,12 +231,10 @@ function CarView() {
         });
 
         Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
-            alert("safety")
             setSafetyNHTSA(response.data.safetyInfo);
             console.log(response.data.safetyInfo);
             //alert(Object.keys(response.data.safetyInfo).length === 0);
             if (response.data.safetyInfo !== undefined) {
-                alert("RUNNING");
                 initializeStars(response.data.safetyInfo.OverallRating);
             }
 

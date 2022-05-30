@@ -37,6 +37,7 @@ function SafetyView(props) {
         await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
             console.log(response.data.safetyInfo);
             setSafetyNHTSA(response.data.safetyInfo);
+
         });
 
     }, [props.year, props.make, props.model]);
@@ -50,7 +51,7 @@ function SafetyView(props) {
                 crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.
             </p>
             <div className="ratings">
-                <div className="ratings-line underline"><h1>Overall Crash Rating <img src={( initializeStars(safetyNHTSA["OverallRating"]) !== '') ? initializeStars(safetyNHTSA["OverallRating"]) : norating} className="stars"></img></h1></div>
+                <div className="ratings-line underline"><h1>Overall Crash Rating <img src={(initializeStars(safetyNHTSA["OverallRating"]) !== '') ? initializeStars(safetyNHTSA["OverallRating"]) : norating} className="stars"></img></h1></div>
                 <div className="ratings-line"><h2>Frontal Crash Rating <img src={(initializeStars(safetyNHTSA["OverallFrontCrashRating"]) !== '') ? initializeStars(safetyNHTSA["OverallFrontCrashRating"]) : norating} className="stars"></img></h2></div>
                 <div className="ratings-line"><h4>Front Driver <img src={(initializeStars(safetyNHTSA["FrontCrashDriversideRating"]) !== '') ? initializeStars(safetyNHTSA["FrontCrashDriversideRating"]) : norating} className="stars"></img></h4></div>
                 <div className="ratings-line underline"><h4>Front Passenger <img src={(initializeStars(safetyNHTSA["FrontCrashPassengersideRating"]) !== '') ? initializeStars(safetyNHTSA["FrontCrashPassengersideRating"]) : norating} className="stars"></img></h4></div>
