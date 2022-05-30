@@ -51,11 +51,15 @@ def get_year_sales():
         print("Error: invalid request", file = sys.stderr )
         abort(400)
     data = request.get_json()
-    sales_for_year = helper_get_sales_for_model(int(float(data['year'])), data['make'], data['model'])
-
-    return jsonify({
-        "sales": sales_for_year
-    })
+    if data['year'] != '':
+        sales_for_year = helper_get_sales_for_model(int(float(data['year'])), data['make'], data['model'])
+        return jsonify({
+            "sales": sales_for_year
+        })
+    else:
+        return jsonify({
+            "sales": -1
+        })
 
 @app.route('/api/v1/car-makers', methods=['GET'])
 def get_makers():

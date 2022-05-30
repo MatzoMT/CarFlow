@@ -30,12 +30,12 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
             type="text"
             value={searchQuery}
             onInput={e => setSearchQuery(e.target.value)}
-            class="header-search"
+            className="header-search"
             placeholder="Search by year, make, model..."
             name="s"
             onFocus={onFocus}
             onBlur={onBlur}
-            autocomplete="off"
+            autoComplete="off"
         />
 
 

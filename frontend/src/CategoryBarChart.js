@@ -15,7 +15,6 @@ function CategoryBarChart(props) {
 
     useEffect(async () => {
         await Axios.post("/api/v1/all-complaint-categories", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
-            console.log(response.data.completeCategories);
             setCategories(response.data.completeCategories);
             setChartHeight(response.data.completeCategories.length);
         });
@@ -24,7 +23,7 @@ function CategoryBarChart(props) {
     }, [props.year, props.make, props.model]);
     return (
         <div>
-            <h2 class="chart-title">{props.year} {props.make} {props.model}: Highest Complaint Types</h2>
+            <h2 className="chart-title">{props.year} {props.make} {props.model}: Highest Complaint Types</h2>
             <ResponsiveContainer width="100%" height={40 * chartHeight}>
                 <BarChart
                     width={600}
