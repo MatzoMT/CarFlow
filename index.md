@@ -3,6 +3,8 @@
 ### What is CarFlow?
 CarFlow is a web application that provides useful information for a car model, such as its yearly sales, the number of complaints received, and other important consumer or safety information. I came up with this project in the wake of the COVID-19 pandemic, which has crippled the global supply of cars and have made new and used car prices higher than ever. My goal with CarFlow is to help consumers learn more about the cars they are considering before making a purchase, as well as potentially help automakers determine which issues are affecting their cars the most and address those problems in the future.
 
+CarFlow is currently being hosted at https://carflow-frontend.ue.r.appspot.com/. Please click the link to give the project a try!
+
 ![carflowlogo](frontend/src/resources/carflowwhite.png)
 
 To search a model on CarFlow, use the search bar at the top. Input a desired model based on year, automaker, and model name. Once you select a particular car model, the page will update and reflect the information stored for that model.
@@ -21,22 +23,22 @@ CarFlow will also visualize information relating to complaint types and sales an
 ![metrics](frontend/src/resources/metricspage.png)
 
 ### What technologies does CarFlow use?
-The frontend of CarFlow uses React JS and HTML/CSS. The backend utilizes Python for parsing data on the web for car information via parsing JSON responses or web parsing. Python's Flask framework is also used as a REST API that communicates between the frontend and a MySQL database containing the number of complaints and sales for car models. To deploy this project, 
+The frontend of CarFlow uses React JS and HTML/CSS. The backend utilizes Python for parsing data on the web for car information via parsing JSON responses or web parsing. Python's Flask framework is also used as a REST API that communicates between the frontend and a MySQL database containing the number of complaints and sales for car models. To deploy this project, I used Google Cloud Platform (GCP) to deploy the frontend, backend, and database.
 
 Specific libraries and technologies used for this project are as follows:
 
 JavaScript
-- React JS
-- Recharts
+- React JS - UI
+- Recharts - Charting Library
 
 Python
-- BeautifulSoup
-- Flask
+- BeautifulSoup - Web Scraper
+- Flask - REST API
 
 SQL
 - MySQL
 
-GCP
+Google Cloud Platform (GCP) - Hosting
 
 ### Sources
 - National Highway Traffic Safety Administration (NHTSA): Used API to find number of complaints, recalls, investigations of a car
