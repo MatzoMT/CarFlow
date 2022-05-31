@@ -14,15 +14,15 @@ import './SafetyView.css';
 
 function initializeStars(rating) {
     if (rating !== undefined) {
-        if (rating === 5) {
+        if (parseInt(rating) === 5) {
             return fivestar;
-        } else if (rating === 4) {
+        } else if (parseInt(rating) === 4) {
             return fourstar;
-        } else if (rating === 3) {
+        } else if (parseInt(rating) === 3) {
             return threestar;
-        } else if (rating === 2) {
+        } else if (parseInt(rating) === 2) {
             return twostar;
-        } else if (rating === 1) {
+        } else if (parseInt(rating) === 1) {
             return onestar;
         } else {
             return '';
@@ -37,6 +37,7 @@ function SafetyView(props) {
         await Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": props.year, "make": props.make, "model": props.model }).then((response) => {
             console.log(response.data.safetyInfo);
             setSafetyNHTSA(response.data.safetyInfo);
+
         });
 
     }, [props.year, props.make, props.model]);
@@ -50,7 +51,7 @@ function SafetyView(props) {
                 crash worthiness for many cars sold in the U.S., and its rating is based on a 5-star system.
             </p>
             <div className="ratings">
-                <div className="ratings-line underline"><h1>Overall Crash Rating <img src={( initializeStars(safetyNHTSA["OverallRating"]) !== '') ? initializeStars(safetyNHTSA["OverallRating"]) : norating} className="stars"></img></h1></div>
+                <div className="ratings-line underline"><h1>Overall Crash Rating <img src={(initializeStars(safetyNHTSA["OverallRating"]) !== '') ? initializeStars(safetyNHTSA["OverallRating"]) : norating} className="stars"></img></h1></div>
                 <div className="ratings-line"><h2>Frontal Crash Rating <img src={(initializeStars(safetyNHTSA["OverallFrontCrashRating"]) !== '') ? initializeStars(safetyNHTSA["OverallFrontCrashRating"]) : norating} className="stars"></img></h2></div>
                 <div className="ratings-line"><h4>Front Driver <img src={(initializeStars(safetyNHTSA["FrontCrashDriversideRating"]) !== '') ? initializeStars(safetyNHTSA["FrontCrashDriversideRating"]) : norating} className="stars"></img></h4></div>
                 <div className="ratings-line underline"><h4>Front Passenger <img src={(initializeStars(safetyNHTSA["FrontCrashPassengersideRating"]) !== '') ? initializeStars(safetyNHTSA["FrontCrashPassengersideRating"]) : norating} className="stars"></img></h4></div>

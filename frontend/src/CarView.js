@@ -230,8 +230,7 @@ function CarView() {
             setNumberSales(response.data.sales);
         });
 
-        Axios.post("/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
-
+        Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             setSafetyNHTSA(response.data.safetyInfo);
             console.log(response.data.safetyInfo);
             //alert(Object.keys(response.data.safetyInfo).length === 0);
