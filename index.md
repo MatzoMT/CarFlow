@@ -21,6 +21,7 @@ CarFlow will also visualize information relating to complaint types and sales an
 
 ![highest](frontend/src/resources/highestcomplaints.png)
 ![metrics](frontend/src/resources/metricspage.png)
+![combo](frontend/src/resources/sales-complaints-chart.png)
 
 ### What technologies does CarFlow use?
 The frontend of CarFlow uses React JS and HTML/CSS. The backend utilizes Python for parsing data on the web for car information via parsing JSON responses or web parsing. Python's Flask framework is also used as a REST API that communicates between the frontend and a MySQL database containing the number of complaints and sales for car models. To deploy this project, I used Google Cloud Platform (GCP) to deploy the frontend, backend, and database.
