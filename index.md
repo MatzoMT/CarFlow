@@ -48,7 +48,7 @@ Google Cloud Platform (GCP)
 - CarSalesBase: For finding sales information for cars sold in the United States
 
 ### About the Creator
-My name is Matthew Tzou and I am a third-year student at the University of Georgia with an expected graduation date of May 2023. I spend a lot of time browsing used cars or following new developments in the automotive industry, and these interests are one of the motivations for creating this project. Please reach out to me in the contact information below if you would like to connect or ask me more questions about this project.
+My name is Matthew Tzou and I am a fourth-year student at the University of Georgia with an expected graduation date of December 2022. I spend a lot of time browsing used cars or following new developments in the automotive industry, and these interests are one of the motivations for creating this project. Please reach out to me in the contact information below if you would like to connect or ask me more questions about this project.
 
 Email: mdt.tzou@gmail.com
 
