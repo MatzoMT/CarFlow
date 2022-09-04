@@ -31,11 +31,11 @@ Specific libraries and technologies used for this project are as follows:
 
 JavaScript
 - React JS
-- Recharts
+- Recharts - React charting library for visualizing data
 
 Python
-- BeautifulSoup
-- Flask
+- BeautifulSoup - web scraping library
+- Flask - REST API between frontend and database
 
 SQL
 - MySQL
