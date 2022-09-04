@@ -3,6 +3,9 @@
 ### What is CarFlow?
 CarFlow is a web application that provides useful information for a car model, such as its yearly sales, the number of complaints received, and other important consumer or safety information. I came up with this project in the wake of the COVID-19 pandemic, which has crippled the global supply of cars and have made new and used car prices higher than ever. My goal with CarFlow is to help consumers learn more about the cars they are considering before making a purchase, as well as potentially help automakers determine which issues are affecting their cars the most and address those problems in the future.
 
+CarFlow App: [Link to Interact with CarFlow](https://carflow-frontend.ue.r.appspot.com/)
+GitHub Page: [https://matzomt.github.io/CarFlow/](https://matzomt.github.io/CarFlow/)
+
 ![carflowlogo](frontend/src/resources/carflowwhite.png)
 
 To search a model on CarFlow, use the search bar at the top. Input a desired model based on year, automaker, and model name. Once you select a particular car model, the page will update and reflect the information stored for that model.
@@ -38,13 +41,15 @@ SQL
 - MySQL
 
 Google Cloud Platform (GCP)
+- App Engine
+- Cloud SQL
 
 ### Sources
 - National Highway Traffic Safety Administration (NHTSA): Used API to find number of complaints, recalls, investigations of a car
 - CarSalesBase: For finding sales information for cars sold in the United States
 
 ### About the Creator
-My name is Matthew Tzou and I am a third-year student at the University of Georgia with an expected graduation date of May 2023. I spend a lot of time browsing used cars or following new developments in the automotive industry, and these interests are one of the motivations for creating this project. Please reach out to me in the contact information below if you would like to connect or ask me more questions about this project.
+My name is Matthew Tzou and I am a fourth-year student at the University of Georgia with an expected graduation date of December 2022. I spend a lot of time browsing used cars or following new developments in the automotive industry, and these interests are one of the motivations for creating this project. Please reach out to me in the contact information below if you would like to connect or ask me more questions about this project.
 
 Email: mdt.tzou@gmail.com
 
