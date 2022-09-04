@@ -39,7 +39,9 @@ Python
 SQL
 - MySQL
 
-Google Cloud Platform (GCP) - Hosting
+Google Cloud Platform (GCP)
+- App Engine
+- Cloud SQL
 
 ### Sources
 - National Highway Traffic Safety Administration (NHTSA): Used API to find number of complaints, recalls, investigations of a car
