@@ -11,8 +11,6 @@ import './charts.css';
 
 
 function getMaxComplaints(jsonData) {
-    //console.log(jsonData);
-    // let dataAsJson = JSON.parse(jsonData);
     let maxValue = 0;
     for (let i = 0; i < jsonData.length; i++) {
         if (parseInt(jsonData[i]["complaints"]) > maxValue) {
@@ -20,17 +18,6 @@ function getMaxComplaints(jsonData) {
         }
     }
     return maxValue;
-    /*
-    let maxValue = dataAsJson["complaints"][0];
-    for (let i = 0; i < dataAsJson.length; i++) {
-        if (dataAsJson["complaints"][i] > maxValue) {
-            maxValue = dataAsJson["complaints"][i];
-        }
-    }
-    console.log(maxValue);
-    return maxValue;
-    */
-
 }
 
 /*

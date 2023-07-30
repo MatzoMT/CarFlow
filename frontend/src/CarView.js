@@ -176,7 +176,6 @@ function CarView() {
         //   window.history.pushState({}, '', url);
         Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/vehicle-picture", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
             setImageURL(response.data.vehicleID);
-            console.log(response);
         });
 
         Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/complaint-categories", { "year": vehicle.split(' ')[0], "make": make, "model": model }).then((response) => {
@@ -185,7 +184,6 @@ function CarView() {
         });
 
         Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
-            console.log(response.data.safetyInfo);
             setSafetyNHTSA(response.data.safetyInfo);
         });
 
@@ -232,8 +230,6 @@ function CarView() {
 
         Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/safety-nhtsa", { "year": selectedYear, "make": selectedMaker, "model": selectedModel }).then((response) => {
             setSafetyNHTSA(response.data.safetyInfo);
-            console.log(response.data.safetyInfo);
-            //alert(Object.keys(response.data.safetyInfo).length === 0);
             if (response.data.safetyInfo !== undefined) {
                 initializeStars(response.data.safetyInfo.OverallRating);
             }

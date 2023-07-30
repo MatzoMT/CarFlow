@@ -10,7 +10,6 @@ import './charts.css';
 
 
 function getMaxSales(jsonData) {
-    //console.log(jsonData);
     let maxSales = 0;
     for (let i = 0; i < jsonData.length; i++) {
         if (parseInt(jsonData[i]["sales"]) > maxSales) {
@@ -40,7 +39,6 @@ function ComplaintsSalesChart(props) {
             setRechartsData(response.data.data);
             setMaxSales(parseInt(getMaxSales(response.data.data)));
             setMaxComplaints(parseInt(getMaxComplaints(response.data.data)));
-            //console.log(response.data.data);
         });
     }, [props.year, props.make, props.model]);
 

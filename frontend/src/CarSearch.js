@@ -31,12 +31,10 @@ function CarSearch() {
               'Access-Control-Allow-Origin': '*'
             }
           }).then((response) => {
-            console.log(response.data.years);
             setYears(response.data.years);
         });
 
         Axios.post("https://zeta-courage-349220.ue.r.appspot.com/api/v1/models", { year: "2012", make: "NISSAN" }).then((response) => {
-            console.log(response.data.models);
             setModels(response.data.models);
         });
 
