@@ -171,7 +171,8 @@ def get_all_models(year, make):
 
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year='"+str(year)+"'AND Make='"+make+"'")
+    #mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year='"+str(year)+"'AND Make='"+make+"'")
+    mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year=%(year)s AND Make=%(make)s", {'year': year, 'make': make})
 
     models = mycursor.fetchall()
     models_array = []
