@@ -171,7 +171,6 @@ def get_all_models(year, make):
 
     mycursor = mydb.cursor()
 
-    #mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year='"+str(year)+"'AND Make='"+make+"'")
     mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year=%(year)s AND Make=%(make)s", {'year': year, 'make': make})
 
     models = mycursor.fetchall()
@@ -324,7 +323,7 @@ def helper_get_complaints_for_model(year, make, model):
     )
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT Complaints FROM car_project.car_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+    mycursor.execute("SELECT Model FROM car_project.car_info WHERE Year=%(year)s AND Make=%(make)s AND Model=%(model)s", {'year': year, 'make': make, 'model': model})
 
     entries = mycursor.fetchall()
     
@@ -345,7 +344,8 @@ def helper_get_sales_for_model(year, make, model):
         )
 
         mycursor = mydb.cursor()
-        mycursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='"+str(year)+"' AND Make='"+make+"'AND Model='"+model+"'")
+
+        mycursor.execute("SELECT Sales FROM car_project.sales_info WHERE WHERE Year=%(year)s AND Make=%(make)s AND Model=%(model)s", {'year': year, 'make': make, 'model': model})
 
         entries = mycursor.fetchall()
         
@@ -368,7 +368,7 @@ def get_recharts_complaints(make, model):
     )
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.car_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year DESC LIMIT 16) AS Resp ORDER BY Resp.Year ASC")
+    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.car_info WHERE Make=%(make)s AND Model=%(model)s ORDER BY Year DESC LIMIT 16) AS Resp ORDER BY Resp.Year ASC", {'make': make, 'model': model})
 
     years = mycursor.fetchall()
     
@@ -391,7 +391,8 @@ def get_recharts_sales(make, model):
     )
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.sales_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year DESC LIMIT 16) AS Resp ORDER BY Resp.Year ASC")
+
+    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.sales_info WHERE Make=%(make)s AND Model=%(model)s ORDER BY Year DESC LIMIT 16) AS Resp ORDER BY Resp.Year ASC", {'make': make, 'model': model})
 
     years = mycursor.fetchall()
     
@@ -418,7 +419,7 @@ def get_recharts_info(make, model):
     )
 
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.car_info WHERE Make='"+make+"'AND Model='"+model+"' ORDER BY Year DESC LIMIT 16) As Resp ORDER BY Resp.Year ASC")
+    mycursor.execute("SELECT * FROM (SELECT * FROM car_project.car_info WHERE Make=%(make)s AND Model=%(model)s ORDER BY Year DESC LIMIT 16) As Resp ORDER BY Resp.Year ASC", {'make': make, 'model': model})
 
     years = mycursor.fetchall()
     
@@ -434,7 +435,7 @@ def get_recharts_info(make, model):
         json_info["year"] = year[0]
         json_info["complaints"] = year[3]
         sales_cursor = mydb.cursor()
-        sales_cursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year='" + str(year[0]) + "' AND Make='"+make+"' AND Model='"+model+"'")
+        sales_cursor.execute("SELECT Sales FROM car_project.sales_info WHERE Year=%(year)s AND Make=%(make)s AND Model=%(model)s", {'year': year, 'make': make, 'model': model})
         sales = sales_cursor.fetchall()
         try:
             json_info["sales"] = sales[0][0]
